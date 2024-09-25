@@ -11,7 +11,7 @@ export const setupAjvValidator = (fastify: AppFastifyInstance): void => {
     removeAdditional: true,
     coerceTypes: true,
     strict: "log",
-    keywords: ["kind", "modifier"],
+    keywords: ["kind", "modifier", "example"],
     useDefaults: true,
     allErrors: true,
     strictRequired: false,
