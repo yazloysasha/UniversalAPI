@@ -11,8 +11,7 @@ export const replaceTasksHandler: AppFastifyHandler<ReplaceTasksType> = async (
 
   await taskService.replaceTasks({ tasks: req.body.tasks });
 
-  reply.code(SuccessCode.CREATED);
-  reply.send({
+  reply.code(SuccessCode.CREATED).send({
     alert: true,
     message: "Успешно сохранено",
   });

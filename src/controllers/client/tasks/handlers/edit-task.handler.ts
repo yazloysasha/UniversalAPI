@@ -15,8 +15,7 @@ export const editTaskHandler: AppFastifyHandler<EditTaskType> = async (
     ...req.body,
   });
 
-  reply.code(SuccessCode.OK);
-  reply.send({
+  reply.code(SuccessCode.OK).send({
     alert: true,
     message: "Успешно сохранено",
     task: {

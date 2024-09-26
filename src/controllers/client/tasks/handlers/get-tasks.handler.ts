@@ -18,6 +18,5 @@ export const getTasksHandler: AppFastifyHandler<GetTasksType> = async (
     _id: String(task._id),
   }));
 
-  reply.code(SuccessCode.OK);
-  reply.send({ totalSize, items });
+  reply.code(SuccessCode.OK).send({ totalSize, items });
 };
