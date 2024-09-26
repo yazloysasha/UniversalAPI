@@ -1,6 +1,7 @@
 import { ApiError } from "@errors";
 import { MongooseError } from "mongoose";
 import { JsonWebTokenError } from "jsonwebtoken";
+import { ClientErrorCode, ServerErrorCode } from "@types";
 import { FastifyError, FastifyReply, FastifyRequest } from "fastify";
 
 export const apiErrorHandler = (
@@ -8,16 +9,11 @@ export const apiErrorHandler = (
   req: FastifyRequest,
   reply: FastifyReply
 ): void => {
-  const isMongooseError = error instanceof MongooseError;
-  const isApiError = error instanceof ApiError;
-  const isJsonWebTokenError = error instanceof JsonWebTokenError;
-  const isSyntaxError = error instanceof SyntaxError;
-
   /**
    * Если приходит ошибка валидации
    */
   if (error.code == "FST_ERR_VALIDATION") {
-    reply.code(400).send({
+    reply.code(ClientErrorCode.BAD_REQUEST).send({
       alert: true,
       type: "error",
       msg: "Ошибка валидации",
@@ -28,7 +24,7 @@ export const apiErrorHandler = (
   }
 
   if (error?.code == "FST_REQ_FILE_TOO_LARGE") {
-    reply.code(400).send({
+    reply.code(ClientErrorCode.BAD_REQUEST).send({
       alert: true,
       type: "error",
       msg: "Загружаемый файл слишком большой",
@@ -38,7 +34,7 @@ export const apiErrorHandler = (
   }
 
   if (error?.code == "FST_ERR_CTP_INVALID_MEDIA_TYPE") {
-    reply.code(400).send({
+    reply.code(ClientErrorCode.UNSUPPORTED_MEDIA_TYPE).send({
       alert: false,
       type: "error",
       msg: "Неверный формат Content-Type",
@@ -47,9 +43,9 @@ export const apiErrorHandler = (
     return;
   }
 
-  if (isApiError) {
+  if (error instanceof ApiError) {
     reply.code(error.statusCode).send({
-      alert: error instanceof ApiError ? error.alert : true,
+      alert: error.alert,
       type: "error",
       msg: error.message,
     });
@@ -57,20 +53,8 @@ export const apiErrorHandler = (
     return;
   }
 
-  if (isMongooseError) {
-    reply.code(500).send({
-      alert: true,
-      type: "error",
-      msg: "Ошибка базы данных",
-    });
-
-    console.error(error);
-
-    return;
-  }
-
-  if (isJsonWebTokenError) {
-    reply.code(403).send({
+  if (error instanceof JsonWebTokenError) {
+    reply.code(ClientErrorCode.UNAUTHORIZED).send({
       alert: true,
       type: "error",
       msg: "Неверный токен авторизации",
@@ -79,20 +63,20 @@ export const apiErrorHandler = (
     return;
   }
 
-  if (isSyntaxError) {
-    reply.code(400).send({
+  // Необработанное исключение
+  console.error(error);
+
+  if (error instanceof MongooseError) {
+    reply.code(ServerErrorCode.INTERNAL_SERVER_ERROR).send({
       alert: true,
       type: "error",
-      msg: "Синтаксическая ошибка",
+      msg: "Ошибка базы данных",
     });
 
     return;
   }
 
-  // Необработанная ошибка
-  console.error(error);
-
-  reply.code(500).send({
+  reply.code(ServerErrorCode.INTERNAL_SERVER_ERROR).send({
     alert: true,
     type: "error",
     msg: "Непредвиденная ошибка",

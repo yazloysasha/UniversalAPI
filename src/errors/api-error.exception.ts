@@ -1,8 +1,10 @@
 import { IApiErrorProps } from "@errors";
+import { SwaggerContract } from "@contracts";
+import { ClientErrorCode, ServerErrorCode, StatusCodes } from "@types";
 
 export class ApiError extends Error {
   constructor(
-    public statusCode: number,
+    public statusCode: StatusCodes,
     public message: string,
     public alert: boolean
   ) {
@@ -10,58 +12,46 @@ export class ApiError extends Error {
   }
 
   static badRequest({
-    msg = "Плохой запрос",
+    msg = SwaggerContract.CodeDescriptions[ClientErrorCode.BAD_REQUEST],
     alert = true,
   }: IApiErrorProps = {}): ApiError {
-    return new ApiError(400, msg, alert);
+    return new ApiError(ClientErrorCode.BAD_REQUEST, msg, alert);
   }
 
   static unAuth({
-    msg = "Пользователь не авторизован",
+    msg = SwaggerContract.CodeDescriptions[ClientErrorCode.UNAUTHORIZED],
     alert = true,
   }: IApiErrorProps = {}): ApiError {
-    return new ApiError(401, msg, alert);
+    return new ApiError(ClientErrorCode.UNAUTHORIZED, msg, alert);
   }
 
   static forbidden({
-    msg = "Доступ запрещён",
+    msg = SwaggerContract.CodeDescriptions[ClientErrorCode.FORBIDDEN],
     alert = true,
   }: IApiErrorProps = {}): ApiError {
-    return new ApiError(403, msg, alert);
-  }
-
-  static noPermission({
-    msg = "Недостаточно прав",
-    alert = true,
-  }: IApiErrorProps = {}): ApiError {
-    return new ApiError(403, msg, alert);
+    return new ApiError(ClientErrorCode.FORBIDDEN, msg, alert);
   }
 
   static notFound({
-    msg = "Не найдено",
+    msg = SwaggerContract.CodeDescriptions[ClientErrorCode.NOT_FOUND],
     alert = true,
   }: IApiErrorProps = {}): ApiError {
-    return new ApiError(404, msg, alert);
-  }
-
-  static alreadyExists({
-    msg = "Уже существует",
-    alert = true,
-  }: IApiErrorProps = {}): ApiError {
-    return new ApiError(409, msg, alert);
+    return new ApiError(ClientErrorCode.NOT_FOUND, msg, alert);
   }
 
   static tooManyRequests({
-    msg = "Слишком много запросов",
+    msg = SwaggerContract.CodeDescriptions[ClientErrorCode.TOO_MANY_REQUESTS],
     alert = true,
   }: IApiErrorProps = {}): ApiError {
-    return new ApiError(429, msg, alert);
+    return new ApiError(ClientErrorCode.TOO_MANY_REQUESTS, msg, alert);
   }
 
   static internalServerError({
-    msg = "Внутренняя ошибка сервера",
+    msg = SwaggerContract.CodeDescriptions[
+      ServerErrorCode.INTERNAL_SERVER_ERROR
+    ],
     alert = true,
   }: IApiErrorProps = {}): ApiError {
-    return new ApiError(500, msg, alert);
+    return new ApiError(ServerErrorCode.INTERNAL_SERVER_ERROR, msg, alert);
   }
 }
