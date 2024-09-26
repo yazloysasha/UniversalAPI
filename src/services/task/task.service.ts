@@ -55,6 +55,17 @@ export class TaskService {
   }
 
   /**
+   * Получить задачу
+   */
+  async getTask({ taskId }: { taskId: Types.ObjectId }): Promise<ITask> {
+    const task = await Task.findById(taskId).lean();
+
+    if (!task) throw ApiError.notFound();
+
+    return task;
+  }
+
+  /**
    * Отредактировать задачу
    */
   async editTask({
