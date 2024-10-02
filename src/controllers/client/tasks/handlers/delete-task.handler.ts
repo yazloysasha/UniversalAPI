@@ -15,5 +15,6 @@ export const deleteTaskHandler: AppFastifyHandler<DeleteTaskType> = async (
   reply.code(SuccessCode.OK).send({
     alert: true,
     message: "Успешно удалено",
+    taskId: req.params.taskId,
   });
 };
