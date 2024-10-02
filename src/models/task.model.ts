@@ -16,7 +16,7 @@ const taskSchema = new Schema<ITask>(
   {
     content: {
       type: String,
-      required: true,
+      default: "",
     },
     status: {
       type: String,
