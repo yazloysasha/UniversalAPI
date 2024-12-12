@@ -113,9 +113,9 @@ export namespace SwaggerContract {
   };
 
   /**
-   * Пример Mongoose ID
+   * Пример UUID
    */
-  export const MongooseIdExample = "66f271c7e1ab2c1ef584e7ec";
+  export const UUIDExample = "3fa85f64-5717-4562-b3fc-2c963f66afa6";
 
   /**
    * Схема запроса со включенной пагинацией
@@ -252,7 +252,7 @@ export namespace SwaggerContract {
     swagger: {
       info: {
         title: "Client API",
-        version: "0.0.1",
+        version: "1.0.0",
       },
       consumes: ["application/json", "text/xml"],
       produces: ["application/json", "text/xml"],

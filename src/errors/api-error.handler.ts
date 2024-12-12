@@ -1,5 +1,5 @@
 import { ApiError } from "@errors";
-import { MongooseError } from "mongoose";
+import { TypeORMError } from "typeorm";
 import { JsonWebTokenError } from "jsonwebtoken";
 import { ClientErrorCode, ServerErrorCode } from "@types";
 import { FastifyError, FastifyReply, FastifyRequest } from "fastify";
@@ -16,7 +16,7 @@ export const apiErrorHandler = (
     reply.code(ClientErrorCode.BAD_REQUEST).send({
       alert: true,
       type: "error",
-      msg: "Ошибка валидации",
+      message: "Ошибка валидации",
       errors: error.validation?.map((error) => error.message),
     });
 
@@ -27,7 +27,7 @@ export const apiErrorHandler = (
     reply.code(ClientErrorCode.BAD_REQUEST).send({
       alert: true,
       type: "error",
-      msg: "Загружаемый файл слишком большой",
+      message: "Загружаемый файл слишком большой",
     });
 
     return;
@@ -37,7 +37,7 @@ export const apiErrorHandler = (
     reply.code(ClientErrorCode.UNSUPPORTED_MEDIA_TYPE).send({
       alert: false,
       type: "error",
-      msg: "Неверный формат Content-Type",
+      message: "Неверный формат Content-Type",
     });
 
     return;
@@ -47,7 +47,7 @@ export const apiErrorHandler = (
     reply.code(error.statusCode).send({
       alert: error.alert,
       type: "error",
-      msg: error.message,
+      message: error.message,
     });
 
     return;
@@ -57,7 +57,7 @@ export const apiErrorHandler = (
     reply.code(ClientErrorCode.UNAUTHORIZED).send({
       alert: true,
       type: "error",
-      msg: "Неверный токен авторизации",
+      message: "Неверный токен авторизации",
     });
 
     return;
@@ -66,11 +66,11 @@ export const apiErrorHandler = (
   // Необработанное исключение
   console.error(error);
 
-  if (error instanceof MongooseError) {
+  if (error instanceof TypeORMError) {
     reply.code(ServerErrorCode.INTERNAL_SERVER_ERROR).send({
       alert: true,
       type: "error",
-      msg: "Ошибка базы данных",
+      message: "Ошибка базы данных",
     });
 
     return;
@@ -79,6 +79,6 @@ export const apiErrorHandler = (
   reply.code(ServerErrorCode.INTERNAL_SERVER_ERROR).send({
     alert: true,
     type: "error",
-    msg: "Непредвиденная ошибка",
+    message: "Непредвиденная ошибка",
   });
 };

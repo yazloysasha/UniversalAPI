@@ -13,10 +13,5 @@ export const getTasksHandler: AppFastifyHandler<GetTasksType> = async (
     pagination: req.query,
   });
 
-  const items = tasks.map((task) => ({
-    ...task,
-    _id: String(task._id),
-  }));
-
-  reply.code(SuccessCode.OK).send({ totalSize, items });
+  reply.code(SuccessCode.OK).send({ totalSize, items: tasks });
 };

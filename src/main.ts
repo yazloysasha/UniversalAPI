@@ -1,7 +1,16 @@
 import "dotenv/config";
+import { Task } from "@entities";
 import { IAppConfig } from "@types";
+import { DataSource } from "typeorm";
 
 export const appConfig = process.env as IAppConfig;
+
+export const appDataSource = new DataSource({
+  type: "postgres",
+  url: appConfig.DATABASE_URL,
+  entities: [Task],
+  synchronize: true,
+});
 
 import {
   appLogger,

@@ -96,12 +96,8 @@ export type AppFastifyHandler<SchemaType extends AppFastifySchema> =
   >;
 
 export enum CustomFormat {
-  MONGOOSE_ID = "ObjectId",
-}
-
-export interface ITimestamps {
-  createdAt?: Date;
-  updatedAt?: Date;
+  MONGOOSE_ID = "objectId",
+  UUID = "uuid",
 }
 
 export interface IPagination {

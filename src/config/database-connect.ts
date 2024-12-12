@@ -1,7 +1,6 @@
-import { appConfig } from "@main";
-import { connect } from "mongoose";
 import { ApiError } from "@errors";
 import { appLogger } from "@config";
+import { appConfig, appDataSource } from "@main";
 
 /**
  * Подключение к базе данных
@@ -16,7 +15,7 @@ export const connectToDatabase = async (): Promise<void> => {
   appLogger.info("Подключение к базе данных...");
 
   try {
-    await connect(appConfig.DATABASE_URL);
+    await appDataSource.initialize();
 
     appLogger.verbose("Соединение с базой данных установлено");
   } catch (err) {

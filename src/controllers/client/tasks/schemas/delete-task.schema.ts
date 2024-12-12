@@ -1,6 +1,6 @@
 import { SwaggerContract } from "@contracts";
 import { paramsWithTaskId } from "./common.schemas";
-import { AppFastifySchema, SuccessCode } from "@types";
+import { AppFastifySchema, ClientErrorCode, SuccessCode } from "@types";
 
 export const deleteTaskSchema = {
   tags: [SwaggerContract.ClientTag.TASKS],
@@ -22,10 +22,13 @@ export const deleteTaskSchema = {
         taskId: {
           type: "string",
           description: "ID удалённой задачи",
-          example: SwaggerContract.MongooseIdExample,
+          example: SwaggerContract.UUIDExample,
         },
       },
     } as const satisfies SwaggerContract.ActionResponseType,
+    [ClientErrorCode.NOT_FOUND]: SwaggerContract.ClientErrorResponseFactory(
+      ClientErrorCode.NOT_FOUND
+    ),
   },
 } as const satisfies AppFastifySchema;
 

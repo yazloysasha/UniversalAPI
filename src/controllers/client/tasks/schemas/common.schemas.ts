@@ -1,4 +1,4 @@
-import { TaskStatus } from "@models";
+import { TaskStatus } from "@entities";
 import { SwaggerContract } from "@contracts";
 import { AppJSONSchema, CustomFormat } from "@types";
 
@@ -18,13 +18,13 @@ export const taskSample = {
 
 export const taskSchema = {
   type: "object",
-  required: ["_id", "content", "status"],
+  required: ["id", "content", "status"],
   properties: {
-    _id: {
+    id: {
       type: "string",
-      format: CustomFormat.MONGOOSE_ID,
+      format: CustomFormat.UUID,
       description: "ID задачи",
-      example: SwaggerContract.MongooseIdExample,
+      example: SwaggerContract.UUIDExample,
     },
     ...taskSample,
   },
@@ -36,8 +36,8 @@ export const paramsWithTaskId = {
   properties: {
     taskId: {
       type: "string",
-      format: CustomFormat.MONGOOSE_ID,
-      example: SwaggerContract.MongooseIdExample,
+      format: CustomFormat.UUID,
+      example: SwaggerContract.UUIDExample,
     },
   },
 } as const satisfies AppJSONSchema;

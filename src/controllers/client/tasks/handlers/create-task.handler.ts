@@ -14,9 +14,6 @@ export const createTaskHandler: AppFastifyHandler<CreateTaskType> = async (
   reply.code(SuccessCode.CREATED).send({
     alert: true,
     message: "Успешно сохранено",
-    task: {
-      ...createdTask,
-      _id: String(createdTask._id),
-    },
+    task: createdTask,
   });
 };

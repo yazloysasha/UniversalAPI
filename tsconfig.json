@@ -16,6 +16,7 @@
     "esModuleInterop": true,
     "noErrorTruncation": true,
     "resolveJsonModule": true,
+    "experimentalDecorators": true,
     "noStrictGenericChecks": false,
     "noFallthroughCasesInSwitch": false,
     "allowSyntheticDefaultImports": true,

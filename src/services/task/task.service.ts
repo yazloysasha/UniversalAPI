@@ -1,23 +1,29 @@
-import { Types } from "mongoose";
 import { ApiError } from "@errors";
 import { IPagination } from "@types";
-import { ITask, Task, TaskStatus } from "@models";
+import { appDataSource } from "@main";
+import { FullTask } from "./task.types";
+import { Task, TaskStatus } from "@entities";
 
 /**
  * Сервис для управления задачами
  */
 export class TaskService {
+  private taskRepository = appDataSource.getRepository(Task);
+
   /**
    * Получить все задачи
    */
-  async getTasks({
-    pagination,
-  }: {
-    pagination: IPagination;
-  }): Promise<{ totalSize: number; tasks: ITask[] }> {
-    const [totalSize, tasks] = await Promise.all([
-      Task.countDocuments(),
-      Task.find().skip(pagination.skip).limit(pagination.limit).lean(),
+  async getTasks({ pagination }: { pagination: IPagination }): Promise<{
+    totalSize: number;
+    tasks: FullTask[];
+  }> {
+    const [totalSize, tasks]: [number, FullTask[]] = await Promise.all([
+      this.taskRepository.count(),
+      this.taskRepository.find({
+        skip: pagination.skip,
+        take: pagination.limit,
+        select: ["id", "content", "status"],
+      }),
     ]);
 
     return {
@@ -32,11 +38,11 @@ export class TaskService {
   async replaceTasks({
     tasks,
   }: {
-    tasks: Omit<ITask, "_id">[];
+    tasks: Omit<FullTask, "id">[];
   }): Promise<void> {
-    await Task.deleteMany();
+    await this.taskRepository.delete({});
 
-    await Task.insertMany(tasks);
+    await this.taskRepository.insert(tasks);
   }
 
   /**
@@ -48,17 +54,25 @@ export class TaskService {
   }: {
     content: string;
     status: TaskStatus;
-  }): Promise<ITask> {
-    const createdTask = await Task.create({ content, status });
+  }): Promise<FullTask> {
+    const task = this.taskRepository.create({
+      content,
+      status,
+    });
 
-    return createdTask.toObject();
+    await this.taskRepository.insert(task);
+
+    return task;
   }
 
   /**
    * Получить задачу
    */
-  async getTask({ taskId }: { taskId: Types.ObjectId }): Promise<ITask> {
-    const task = await Task.findById(taskId).lean();
+  async getTask({ taskId }: { taskId: string }): Promise<FullTask> {
+    const task: FullTask | null = await this.taskRepository.findOne({
+      where: { id: taskId },
+      select: ["id", "content", "status"],
+    });
 
     if (!task) throw ApiError.notFound();
 
@@ -73,25 +87,29 @@ export class TaskService {
     content,
     status,
   }: {
-    taskId: Types.ObjectId;
+    taskId: string;
     content?: string;
     status?: TaskStatus;
-  }): Promise<ITask> {
-    const updatedTask = await Task.findByIdAndUpdate(
-      taskId,
-      { content, status },
-      { returnDocument: "after" }
-    ).lean();
+  }): Promise<FullTask> {
+    const updatedTaskResult = await this.taskRepository
+      .createQueryBuilder()
+      .update(Task)
+      .set({ content, status })
+      .where({ id: taskId })
+      .returning(["id", "content", "status"])
+      .execute();
 
-    if (!updatedTask) throw ApiError.notFound();
+    if (!updatedTaskResult.affected) throw ApiError.notFound();
 
-    return updatedTask;
+    return updatedTaskResult.raw[0];
   }
 
   /**
    * Удалить задачу
    */
-  async deleteTask({ taskId }: { taskId: Types.ObjectId }): Promise<void> {
-    await Task.findByIdAndDelete(taskId);
+  async deleteTask({ taskId }: { taskId: string }): Promise<void> {
+    const result = await this.taskRepository.delete({ id: taskId });
+
+    if (!result.affected) throw ApiError.notFound();
   }
 }
