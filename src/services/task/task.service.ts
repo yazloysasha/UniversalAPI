@@ -91,7 +91,7 @@ export class TaskService {
     content?: string;
     status?: TaskStatus;
   }): Promise<FullTask> {
-    const updatedTaskResult = await this.taskRepository
+    const result = await this.taskRepository
       .createQueryBuilder()
       .update(Task)
       .set({ content, status })
@@ -99,9 +99,9 @@ export class TaskService {
       .returning(["id", "content", "status"])
       .execute();
 
-    if (!updatedTaskResult.affected) throw ApiError.notFound();
+    if (!result.affected) throw ApiError.notFound();
 
-    return updatedTaskResult.raw[0];
+    return result.raw[0] as FullTask;
   }
 
   /**
