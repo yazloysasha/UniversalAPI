@@ -1,7 +1,7 @@
+import { FullTask } from "@types";
 import { ApiError } from "@errors";
 import { IPagination } from "@types";
 import { appDataSource } from "@main";
-import { FullTask } from "./task.types";
 import { Task, TaskStatus } from "@entities";
 
 /**

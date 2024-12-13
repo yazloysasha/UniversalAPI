@@ -1,1 +1,1 @@
-export * from "./get-fastify-routes";
+export * from "./getFastifyRoutes";
