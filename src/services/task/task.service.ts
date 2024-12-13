@@ -1,14 +1,17 @@
 import { FullTask } from "@types";
 import { ApiError } from "@errors";
 import { IPagination } from "@types";
-import { appDataSource } from "@main";
 import { Task, TaskStatus } from "@entities";
+import { DataSource, Repository } from "typeorm";
 
 /**
  * Сервис для управления задачами
  */
 export class TaskService {
-  private taskRepository = appDataSource.getRepository(Task);
+  constructor(
+    private appDataSource: DataSource,
+    private taskRepository: Repository<Task>
+  ) {}
 
   /**
    * Получить все задачи
@@ -25,6 +28,8 @@ export class TaskService {
         select: ["id", "content", "status"],
       }),
     ]);
+
+    throw Error();
 
     return {
       totalSize,
@@ -91,7 +96,7 @@ export class TaskService {
     content?: string;
     status?: TaskStatus;
   }): Promise<FullTask> {
-    const result = await this.taskRepository
+    const result = await this.appDataSource
       .createQueryBuilder()
       .update(Task)
       .set({ content, status })

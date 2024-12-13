@@ -58,4 +58,11 @@ export class ApiError extends Error {
   }: IApiErrorProps = {}): ApiError {
     return new ApiError(ServerErrorCode.INTERNAL_SERVER_ERROR, msg, alert);
   }
+
+  static badGateway({
+    msg = SwaggerContract.CodeDescriptions[ServerErrorCode.BAD_GATEWAY],
+    alert = true,
+  }: IApiErrorProps = {}): ApiError {
+    return new ApiError(ServerErrorCode.BAD_GATEWAY, msg, alert);
+  }
 }

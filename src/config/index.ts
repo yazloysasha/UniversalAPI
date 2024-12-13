@@ -1,4 +1,5 @@
-export * from "./connectToDatabase";
+export * from "./connectToAnalyticalDatabase";
+export * from "./connectToOperationalDatabase";
 export * from "./DIContainer";
 export * from "./fastify";
 export * from "./winstonLogger";

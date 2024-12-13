@@ -21,7 +21,7 @@ import { JsonSchemaToTsProvider } from "@fastify/type-provider-json-schema-to-ts
  * Запуск систем Fastify
  */
 export const setupFastify = async (): Promise<void> => {
-  if (!appConfig.DATABASE_URL) {
+  if (!appConfig.FASTIFY_PORT) {
     throw ApiError.internalServerError({
       msg: "Не указан порт для запуска Fastify",
     });

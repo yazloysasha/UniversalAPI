@@ -5,7 +5,8 @@ export enum CustomFormat {
 
 export interface IAppConfig {
   FASTIFY_PORT?: string;
-  DATABASE_URL?: string;
+  OPERATIONAL_DATABASE_URL?: string;
+  ANALYTICAL_DATABASE_URL?: string;
 }
 
 export interface IPagination {

@@ -1,27 +1,36 @@
 import "dotenv/config";
-import { Task } from "@entities";
 import { IAppConfig } from "@types";
-import { DataSource } from "typeorm";
 
 export const appConfig = process.env as IAppConfig;
-
-export const appDataSource = new DataSource({
-  type: "postgres",
-  url: appConfig.DATABASE_URL,
-  entities: [Task],
-  synchronize: true,
-});
 
 import {
   appLogger,
   setupFastify,
   setupDIContainer,
-  connectToDatabase,
+  connectToAnalyticalDatabase,
+  connectToOperationalDatabase,
 } from "@config";
 
 const bootstrapApp = async (): Promise<void> => {
-  // Параллельный запуск всех систем
-  await Promise.all([connectToDatabase(), setupDIContainer(), setupFastify()]);
+  // Сначала установить все зависимости, без них ничего работать не может
+  setupDIContainer();
+
+  // Запустить API
+  await setupFastify();
+
+  // Подключиться к операционной базе данных
+  try {
+    await connectToOperationalDatabase();
+  } catch (err) {
+    appLogger.fatal((err as Error).message);
+  }
+
+  // Подключиться к аналитической базе данных
+  try {
+    await connectToAnalyticalDatabase();
+  } catch (err) {
+    appLogger.fatal((err as Error).message);
+  }
 };
 
 bootstrapApp().catch((err) => {
