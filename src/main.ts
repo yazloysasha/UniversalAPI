@@ -15,7 +15,7 @@ const bootstrapApp = async (): Promise<void> => {
   // Сначала установить все зависимости, без них ничего работать не может
   setupDIContainer();
 
-  // Запустить API
+  // Запустить Fastify API
   await setupFastify();
 
   // Подключиться к операционной базе данных
