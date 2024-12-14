@@ -23,7 +23,7 @@ const errorLogSchema = new Schema(
       type: String,
     },
 
-    // URL запроса (не маршрут!)
+    // URL запроса
     url: {
       type: String,
     },

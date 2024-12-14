@@ -1,6 +1,6 @@
-import { ErrorLog } from "@models";
-import { IErrorLog } from "@types";
 import { appLogger } from "@config";
+import { ErrorLog, RequestLog } from "@models";
+import { IErrorLog, IRequestLog } from "@types";
 
 /**
  * Сервис для сбора аналитики
@@ -16,6 +16,21 @@ export class AnalyticalService {
       appLogger.error("Не удалось создать отчёт об ошибке");
 
       console.error(err);
+    }
+  }
+
+  /**
+   * Создать лог о запросе
+   */
+  async createRequestLog(data: IRequestLog) {
+    try {
+      await RequestLog.create(data);
+    } catch (err) {
+      await this.createErrorLog({
+        name: (err as Error).name,
+        message: (err as Error).message,
+        stack: (err as Error).stack,
+      });
     }
   }
 }

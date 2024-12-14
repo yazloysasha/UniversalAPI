@@ -29,8 +29,6 @@ export class TaskService {
       }),
     ]);
 
-    throw Error();
-
     return {
       totalSize,
       tasks,
