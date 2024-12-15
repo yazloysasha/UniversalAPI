@@ -4,10 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "cross-env ENV=development nodemon -q",
-    "build": "tsc && npx tsconfig-replace-paths -s ./src",
-    "start": "cross-env ENV=production node build/main.js",
+    "start": "cross-env ENV=production node ${BUILD_DIRECTORY}/main.js",
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli -d src/consts/appDataSource.ts",
-    "migration:generate": "npm run typeorm migration:generate ./src/migrations/migration"
+    "migration:generate": "npm run typeorm migration:generate ./src/migrations/migration",
+    "script:deploy": "node ./scripts/deploy.js"
   },
   "dependencies": {
     "@fastify/cookie": "^10.0.1",
