@@ -116,7 +116,7 @@ async function deploy() {
 }
 
 /**
- * Очистить директорию с временной сборкой
+ * Очистить директорию со временной сборкой
  */
 function removeBuildDirectory() {
   if (fs.existsSync("./build")) {
