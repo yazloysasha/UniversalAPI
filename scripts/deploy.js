@@ -13,7 +13,7 @@ async function deploy() {
     `tsc --outDir ${buildDirectory} && npx tsconfig-replace-paths -s ./src -o ${buildDirectory}`
   );
   child_process.execSync(
-    `pm2 start npm --name "universal-api" -- BUILD_DIRECTORY=${buildDirectory} run start`
+    `pm2 start npm --name "universal-api" -- run start BUILD_DIRECTORY=${buildDirectory}`
   );
 }
 
