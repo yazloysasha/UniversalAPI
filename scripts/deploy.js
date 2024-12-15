@@ -19,6 +19,7 @@ async function deploy() {
     (pm2Process) => pm2Process.name === PROCESS_NAME
   );
 
+  child_process.execSync("npm install");
   child_process.execSync("npm run build");
 
   /**
