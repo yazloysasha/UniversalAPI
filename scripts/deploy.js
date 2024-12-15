@@ -22,30 +22,38 @@ async function deploy() {
 
   console.log("Выполнение миграций...");
 
-  const migrationRunResult = child_process
-    .execSync("npm run migration:run")
-    .toString();
+  try {
+    const migrationRunResult = child_process
+      .execSync("npm run migration:run")
+      .toString();
 
-  if (migrationRunResult.includes("Error during migration run")) {
+    if (migrationRunResult.includes("Error during migration run")) {
+      throw migrationRunResult;
+    }
+  } catch (data) {
     removeBuildDirectory();
 
-    console.log(migrationRunResult);
+    console.log(data);
 
     throw Error("Не удалось выполнить миграцию!");
   }
 
-  console.log("Проверка актуальности данных...");
+  console.log("Проверка целостности данных...");
 
-  const schemaLogResult = child_process
-    .execSync("npm run schema:log")
-    .toString();
+  try {
+    const schemaLogResult = child_process
+      .execSync("npm run schema:log")
+      .toString();
 
-  if (schemaLogResult.includes("Schema synchronization will execute")) {
+    if (schemaLogResult.includes("Schema synchronization will execute")) {
+      throw schemaLogResult;
+    }
+  } catch (data) {
     removeBuildDirectory();
 
-    console.log(schemaLogResult);
+    console.log(data);
 
-    throw Error("Где-то произошла потеря данных!");
+    throw Error("Обнаружена потеря данных!");
   }
 
   console.log("Запуск проекта в теневом режиме...");
