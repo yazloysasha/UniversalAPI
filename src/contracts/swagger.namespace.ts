@@ -2,6 +2,7 @@ import {
   StatusCodes,
   SuccessCode,
   AppJSONSchema,
+  FastifyRoutes,
   RedirectionCode,
   ClientErrorCode,
   ServerErrorCode,
@@ -20,6 +21,11 @@ export namespace SwaggerContract {
   export enum ClientTag {
     TASKS = "Tasks",
   }
+
+  /**
+   * Тег для документации Admin API
+   */
+  export enum AdminTag {}
 
   /**
    * Описания для кодов ответа REST API
@@ -253,21 +259,39 @@ export namespace SwaggerContract {
     } as const satisfies ActionResponseType;
   };
 
-  export const Config: FastifyDynamicSwaggerOptions = {
-    swagger: {
-      info: {
-        title: "Client API",
-        version: "1.0.0",
-      },
+  export const GetConfig = (
+    routes: FastifyRoutes
+  ): FastifyDynamicSwaggerOptions => {
+    const swagger: FastifyDynamicSwaggerOptions["swagger"] = {
       consumes: ["application/json", "text/xml"],
       produces: ["application/json", "text/xml"],
-      tags: [
-        {
+      tags: [],
+    };
+
+    switch (routes) {
+      case "admin":
+        swagger.info = {
+          title: "Admin API",
+          version: "1.0.0",
+        };
+
+        swagger.tags!.push();
+        break;
+
+      case "client":
+        swagger.info = {
+          title: "Client API",
+          version: "1.0.0",
+        };
+
+        swagger.tags!.push({
           name: SwaggerContract.ClientTag.TASKS,
           description: "Маршруты для работы с задачами",
-        },
-      ],
-    },
+        });
+        break;
+    }
+
+    return { swagger };
   };
 
   export const ConfigUi: FastifySwaggerUiOptions = {

@@ -1,13 +1,19 @@
-import { AppFastifyInstance } from "@types";
 import { registerControllers } from "@helpers";
+import { AppFastifyInstance, FastifyRoutes } from "@types";
 
 /**
  * Регистрация маршрутов Fastify
  */
 export const setupFastifyRoutes = async (
-  fastify: AppFastifyInstance
+  fastify: AppFastifyInstance,
+  routes: FastifyRoutes
 ): Promise<void> => {
-  const clientControllers = require("@controllers/client");
+  switch (routes) {
+    case "admin":
+      break;
 
-  registerControllers(fastify, clientControllers);
+    case "client":
+      registerControllers(fastify, require("@controllers/client"));
+      break;
+  }
 };

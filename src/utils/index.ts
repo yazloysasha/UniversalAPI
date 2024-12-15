@@ -1,1 +1,1 @@
-export * from "./getFastifyRoutes";
+export * from "./parseConfig";

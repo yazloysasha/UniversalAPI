@@ -5,29 +5,31 @@ import {
   setupFastifyRoutes,
 } from "@config";
 import Fastify from "fastify";
-import { appConfig } from "@main";
 import fastifyCors from "@fastify/cors";
-import { getFastifyRoutes } from "@utils";
+import { getFastifyRoutes } from "@helpers";
 import fastifyCookie from "@fastify/cookie";
-import { AppFastifyInstance } from "@types";
 import { SwaggerContract } from "@contracts";
 import fastifySwagger from "@fastify/swagger";
 import fastifyFormbody from "@fastify/formbody";
 import fastifySwaggerUi from "@fastify/swagger-ui";
 import { ApiError, apiErrorHandler } from "@errors";
+import { AppFastifyInstance, FastifyRoutes } from "@types";
 import { JsonSchemaToTsProvider } from "@fastify/type-provider-json-schema-to-ts";
 
 /**
  * Запуск систем Fastify
  */
-export const setupFastify = async (): Promise<void> => {
-  if (!appConfig.FASTIFY_PORT) {
+export const setupFastify = async (
+  routes: FastifyRoutes,
+  port?: number
+): Promise<void> => {
+  if (typeof port !== "number" || Number.isNaN(port)) {
     throw ApiError.internalServerError({
-      msg: "Не указан порт для запуска Fastify",
+      msg: `Не указан порт для запуска маршрутов Fastify (${routes})`,
     });
   }
 
-  appLogger.info("Запуск приложения Fastify...");
+  appLogger.info(`Запуск приложения Fastify (${routes})...`);
 
   const fastify: AppFastifyInstance = Fastify({
     disableRequestLogging: true,
@@ -45,7 +47,7 @@ export const setupFastify = async (): Promise<void> => {
   setupFastifyHooks(fastify);
 
   // Регистрация сваггера
-  await fastify.register(fastifySwagger, SwaggerContract.Config);
+  await fastify.register(fastifySwagger, SwaggerContract.GetConfig(routes));
   await fastify.register(fastifySwaggerUi, SwaggerContract.ConfigUi);
 
   // Прочие плагины
@@ -54,14 +56,12 @@ export const setupFastify = async (): Promise<void> => {
   await fastify.register(fastifyCors, { origin: true, credentials: true });
 
   // Регистрация маршрутов
-  await setupFastifyRoutes(fastify);
+  await setupFastifyRoutes(fastify, routes);
 
-  await fastify.listen({ port: Number(appConfig.FASTIFY_PORT) });
-
+  await fastify.listen({ port });
   await fastify.ready();
 
-  appLogger.verbose(
-    `Приложение Fastify запущено на порту ${appConfig.FASTIFY_PORT}`
-  );
+  appLogger.verbose(`Приложение Fastify (${routes}) запущено на порту ${port}`);
+
   console.log(getFastifyRoutes(fastify));
 };

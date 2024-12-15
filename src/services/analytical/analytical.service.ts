@@ -1,3 +1,4 @@
+import { appConfig } from "@main";
 import { appLogger } from "@config";
 import { ErrorLog, RequestLog } from "@models";
 import { IErrorLog, IRequestLog } from "@types";
@@ -6,10 +7,18 @@ import { IErrorLog, IRequestLog } from "@types";
  * Сервис для сбора аналитики
  */
 export class AnalyticalService {
+  private enabled = appConfig.ENABLED_MODULES.includes("analytics");
+
   /**
    * Создать лог об ошибке
    */
-  async createErrorLog(data: IErrorLog) {
+  async createErrorLog(data: IErrorLog): Promise<void> {
+    if (!this.enabled) {
+      appLogger.error(`${data.name}: ${data.message || "???"}`);
+
+      return appLogger.so(data.stack!);
+    }
+
     try {
       await ErrorLog.create(data);
     } catch (err) {
@@ -22,7 +31,11 @@ export class AnalyticalService {
   /**
    * Создать лог о запросе
    */
-  async createRequestLog(data: IRequestLog) {
+  async createRequestLog(data: IRequestLog): Promise<void> {
+    if (!this.enabled) {
+      return appLogger.requestInfo(data);
+    }
+
     try {
       await RequestLog.create(data);
     } catch (err) {

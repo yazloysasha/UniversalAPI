@@ -16,7 +16,7 @@ export const setupDIContainer = (): void => {
    */
   const appDataSource = new DataSource({
     type: "postgres",
-    url: appConfig.OPERATIONAL_DATABASE_URL,
+    url: appConfig.POSTGRESQL_URL,
     entities: [Task],
     synchronize: true,
   });

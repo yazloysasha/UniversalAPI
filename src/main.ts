@@ -1,7 +1,6 @@
-import "dotenv/config";
-import { IAppConfig } from "@types";
+import { parseConfig } from "@utils";
 
-export const appConfig = process.env as IAppConfig;
+export const appConfig = parseConfig();
 
 import {
   appLogger,
@@ -10,13 +9,21 @@ import {
   connectToAnalyticalDatabase,
   connectToOperationalDatabase,
 } from "@config";
+import { FastifyRoutes } from "@types";
 
 const bootstrapApp = async (): Promise<void> => {
   // Сначала установить все зависимости, без них ничего работать не может
   setupDIContainer();
 
   // Запустить Fastify API
-  await setupFastify();
+  if (appConfig.ENABLED_MODULES.includes("fastify")) {
+    for (const routes in appConfig.ENABLED_FASTIFY_ROUTES) {
+      await setupFastify(
+        routes as FastifyRoutes,
+        appConfig.ENABLED_FASTIFY_ROUTES[routes as FastifyRoutes]
+      );
+    }
+  }
 
   // Подключиться к операционной базе данных
   try {
@@ -26,10 +33,12 @@ const bootstrapApp = async (): Promise<void> => {
   }
 
   // Подключиться к аналитической базе данных
-  try {
-    await connectToAnalyticalDatabase();
-  } catch (err) {
-    appLogger.fatal((err as Error).message);
+  if (appConfig.ENABLED_MODULES.includes("analytics")) {
+    try {
+      await connectToAnalyticalDatabase();
+    } catch (err) {
+      appLogger.fatal((err as Error).message);
+    }
   }
 };
 

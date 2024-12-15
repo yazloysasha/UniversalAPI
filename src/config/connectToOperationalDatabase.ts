@@ -9,7 +9,7 @@ import { appLogger, di } from "@config";
 export const connectToOperationalDatabase = async (): Promise<void> => {
   const appDataSource = di.container.resolve<DataSource>("appDataSource");
 
-  if (!appConfig.OPERATIONAL_DATABASE_URL) {
+  if (!appConfig.POSTGRESQL_URL) {
     throw ApiError.internalServerError({
       msg: "Не указана ссылка для подключения к операционной базе данных",
     });

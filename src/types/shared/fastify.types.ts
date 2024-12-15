@@ -89,3 +89,5 @@ export type AppFastifyHandler<SchemaType extends AppFastifySchema> =
     JsonSchemaToTsProvider,
     FastifyBaseLogger
   >;
+
+export type FastifyRoutes = "admin" | "client";
