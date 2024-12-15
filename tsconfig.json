@@ -8,6 +8,7 @@
     "baseUrl": "./",
     "target": "es5",
     "sourceMap": true,
+    "outDir": "./build",
     "incremental": true,
     "declaration": false,
     "module": "commonjs",
@@ -20,7 +21,6 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "noStrictGenericChecks": false,
-    "outDir": "./builds/default-build",
     "noFallthroughCasesInSwitch": false,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": false

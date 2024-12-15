@@ -2,19 +2,40 @@ const fs = require("fs");
 const child_process = require("child_process");
 
 /**
+ * Название процесса в PM2
+ */
+const PROCESS_NAME = "universal-api";
+
+/**
  * Обновление проекта на сервере
  */
 async function deploy() {
-  const buildDirectory = `./builds/${Date.now()}-build`;
   const pm2List = JSON.parse(child_process.execSync("pm2 jlist"));
+  if (!Array.isArray(pm2List)) {
+    throw Error(`Не удалось выполнить команду "pm2 list"`);
+  }
 
-  child_process.execSync("git pull");
-  child_process.execSync(
-    `tsc --outDir ${buildDirectory} && npx tsconfig-replace-paths -s ./src -o ${buildDirectory}`
+  const processIsExists = !!pm2List.find(
+    (pm2Process) => pm2Process.name === PROCESS_NAME
   );
-  child_process.execSync(
-    `pm2 start npm --name "universal-api" --node-args="BUILD_DIRECTORY=${buildDirectory}" -- run start`
-  );
+
+  child_process.execSync("npm run build");
+
+  /**
+   * TODO: Валидация данных в БД и возможных ошибок при запуске
+   */
+
+  fs.cpSync("./build", "./dist", { recursive: true });
+
+  if (processIsExists) {
+    child_process.execSync(`pm2 restart "${PROCESS_NAME}"`);
+  } else {
+    child_process.execSync(
+      `pm2 start npm --name "${PROCESS_NAME}" -- run start`
+    );
+  }
+
+  fs.rmSync("./build", { recursive: true });
 }
 
 deploy();
