@@ -1,8 +1,7 @@
-import { Task } from "@entities";
-import { appConfig } from "@main";
-import { DataSource } from "typeorm";
+import { Task, User } from "@entities";
 import { di, appLogger } from "@config";
 import { asClass, asValue } from "awilix";
+import appDataSource from "@consts/appDataSource";
 import { AnalyticalService, TaskService } from "@services";
 
 /**
@@ -12,23 +11,15 @@ export const setupDIContainer = (): void => {
   appLogger.info("Установка зависимостей...");
 
   /**
-   * Ресурсы для операционной базы данных
-   */
-  const appDataSource = new DataSource({
-    type: "postgres",
-    url: appConfig.POSTGRESQL_URL,
-    entities: [Task],
-    synchronize: true,
-  });
-
-  /**
    * Таблицы операционной базы данных
    */
   const taskRepository = appDataSource.getRepository(Task);
+  const userRepository = appDataSource.getRepository(User);
 
   di.container.register({
     appDataSource: asValue(appDataSource),
     taskRepository: asValue(taskRepository),
+    userRepository: asValue(userRepository),
 
     [TaskService.name]: asClass(TaskService).singleton(),
     [AnalyticalService.name]: asClass(AnalyticalService).singleton(),

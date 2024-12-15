@@ -1,5 +1,5 @@
-import { appConfig } from "@main";
 import { appLogger } from "@config";
+import appConfig from "@consts/appConfig";
 import { ErrorLog, RequestLog } from "@models";
 import { IErrorLog, IRequestLog } from "@types";
 

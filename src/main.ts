@@ -1,7 +1,3 @@
-import { parseConfig } from "@utils";
-
-export const appConfig = parseConfig();
-
 import {
   appLogger,
   setupFastify,
@@ -10,6 +6,7 @@ import {
   connectToOperationalDatabase,
 } from "@config";
 import { FastifyRoutes } from "@types";
+import appConfig from "@consts/appConfig";
 
 const bootstrapApp = async (): Promise<void> => {
   // Сначала установить все зависимости, без них ничего работать не может

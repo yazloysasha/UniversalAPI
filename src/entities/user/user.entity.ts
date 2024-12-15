@@ -1,34 +1,28 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-export enum TaskStatus {
-  DONE = "DONE",
-  NOT_DONE = "NOT_DONE",
-}
-
 /**
- * Задача
+ * Пользователь
  */
 @Entity()
-export class Task {
+export class User {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 
   /**
-   * Описание
+   * Имя
    */
   @Column({
     type: "text",
     nullable: false,
   })
-  content!: string;
+  name!: string;
 
   /**
-   * Статус
+   * Зашифрованный пароль
    */
   @Column({
-    type: "enum",
-    enum: TaskStatus,
+    type: "text",
     nullable: false,
   })
-  status!: TaskStatus;
+  password!: string;
 }

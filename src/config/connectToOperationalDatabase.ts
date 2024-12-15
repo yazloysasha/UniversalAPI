@@ -1,7 +1,7 @@
-import { appConfig } from "@main";
 import { ApiError } from "@errors";
 import { DataSource } from "typeorm";
 import { appLogger, di } from "@config";
+import appConfig from "@consts/appConfig";
 
 /**
  * Подключение к операционной базе данных

@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "nodemon -q",
     "build": "tsc && npx tsconfig-replace-paths -s ./src",
-    "start": "node build/main.js"
+    "start": "node build/main.js",
+    "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli -d src/consts/appDataSource.ts",
+    "typeorm:generate": "npm run typeorm migration:generate ./src/migrations/migration"
   },
   "dependencies": {
     "@fastify/cookie": "^10.0.1",
@@ -24,16 +26,17 @@
     "moment": "^2.30.1",
     "mongoose": "^8.8.4",
     "nodemon": "^3.1.5",
-    "pg": "^8.13.1",
-    "ts-node": "^10.9.2",
-    "typeorm": "^0.3.20",
+    "pg": "^8.4.0",
+    "typeorm": "0.3.20",
     "uuid": "^11.0.3",
-    "winston": "^3.14.2"
+    "winston": "^3.14.2",
+    "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
     "@types/jsonwebtoken": "^9.0.7",
     "@types/node": "^22.10.2",
     "tsconfig-paths": "^4.2.0",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.2",
+    "ts-node": "10.9.2"
   }
 }

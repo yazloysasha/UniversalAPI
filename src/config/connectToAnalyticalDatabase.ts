@@ -1,7 +1,7 @@
-import { appConfig } from "@main";
 import { connect } from "mongoose";
 import { ApiError } from "@errors";
 import { appLogger } from "@config";
+import appConfig from "@consts/appConfig";
 
 /**
  * Подключение к операционной базе данных
