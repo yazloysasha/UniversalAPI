@@ -10,15 +10,23 @@ import appConfig from "@consts/appConfig";
 
 const bootstrapApp = async (): Promise<void> => {
   // Сначала установить все зависимости, без них ничего работать не может
-  setupDIContainer();
+  try {
+    setupDIContainer();
+  } catch (err) {
+    appLogger.fatal((err as Error).message);
+  }
 
   // Запустить Fastify API
   if (appConfig.ENABLED_MODULES.includes("fastify")) {
     for (const routes in appConfig.ENABLED_FASTIFY_ROUTES) {
-      await setupFastify(
-        routes as FastifyRoutes,
-        appConfig.ENABLED_FASTIFY_ROUTES[routes as FastifyRoutes]
-      );
+      try {
+        await setupFastify(
+          routes as FastifyRoutes,
+          appConfig.ENABLED_FASTIFY_ROUTES[routes as FastifyRoutes]
+        );
+      } catch (err) {
+        appLogger.fatal((err as Error).message);
+      }
     }
   }
 
@@ -37,8 +45,8 @@ const bootstrapApp = async (): Promise<void> => {
       appLogger.fatal((err as Error).message);
     }
   }
+
+  appLogger.verbose("Запуск проекта завершён");
 };
 
-bootstrapApp().catch((err) => {
-  appLogger.fatal((err as Error).message);
-});
+bootstrapApp();
