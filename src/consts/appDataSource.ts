@@ -16,5 +16,4 @@ export default new DataSource({
       : "./build/migrations/*.js",
   ],
   synchronize: false,
-  migrationsRun: true,
 });
