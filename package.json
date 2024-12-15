@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "nodemon -q",
+    "dev": "cross-env ENV=development nodemon -q",
     "build": "tsc && npx tsconfig-replace-paths -s ./src",
-    "start": "node build/main.js",
+    "start": "cross-env ENV=production node build/main.js",
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli -d src/consts/appDataSource.ts",
-    "typeorm:generate": "npm run typeorm migration:generate ./src/migrations/migration"
+    "migration:generate": "npm run typeorm migration:generate ./src/migrations/migration"
   },
   "dependencies": {
     "@fastify/cookie": "^10.0.1",

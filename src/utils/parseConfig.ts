@@ -6,6 +6,7 @@ import { FastifyRoutes, IAppConfig, Module } from "@types";
  */
 export const parseConfig = (): IAppConfig => {
   const {
+    ENV,
     ENABLED_MODULES,
     ENABLED_FASTIFY_ROUTES,
     ENABLED_QUEUE_TASKS,
@@ -25,6 +26,7 @@ export const parseConfig = (): IAppConfig => {
   }
 
   return {
+    ENV: ENV as "development" | "production",
     ENABLED_MODULES: ENABLED_MODULES
       ? (ENABLED_MODULES.split(",") as Module[])
       : [],

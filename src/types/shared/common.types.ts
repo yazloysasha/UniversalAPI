@@ -8,6 +8,7 @@ export enum CustomFormat {
 export type Module = "fastify" | "analytics" | "redis" | "queue";
 
 export interface IAppConfig {
+  ENV: "development" | "production";
   ENABLED_MODULES: Module[];
   ENABLED_FASTIFY_ROUTES: { [x in FastifyRoutes]?: number };
   ENABLED_QUEUE_TASKS: string[];

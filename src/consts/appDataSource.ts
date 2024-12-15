@@ -10,7 +10,11 @@ export default new DataSource({
   type: "postgres",
   url: appConfig.POSTGRESQL_URL,
   entities: [Task, User],
-  migrations: ["./src/migrations/*.ts"],
+  migrations: [
+    appConfig.ENV === "development"
+      ? "./src/migrations/*.ts"
+      : "./build/migrations/*.js",
+  ],
   synchronize: false,
   migrationsRun: true,
 });
