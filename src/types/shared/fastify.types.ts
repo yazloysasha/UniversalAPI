@@ -92,27 +92,15 @@ export type AppFastifyHandler<SchemaType extends AppFastifySchema> =
     FastifyBaseLogger
   >;
 
-export type AppFastifyRequest<SchemaType extends AppFastifySchema> =
-  FastifyRequest<
-    RouteGenericInterface,
-    RawServerDefault,
-    IncomingMessage,
-    SchemaType,
-    JsonSchemaToTsProvider<FromSchemaDefaultOptions>,
-    unknown,
-    FastifyBaseLogger,
-    ResolveFastifyRequestType<
-      JsonSchemaToTsProvider<FromSchemaDefaultOptions>,
-      SchemaType,
-      RouteGenericInterface
-    >
-  > & {
-    session?: IRequestSession;
-  };
-
 export interface IRequestSession {
   id: string;
   userId: string;
+}
+
+declare module "fastify" {
+  interface FastifyRequest {
+    session?: IRequestSession;
+  }
 }
 
 export type FastifyRoutes = "admin" | "client";

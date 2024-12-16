@@ -1,11 +1,7 @@
-import {
-  AppFastifySchema,
-  AppFastifyRequest,
-  AppFastifyPreHandler,
-} from "@types";
 import { di } from "@config";
 import { ApiError } from "@errors";
 import { AuthService } from "@services";
+import { AppFastifySchema, AppFastifyPreHandler } from "@types";
 
 export const authPreHandler =
   <SchemaType extends AppFastifySchema>({
@@ -13,7 +9,7 @@ export const authPreHandler =
   }: {
     required?: boolean;
   } = {}): AppFastifyPreHandler<SchemaType> =>
-  async (req: AppFastifyRequest<SchemaType>, reply) => {
+  async (req, reply) => {
     try {
       let token = req.headers.authorization!;
       if (!/^Bearer\s(\S+)$/.test(token)) {
@@ -42,10 +38,7 @@ export const authPreHandler =
 
       const userId = await authService.getUserIdBySessionId({ sessionId });
 
-      req.session = {
-        id: sessionId,
-        userId,
-      };
+      req.session = { id: sessionId, userId };
     } catch {
       if (required) throw ApiError.unAuth();
     }

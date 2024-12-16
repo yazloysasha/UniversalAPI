@@ -10,8 +10,6 @@ const PROCESS_NAME = "universal-api";
  * Обновление проекта на сервере
  */
 async function deploy() {
-  removeBuildDirectory();
-
   console.log("Установка пакетов...");
 
   child_process.execSync("npm install");
@@ -31,8 +29,6 @@ async function deploy() {
       throw migrationRunResult;
     }
   } catch (data) {
-    removeBuildDirectory();
-
     console.log(data);
 
     throw Error("Не удалось выполнить миграцию!");
@@ -49,8 +45,6 @@ async function deploy() {
       throw schemaLogResult;
     }
   } catch (data) {
-    removeBuildDirectory();
-
     console.log(data);
 
     throw Error("Обнаружена потеря данных!");
@@ -64,8 +58,6 @@ async function deploy() {
     .spawn("npm run pre-start", { shell: true })
     .on("exit", (code, signal) => {
       if (code || signal !== "SIGINT") {
-        removeBuildDirectory();
-
         console.log(stdout);
 
         throw Error("Произошла ошибка при запуске проекта в теневом режиме!");
@@ -125,6 +117,8 @@ function removeBuildDirectory() {
 }
 
 deploy().catch((err) => {
+  removeBuildDirectory();
+
   console.error(err.message);
 
   process.exit(1);
