@@ -9,7 +9,10 @@ export const createTaskHandler: AppFastifyHandler<CreateTaskType> = async (
 ) => {
   const taskService = di.container.resolve<TaskService>(TaskService.name);
 
-  const createdTask = await taskService.createTask(req.body);
+  const createdTask = await taskService.createTask({
+    userId: req.session!.userId,
+    ...req.body,
+  });
 
   reply.code(SuccessCode.CREATED).send({
     alert: true,

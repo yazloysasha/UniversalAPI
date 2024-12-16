@@ -5,6 +5,7 @@ import { AppFastifySchema, SuccessCode } from "@types";
 export const replaceTasksSchema = {
   tags: [SwaggerContract.ClientTag.TASKS],
   summary: "Заменить список задач",
+  security: [{ Bearer: [] }],
   body: {
     type: "object",
     required: ["tasks"],

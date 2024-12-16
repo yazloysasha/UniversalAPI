@@ -9,7 +9,10 @@ export const replaceTasksHandler: AppFastifyHandler<ReplaceTasksType> = async (
 ) => {
   const taskService = di.container.resolve<TaskService>(TaskService.name);
 
-  await taskService.replaceTasks({ tasks: req.body.tasks });
+  await taskService.replaceTasks({
+    userId: req.session!.userId,
+    tasks: req.body.tasks,
+  });
 
   reply.code(SuccessCode.CREATED).send({
     alert: true,

@@ -14,7 +14,7 @@ export const taskSample = {
     type: "string",
     enum: [TaskStatus.DONE, TaskStatus.NOT_DONE],
     description: "Статус задачи",
-    example: TaskStatus.DONE,
+    example: TaskStatus.NOT_DONE,
   },
 } as const satisfies { [Property in string]: AppJSONSchema };
 

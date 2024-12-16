@@ -5,6 +5,7 @@ import { taskSample, taskSchema } from "./common.schemas";
 export const createTaskSchema = {
   tags: [SwaggerContract.ClientTag.TASKS],
   summary: "Создать новую задачу",
+  security: [{ Bearer: [] }],
   body: {
     type: "object",
     description: "Новая задача",

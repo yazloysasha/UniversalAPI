@@ -1,3 +1,4 @@
+import { RegularTask } from "../task";
 import { Session, User } from "@entities";
 
 export type RegularUser = Pick<
@@ -7,4 +8,5 @@ export type RegularUser = Pick<
 
 export type ExtendedUser = RegularUser & {
   sessions: Pick<Session, "id" | "createdAt" | "updatedAt">[];
+  tasks: RegularTask[];
 };

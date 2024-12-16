@@ -5,6 +5,7 @@ import { paramsWithTaskId, taskSample, taskSchema } from "./common.schemas";
 export const editTaskSchema = {
   tags: [SwaggerContract.ClientTag.TASKS],
   summary: "Отредактировать задачу",
+  security: [{ Bearer: [] }],
   params: paramsWithTaskId,
   body: {
     type: "object",

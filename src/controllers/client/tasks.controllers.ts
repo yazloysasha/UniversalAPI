@@ -21,6 +21,7 @@ import {
   replaceTasksHandler,
 } from "@handlers/client";
 import { AppFastifyRoute } from "@types";
+import { authPreHandler } from "@middleware";
 
 /**
  * Получение всех задач
@@ -29,6 +30,7 @@ export const getTasksController: AppFastifyRoute<GetTasksType> = {
   url: "/tasks",
   method: "GET",
   schema: getTasksSchema,
+  preHandler: authPreHandler(),
   handler: getTasksHandler,
 };
 
@@ -39,6 +41,7 @@ export const createTaskController: AppFastifyRoute<CreateTaskType> = {
   url: "/tasks",
   method: "POST",
   schema: createTaskSchema,
+  preHandler: authPreHandler(),
   handler: createTaskHandler,
 };
 
@@ -49,6 +52,7 @@ export const replaceTasksController: AppFastifyRoute<ReplaceTasksType> = {
   url: "/tasks",
   method: "PUT",
   schema: replaceTasksSchema,
+  preHandler: authPreHandler(),
   handler: replaceTasksHandler,
 };
 
@@ -59,6 +63,7 @@ export const getTaskController: AppFastifyRoute<GetTaskType> = {
   url: "/tasks/:taskId",
   method: "GET",
   schema: getTaskSchema,
+  preHandler: authPreHandler(),
   handler: getTaskHandler,
 };
 
@@ -69,6 +74,7 @@ export const editTaskController: AppFastifyRoute<EditTaskType> = {
   url: "/tasks/:taskId",
   method: "PATCH",
   schema: editTaskSchema,
+  preHandler: authPreHandler(),
   handler: editTaskHandler,
 };
 
@@ -79,5 +85,6 @@ export const deleteTaskController: AppFastifyRoute<DeleteTaskType> = {
   url: "/tasks/:taskId",
   method: "DELETE",
   schema: deleteTaskSchema,
+  preHandler: authPreHandler(),
   handler: deleteTaskHandler,
 };

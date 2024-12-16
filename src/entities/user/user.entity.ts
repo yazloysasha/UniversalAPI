@@ -6,6 +6,7 @@ import {
   UpdateDateColumn,
   PrimaryGeneratedColumn,
 } from "typeorm";
+import { Task } from "@entities/task";
 import { Session } from "./session.entity";
 
 export enum UserRole {
@@ -43,6 +44,12 @@ export class User {
    */
   @OneToMany(() => Session, (session) => session.user)
   sessions!: Session[];
+
+  /**
+   * Задачи пользователя
+   */
+  @OneToMany(() => Task, (task) => task.user)
+  tasks!: Task[];
 
   @CreateDateColumn()
   createdAt!: string;

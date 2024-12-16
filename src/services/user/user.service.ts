@@ -54,10 +54,27 @@ export class UserService {
       select: extended
         ? Object.fromEntries([
             ...this.regularAttributes.map((attribute) => [attribute, true]),
-            ["sessions", { id: true, createdAt: true, updatedAt: true }],
+            [
+              "sessions",
+              {
+                id: true,
+                createdAt: true,
+                updatedAt: true,
+              },
+            ],
+            [
+              "tasks",
+              {
+                id: true,
+                content: true,
+                status: true,
+                createdAt: true,
+                updatedAt: true,
+              },
+            ],
           ])
         : this.regularAttributes,
-      relations: extended ? ["sessions"] : [],
+      relations: extended ? ["sessions", "tasks"] : [],
     });
 
     if (!user) throw ApiError.notFound();

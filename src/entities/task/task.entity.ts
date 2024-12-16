@@ -1,10 +1,12 @@
 import {
   Entity,
   Column,
+  ManyToOne,
   CreateDateColumn,
   UpdateDateColumn,
   PrimaryGeneratedColumn,
 } from "typeorm";
+import { User } from "@entities/user";
 
 export enum TaskStatus {
   DONE = "Done",
@@ -30,6 +32,21 @@ export class Task {
    */
   @Column({ type: "enum", enum: TaskStatus })
   status!: TaskStatus;
+
+  /**
+   * Создатель задачи
+   */
+  @ManyToOne(() => User, (user) => user.tasks, {
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  })
+  user!: User;
+
+  /**
+   * Ссылка на создателя задачи
+   */
+  @Column()
+  userId!: string;
 
   @CreateDateColumn()
   createdAt!: string;

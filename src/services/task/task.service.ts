@@ -1,8 +1,7 @@
-import { RegularTask } from "@types";
 import { ApiError } from "@errors";
-import { IPagination } from "@types";
 import { Repository } from "typeorm";
 import { Task, TaskStatus } from "@entities";
+import { RegularTask, IPagination } from "@types";
 
 /**
  * Сервис для управления задачами
@@ -21,7 +20,13 @@ export class TaskService {
   /**
    * Получить все задачи
    */
-  async getTasks({ pagination }: { pagination: IPagination }): Promise<{
+  async getTasks({
+    userId,
+    pagination,
+  }: {
+    userId: string;
+    pagination: IPagination;
+  }): Promise<{
     totalSize: number;
     tasks: RegularTask[];
   }> {
@@ -31,6 +36,7 @@ export class TaskService {
         skip: pagination.skip,
         take: pagination.limit,
         select: this.regularAttributes,
+        where: { userId },
       }),
     ]);
 
@@ -44,28 +50,35 @@ export class TaskService {
    * Заменить задачи
    */
   async replaceTasks({
+    userId,
     tasks,
   }: {
+    userId: string;
     tasks: Pick<Task, "content" | "status">[];
   }): Promise<void> {
-    await this.taskRepository.delete({});
+    await this.taskRepository.delete({ userId });
 
-    await this.taskRepository.insert(tasks);
+    await this.taskRepository.insert(
+      tasks.map((task) => ({ ...task, userId }))
+    );
   }
 
   /**
    * Создать задачу
    */
   async createTask({
+    userId,
     content,
     status,
   }: {
+    userId: string;
     content: string;
     status: TaskStatus;
   }): Promise<RegularTask> {
     const task = this.taskRepository.create({
       content,
       status,
+      userId,
     });
 
     await this.taskRepository.insert(task);
@@ -76,9 +89,15 @@ export class TaskService {
   /**
    * Получить задачу
    */
-  async getTask({ taskId }: { taskId: string }): Promise<RegularTask> {
+  async getTask({
+    userId,
+    taskId,
+  }: {
+    userId: string;
+    taskId: string;
+  }): Promise<RegularTask> {
     const task = await this.taskRepository.findOne({
-      where: { id: taskId },
+      where: { id: taskId, userId },
       select: this.regularAttributes,
     });
 
@@ -91,10 +110,12 @@ export class TaskService {
    * Отредактировать задачу
    */
   async editTask({
+    userId,
     taskId,
     content,
     status,
   }: {
+    userId: string;
     taskId: string;
     content?: string;
     status?: TaskStatus;
@@ -103,7 +124,7 @@ export class TaskService {
       .createQueryBuilder()
       .update()
       .set({ content, status })
-      .where({ id: taskId })
+      .where({ id: taskId, userId })
       .returning(this.regularAttributes)
       .execute();
 
@@ -115,8 +136,14 @@ export class TaskService {
   /**
    * Удалить задачу
    */
-  async deleteTask({ taskId }: { taskId: string }): Promise<void> {
-    const result = await this.taskRepository.delete({ id: taskId });
+  async deleteTask({
+    userId,
+    taskId,
+  }: {
+    userId: string;
+    taskId: string;
+  }): Promise<void> {
+    const result = await this.taskRepository.delete({ id: taskId, userId });
 
     if (!result.affected) throw ApiError.notFound();
   }

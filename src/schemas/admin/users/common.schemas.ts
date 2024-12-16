@@ -1,5 +1,6 @@
 import { UserRole } from "@entities";
 import { SwaggerContract } from "@contracts";
+import { taskSchema } from "@schemas/client";
 import { AppJSONSchema, CustomFormat } from "@types";
 import { timestampsSample } from "@schemas/common.schemas";
 
@@ -38,7 +39,15 @@ export const userSchema = {
 
 export const extendedUserSchema = {
   type: "object",
-  required: ["id", "name", "role", "sessions", "createdAt", "updatedAt"],
+  required: [
+    "id",
+    "name",
+    "role",
+    "sessions",
+    "tasks",
+    "createdAt",
+    "updatedAt",
+  ],
   properties: {
     id: userIdSchema,
     ...userSample,
@@ -47,6 +56,7 @@ export const extendedUserSchema = {
       description: "Список активных сессий",
       items: {
         type: "object",
+        required: ["id", "createdAt", "updatedAt"],
         properties: {
           id: {
             type: "string",
@@ -57,6 +67,11 @@ export const extendedUserSchema = {
           ...timestampsSample,
         },
       },
+    },
+    tasks: {
+      type: "array",
+      description: "Список задач пользователя",
+      items: taskSchema,
     },
     ...timestampsSample,
   },
