@@ -7,8 +7,8 @@ import {
 } from "typeorm";
 
 export enum TaskStatus {
-  DONE = "DONE",
-  NOT_DONE = "NOT_DONE",
+  DONE = "Done",
+  NOT_DONE = "NotDone",
 }
 
 /**

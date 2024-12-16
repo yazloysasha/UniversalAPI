@@ -13,7 +13,5 @@ export const getTaskHandler: AppFastifyHandler<GetTaskType> = async (
     taskId: req.params.taskId,
   });
 
-  console.log(task);
-
   reply.code(SuccessCode.OK).send(task);
 };

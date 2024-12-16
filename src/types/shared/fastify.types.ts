@@ -7,12 +7,11 @@ import {
   RouteHandlerMethod,
   RouteGenericInterface,
   preHandlerHookHandler,
-  FastifyRequest,
 } from "fastify";
 import { StatusCodes } from "@types";
+import { Session, User } from "@entities";
 import { SwaggerContract } from "@contracts";
 import { IncomingMessage, ServerResponse } from "http";
-import { ResolveFastifyRequestType } from "fastify/types/type-provider";
 import { FromSchemaDefaultOptions, JSONSchema } from "json-schema-to-ts";
 import { JsonSchemaToTsProvider } from "@fastify/type-provider-json-schema-to-ts";
 
@@ -46,7 +45,7 @@ export type AppJSONSchema = JSONSchema & {
 };
 
 export interface AppFastifySchema extends FastifySchema {
-  tags?: SwaggerContract.ClientTag[];
+  tags?: SwaggerContract.AdminTag[] | SwaggerContract.ClientTag[];
   summary?: string;
   body?: AppJSONSchema;
   querystring?: AppJSONSchema;
@@ -92,14 +91,10 @@ export type AppFastifyHandler<SchemaType extends AppFastifySchema> =
     FastifyBaseLogger
   >;
 
-export interface IRequestSession {
-  id: string;
-  userId: string;
-}
-
 declare module "fastify" {
   interface FastifyRequest {
-    session?: IRequestSession;
+    session?: Session;
+    user?: User;
   }
 }
 

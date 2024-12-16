@@ -39,20 +39,6 @@ export class AuthService {
   }
 
   /**
-   * Получить ID пользователя по ID сессии
-   */
-  async getUserIdBySessionId({ sessionId }: { sessionId: string }) {
-    const session = await this.sessionRepository.findOne({
-      where: { id: sessionId },
-      select: ["userId"],
-    });
-
-    if (!session) throw ApiError.notFound();
-
-    return session.userId;
-  }
-
-  /**
    * Новая сессия и получение JWT
    */
   async newSession({ userId }: { userId: string }): Promise<string> {
@@ -63,6 +49,26 @@ export class AuthService {
     await this.sessionRepository.insert(session);
 
     return this.signJWT({ sessionId: session.id });
+  }
+
+  /**
+   * Получить сессию
+   */
+  async getSession({
+    sessionId,
+    extended = false,
+  }: {
+    sessionId: string;
+    extended?: boolean;
+  }): Promise<Session> {
+    const session = await this.sessionRepository.findOne({
+      where: { id: sessionId },
+      relations: extended ? ["user"] : [],
+    });
+
+    if (!session) throw ApiError.notFound();
+
+    return session;
   }
 
   /**

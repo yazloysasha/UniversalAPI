@@ -8,6 +8,10 @@ import {
 } from "typeorm";
 import { Session } from "./session.entity";
 
+export enum UserRole {
+  ADMINISTRATOR = "Administrator",
+}
+
 /**
  * Пользователь
  */
@@ -27,6 +31,12 @@ export class User {
    */
   @Column({ type: "text" })
   password!: string;
+
+  /**
+   * Роль пользователя
+   */
+  @Column({ type: "enum", enum: UserRole, nullable: true })
+  role!: UserRole | null;
 
   /**
    * Сессии пользователя

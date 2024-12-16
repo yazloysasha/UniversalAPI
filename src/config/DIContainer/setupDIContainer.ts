@@ -1,8 +1,13 @@
+import {
+  AuthService,
+  TaskService,
+  UserService,
+  AnalyticalService,
+} from "@services";
 import { di, appLogger } from "@config";
 import { asClass, asValue } from "awilix";
 import { Session, Task, User } from "@entities";
 import appDataSource from "@consts/appDataSource";
-import { AnalyticalService, AuthService, TaskService } from "@services";
 
 /**
  * Установить зависимости в DI-контейнере
@@ -25,6 +30,7 @@ export const setupDIContainer = (): void => {
 
     [AuthService.name]: asClass(AuthService).singleton(),
     [TaskService.name]: asClass(TaskService).singleton(),
+    [UserService.name]: asClass(UserService).singleton(),
     [AnalyticalService.name]: asClass(AnalyticalService).singleton(),
   });
 

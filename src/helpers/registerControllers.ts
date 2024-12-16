@@ -10,7 +10,7 @@ import {
 export const registerControllers = async (
   fastify: AppFastifyInstance,
   controllers: { [x: string]: AppFastifyRoute<any> },
-  commonPreHandler: AppFastifyPreHandler<any>[] = []
+  commonPreHandlers: AppFastifyPreHandler<any>[] = []
 ): Promise<void> => {
   for (const key in controllers) {
     if (!controllers[key].preHandler) {
@@ -19,7 +19,7 @@ export const registerControllers = async (
       controllers[key].preHandler = [controllers[key].preHandler];
     }
 
-    controllers[key].preHandler.push(...commonPreHandler);
+    controllers[key].preHandler.unshift(...commonPreHandlers);
 
     fastify.route(controllers[key]);
   }

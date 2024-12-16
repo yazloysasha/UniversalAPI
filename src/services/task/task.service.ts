@@ -1,31 +1,36 @@
-import { FullTask } from "@types";
+import { RegularTask } from "@types";
 import { ApiError } from "@errors";
 import { IPagination } from "@types";
+import { Repository } from "typeorm";
 import { Task, TaskStatus } from "@entities";
-import { DataSource, Repository } from "typeorm";
 
 /**
  * Сервис для управления задачами
  */
 export class TaskService {
-  constructor(
-    private appDataSource: DataSource,
-    private taskRepository: Repository<Task>
-  ) {}
+  constructor(private taskRepository: Repository<Task>) {}
+
+  private regularAttributes: (keyof Task)[] = [
+    "id",
+    "content",
+    "status",
+    "createdAt",
+    "updatedAt",
+  ];
 
   /**
    * Получить все задачи
    */
   async getTasks({ pagination }: { pagination: IPagination }): Promise<{
     totalSize: number;
-    tasks: FullTask[];
+    tasks: RegularTask[];
   }> {
-    const [totalSize, tasks]: [number, FullTask[]] = await Promise.all([
+    const [totalSize, tasks] = await Promise.all([
       this.taskRepository.count(),
       this.taskRepository.find({
         skip: pagination.skip,
         take: pagination.limit,
-        select: ["id", "content", "status"],
+        select: this.regularAttributes,
       }),
     ]);
 
@@ -41,7 +46,7 @@ export class TaskService {
   async replaceTasks({
     tasks,
   }: {
-    tasks: Omit<FullTask, "id">[];
+    tasks: Pick<Task, "content" | "status">[];
   }): Promise<void> {
     await this.taskRepository.delete({});
 
@@ -57,7 +62,7 @@ export class TaskService {
   }: {
     content: string;
     status: TaskStatus;
-  }): Promise<FullTask> {
+  }): Promise<RegularTask> {
     const task = this.taskRepository.create({
       content,
       status,
@@ -71,10 +76,10 @@ export class TaskService {
   /**
    * Получить задачу
    */
-  async getTask({ taskId }: { taskId: string }): Promise<FullTask> {
-    const task: FullTask | null = await this.taskRepository.findOne({
+  async getTask({ taskId }: { taskId: string }): Promise<RegularTask> {
+    const task = await this.taskRepository.findOne({
       where: { id: taskId },
-      select: ["id", "content", "status"],
+      select: this.regularAttributes,
     });
 
     if (!task) throw ApiError.notFound();
@@ -93,18 +98,18 @@ export class TaskService {
     taskId: string;
     content?: string;
     status?: TaskStatus;
-  }): Promise<FullTask> {
-    const result = await this.appDataSource
+  }): Promise<RegularTask> {
+    const result = await this.taskRepository
       .createQueryBuilder()
-      .update(Task)
+      .update()
       .set({ content, status })
       .where({ id: taskId })
-      .returning(["id", "content", "status"])
+      .returning(this.regularAttributes)
       .execute();
 
     if (!result.affected) throw ApiError.notFound();
 
-    return result.raw[0] as FullTask;
+    return result.raw[0];
   }
 
   /**

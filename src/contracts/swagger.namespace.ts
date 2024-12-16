@@ -26,7 +26,9 @@ export namespace SwaggerContract {
   /**
    * Тег для документации Admin API
    */
-  export enum AdminTag {}
+  export enum AdminTag {
+    USERS = "Users",
+  }
 
   /**
    * Описания для кодов ответа REST API
@@ -284,7 +286,10 @@ export namespace SwaggerContract {
           version: "1.0.0",
         };
 
-        openapi.tags!.push();
+        openapi.tags!.push({
+          name: SwaggerContract.AdminTag.USERS,
+          description: "Маршруты для управления пользователями",
+        });
         break;
 
       case "client":

@@ -1,3 +1,4 @@
+import { authPreHandler } from "@middleware";
 import { registerControllers } from "@helpers";
 import { AppFastifyInstance, FastifyRoutes } from "@types";
 
@@ -10,10 +11,11 @@ export const setupFastifyRoutes = async (
 ): Promise<void> => {
   switch (routes) {
     case "admin":
-      break;
+      return registerControllers(fastify, require("@controllers/admin"), [
+        authPreHandler({ extended: true }),
+      ]);
 
     case "client":
-      registerControllers(fastify, require("@controllers/client"));
-      break;
+      return registerControllers(fastify, require("@controllers/client"));
   }
 };

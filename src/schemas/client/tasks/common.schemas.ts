@@ -1,6 +1,7 @@
 import { TaskStatus } from "@entities";
 import { SwaggerContract } from "@contracts";
 import { AppJSONSchema, CustomFormat } from "@types";
+import { timestampsSample } from "@schemas/common.schemas";
 
 export const taskSample = {
   content: {
@@ -19,7 +20,7 @@ export const taskSample = {
 
 export const taskSchema = {
   type: "object",
-  required: ["id", "content", "status"],
+  required: ["id", "content", "status", "createdAt", "updatedAt"],
   properties: {
     id: {
       type: "string",
@@ -28,6 +29,7 @@ export const taskSchema = {
       example: SwaggerContract.UUIDExample,
     },
     ...taskSample,
+    ...timestampsSample,
   },
 } as const satisfies AppJSONSchema;
 
@@ -38,6 +40,7 @@ export const paramsWithTaskId = {
     taskId: {
       type: "string",
       format: CustomFormat.UUID,
+      description: "ID задачи",
       example: SwaggerContract.UUIDExample,
     },
   },

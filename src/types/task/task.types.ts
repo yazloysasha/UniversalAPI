@@ -1,3 +1,6 @@
 import { Task } from "@entities";
 
-export type FullTask = Pick<Task, "id" | "content" | "status">;
+export type RegularTask = Pick<
+  Task,
+  "id" | "content" | "status" | "createdAt" | "updatedAt"
+>;

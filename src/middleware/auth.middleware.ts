@@ -6,8 +6,10 @@ import { AppFastifySchema, AppFastifyPreHandler } from "@types";
 export const authPreHandler =
   <SchemaType extends AppFastifySchema>({
     required = true,
+    extended = false,
   }: {
     required?: boolean;
+    extended?: boolean;
   } = {}): AppFastifyPreHandler<SchemaType> =>
   async (req, reply) => {
     try {
@@ -36,10 +38,12 @@ export const authPreHandler =
 
       const { sessionId } = payload as { sessionId: string };
 
-      const userId = await authService.getUserIdBySessionId({ sessionId });
+      req.session = await authService.getSession({ sessionId, extended });
 
-      req.session = { id: sessionId, userId };
+      if (extended) {
+        req.user = req.session.user;
+      }
     } catch {
-      if (required) throw ApiError.unAuth();
+      if (required) throw ApiError.unAuth({ msg: "Требуется авторизация" });
     }
   };
