@@ -10,6 +10,8 @@ export const parseConfig = (): IAppConfig => {
     ENABLED_MODULES,
     ENABLED_FASTIFY_ROUTES,
     ENABLED_QUEUE_TASKS,
+    BCRYPT_ROUNDS_COUNT,
+    JWT_SECRET_KEY,
     POSTGRESQL_URL,
     MONGODB_URL,
     REDIS_URL,
@@ -34,6 +36,8 @@ export const parseConfig = (): IAppConfig => {
     ENABLED_QUEUE_TASKS: ENABLED_QUEUE_TASKS
       ? ENABLED_QUEUE_TASKS.split(",")
       : [],
+    BCRYPT_ROUNDS_COUNT: BCRYPT_ROUNDS_COUNT ? Number(BCRYPT_ROUNDS_COUNT) : 8,
+    JWT_SECRET_KEY,
     POSTGRESQL_URL,
     MONGODB_URL,
     REDIS_URL,

@@ -1,4 +1,12 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Entity,
+  Column,
+  OneToMany,
+  CreateDateColumn,
+  UpdateDateColumn,
+  PrimaryGeneratedColumn,
+} from "typeorm";
+import { Session } from "./session.entity";
 
 /**
  * Пользователь
@@ -11,18 +19,24 @@ export class User {
   /**
    * Имя
    */
-  @Column({
-    type: "text",
-    nullable: false,
-  })
+  @Column({ type: "text", unique: true })
   name!: string;
 
   /**
    * Зашифрованный пароль
    */
-  @Column({
-    type: "text",
-    nullable: false,
-  })
+  @Column({ type: "text" })
   password!: string;
+
+  /**
+   * Сессии пользователя
+   */
+  @OneToMany(() => Session, (session) => session.user)
+  sessions!: Session[];
+
+  @CreateDateColumn()
+  createdAt!: string;
+
+  @UpdateDateColumn()
+  updatedAt!: string;
 }

@@ -1,4 +1,10 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Entity,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 
 export enum TaskStatus {
   DONE = "DONE",
@@ -16,19 +22,18 @@ export class Task {
   /**
    * Описание
    */
-  @Column({
-    type: "text",
-    nullable: false,
-  })
+  @Column({ type: "text" })
   content!: string;
 
   /**
    * Статус
    */
-  @Column({
-    type: "enum",
-    enum: TaskStatus,
-    nullable: false,
-  })
+  @Column({ type: "enum", enum: TaskStatus })
   status!: TaskStatus;
+
+  @CreateDateColumn()
+  createdAt!: string;
+
+  @UpdateDateColumn()
+  updatedAt!: string;
 }

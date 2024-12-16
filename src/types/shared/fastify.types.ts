@@ -7,11 +7,13 @@ import {
   RouteHandlerMethod,
   RouteGenericInterface,
   preHandlerHookHandler,
+  FastifyRequest,
 } from "fastify";
 import { StatusCodes } from "@types";
 import { SwaggerContract } from "@contracts";
-import { JSONSchema } from "json-schema-to-ts";
 import { IncomingMessage, ServerResponse } from "http";
+import { ResolveFastifyRequestType } from "fastify/types/type-provider";
+import { FromSchemaDefaultOptions, JSONSchema } from "json-schema-to-ts";
 import { JsonSchemaToTsProvider } from "@fastify/type-provider-json-schema-to-ts";
 
 export type AppFastifyInstance = FastifyInstance<
@@ -44,8 +46,8 @@ export type AppJSONSchema = JSONSchema & {
 };
 
 export interface AppFastifySchema extends FastifySchema {
-  tags: SwaggerContract.ClientTag[];
-  summary: string;
+  tags?: SwaggerContract.ClientTag[];
+  summary?: string;
   body?: AppJSONSchema;
   querystring?: AppJSONSchema;
   params?: AppJSONSchema;
@@ -62,7 +64,7 @@ export type AppFastifyRoute<SchemaType extends AppFastifySchema> = RouteOptions<
   RouteGenericInterface,
   unknown,
   SchemaType,
-  JsonSchemaToTsProvider,
+  JsonSchemaToTsProvider<FromSchemaDefaultOptions>,
   FastifyBaseLogger
 >;
 
@@ -74,7 +76,7 @@ export type AppFastifyPreHandler<SchemaType extends AppFastifySchema> =
     RouteGenericInterface,
     unknown,
     SchemaType,
-    JsonSchemaToTsProvider,
+    JsonSchemaToTsProvider<FromSchemaDefaultOptions>,
     FastifyBaseLogger
   >;
 
@@ -86,8 +88,31 @@ export type AppFastifyHandler<SchemaType extends AppFastifySchema> =
     RouteGenericInterface,
     unknown,
     SchemaType,
-    JsonSchemaToTsProvider,
+    JsonSchemaToTsProvider<FromSchemaDefaultOptions>,
     FastifyBaseLogger
   >;
+
+export type AppFastifyRequest<SchemaType extends AppFastifySchema> =
+  FastifyRequest<
+    RouteGenericInterface,
+    RawServerDefault,
+    IncomingMessage,
+    SchemaType,
+    JsonSchemaToTsProvider<FromSchemaDefaultOptions>,
+    unknown,
+    FastifyBaseLogger,
+    ResolveFastifyRequestType<
+      JsonSchemaToTsProvider<FromSchemaDefaultOptions>,
+      SchemaType,
+      RouteGenericInterface
+    >
+  > & {
+    session?: IRequestSession;
+  };
+
+export interface IRequestSession {
+  id: string;
+  userId: string;
+}
 
 export type FastifyRoutes = "admin" | "client";

@@ -13,9 +13,13 @@ export const registerControllers = async (
   commonPreHandler: AppFastifyPreHandler<any>[] = []
 ): Promise<void> => {
   for (const key in controllers) {
-    if (Array.isArray(controllers[key].preHandler)) {
-      controllers[key].preHandler.push(...commonPreHandler);
+    if (!controllers[key].preHandler) {
+      controllers[key].preHandler = [];
+    } else if (!Array.isArray(controllers[key].preHandler)) {
+      controllers[key].preHandler = [controllers[key].preHandler];
     }
+
+    controllers[key].preHandler.push(...commonPreHandler);
 
     fastify.route(controllers[key]);
   }

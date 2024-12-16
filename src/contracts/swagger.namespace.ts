@@ -19,6 +19,7 @@ export namespace SwaggerContract {
    * Тег для документации Client API
    */
   export enum ClientTag {
+    AUTH = "Auth",
     TASKS = "Tasks",
   }
 
@@ -262,36 +263,56 @@ export namespace SwaggerContract {
   export const GetConfig = (
     routes: FastifyRoutes
   ): FastifyDynamicSwaggerOptions => {
-    const swagger: FastifyDynamicSwaggerOptions["swagger"] = {
-      consumes: ["application/json", "text/xml"],
-      produces: ["application/json", "text/xml"],
+    const openapi: FastifyDynamicSwaggerOptions["openapi"] = {
+      openapi: "3.0.0",
       tags: [],
+      components: {
+        securitySchemes: {
+          Bearer: {
+            type: "http",
+            scheme: "bearer",
+            bearerFormat: "JWT",
+          },
+        },
+      },
     };
 
     switch (routes) {
       case "admin":
-        swagger.info = {
+        openapi.info = {
           title: "Admin API",
           version: "1.0.0",
         };
 
-        swagger.tags!.push();
+        openapi.tags!.push();
         break;
 
       case "client":
-        swagger.info = {
+        openapi.info = {
           title: "Client API",
           version: "1.0.0",
         };
 
-        swagger.tags!.push({
-          name: SwaggerContract.ClientTag.TASKS,
-          description: "Маршруты для работы с задачами",
-        });
+        openapi.tags!.push(
+          {
+            name: SwaggerContract.ClientTag.AUTH,
+            description: "Маршруты для авторизации",
+          },
+          {
+            name: SwaggerContract.ClientTag.TASKS,
+            description: "Маршруты для работы с задачами",
+          }
+        );
         break;
     }
 
-    return { swagger };
+    return {
+      swagger: {
+        consumes: ["application/json", "text/xml"],
+        produces: ["application/json", "text/xml"],
+      },
+      openapi,
+    };
   };
 
   export const ConfigUi: FastifySwaggerUiOptions = {

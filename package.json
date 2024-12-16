@@ -8,9 +8,10 @@
     "pre-start": "cross-env ENV=production node build/main.js",
     "start": "cross-env ENV=production node dist/main.js",
     "deploy": "git pull && node ./scripts/deploy.js",
-    "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli -d src/consts/appDataSource.ts",
+    "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli -d ./src/consts/appDataSource.ts",
     "migration:generate": "npm run typeorm migration:generate ./src/migrations/migration",
     "migration:run": "npm run typeorm migration:run",
+    "migration:revert": "npm run typeorm migration:revert",
     "schema:sync": "npm run typeorm schema:sync",
     "schema:log": "npm run typeorm schema:log"
   },
@@ -24,6 +25,7 @@
     "ajv-errors": "^3.0.0",
     "awilix": "^11.0.0",
     "awilix-manager": "^5.5.0",
+    "bcrypt": "^5.1.1",
     "chalk": "4.1.2",
     "cross-env": "^7.0.3",
     "dotenv": "^16.4.5",
@@ -39,6 +41,7 @@
     "winston": "^3.14.2"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/jsonwebtoken": "^9.0.7",
     "@types/node": "^22.10.2",
     "ts-node": "10.9.2",

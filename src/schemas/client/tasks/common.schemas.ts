@@ -5,6 +5,7 @@ import { AppJSONSchema, CustomFormat } from "@types";
 export const taskSample = {
   content: {
     type: "string",
+    minLength: 1,
     description: "Текст задачи",
     example: "Сделать API для проекта",
   },

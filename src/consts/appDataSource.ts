@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
-import { Task, User } from "@entities";
 import appConfig from "@consts/appConfig";
+import { Session, Task, User } from "@entities";
 
 /**
  * Ресурсы для операционной базы данных
@@ -9,11 +9,11 @@ import appConfig from "@consts/appConfig";
 export default new DataSource({
   type: "postgres",
   url: appConfig.POSTGRESQL_URL,
-  entities: [Task, User],
+  entities: [Task, User, Session],
   migrations: [
-    appConfig.ENV === "development"
-      ? "./src/migrations/*.ts"
-      : "./build/migrations/*.js",
+    appConfig.ENV === "production"
+      ? "./dist/migrations/*.js"
+      : "./src/migrations/*.ts",
   ],
   synchronize: false,
 });

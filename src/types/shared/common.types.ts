@@ -12,6 +12,8 @@ export interface IAppConfig {
   ENABLED_MODULES: Module[];
   ENABLED_FASTIFY_ROUTES: { [x in FastifyRoutes]?: number };
   ENABLED_QUEUE_TASKS: string[];
+  BCRYPT_ROUNDS_COUNT: number;
+  JWT_SECRET_KEY?: string;
   POSTGRESQL_URL?: string;
   MONGODB_URL?: string;
   REDIS_URL?: string;

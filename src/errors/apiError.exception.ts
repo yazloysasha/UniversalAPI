@@ -10,7 +10,8 @@ export class ApiError extends Error {
   constructor(
     public statusCode: StatusCodes,
     public message: string,
-    public alert: boolean
+    public alert: boolean,
+    public name = "ApiError"
   ) {
     super(message);
   }
