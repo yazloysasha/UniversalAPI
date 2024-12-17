@@ -1,8 +1,9 @@
+import { hash } from "@utils";
 import { ApiError } from "@errors";
 import { Repository } from "typeorm";
+import { compareSync } from "bcrypt";
 import { Session, User } from "@entities";
 import appConfig from "@consts/appConfig";
-import { hashSync, compareSync } from "bcrypt";
 import { JwtPayload, sign, verify } from "jsonwebtoken";
 
 /**
@@ -13,13 +14,6 @@ export class AuthService {
     private userRepository: Repository<User>,
     private sessionRepository: Repository<Session>
   ) {}
-
-  /**
-   * Захешировать значение
-   */
-  hash(value: string): string {
-    return hashSync(value, appConfig.BCRYPT_ROUNDS_COUNT);
-  }
 
   /**
    * Получить JWT
@@ -91,7 +85,7 @@ export class AuthService {
     try {
       const user = this.userRepository.create({
         name,
-        password: this.hash(password),
+        password: hash(password),
       });
 
       await this.userRepository.insert(user);
