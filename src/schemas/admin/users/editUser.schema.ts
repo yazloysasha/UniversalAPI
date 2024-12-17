@@ -4,12 +4,12 @@ import { paramsWithUserId, userSample, userSchema } from "./common.schemas";
 
 export const editUserSchema = {
   tags: [SwaggerContract.AdminTag.USERS],
-  summary: "Отредактировать пользователя",
+  summary: "Edit a user",
   security: [{ Bearer: [] }],
   params: paramsWithUserId,
   body: {
     type: "object",
-    description: "Редактируемые поля",
+    description: "Editable attributes",
     properties: userSample,
   },
   response: {
@@ -26,7 +26,7 @@ export const editUserSchema = {
           example: "Успешно сохранено",
         },
         user: {
-          description: "Отредактированный пользователь",
+          description: "Edited user",
           ...userSchema,
         },
       },

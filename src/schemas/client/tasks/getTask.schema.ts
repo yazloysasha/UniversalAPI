@@ -4,12 +4,12 @@ import { AppFastifySchema, ClientErrorCode, SuccessCode } from "@types";
 
 export const getTaskSchema = {
   tags: [SwaggerContract.ClientTag.TASKS],
-  summary: "Получить задачу",
+  summary: "Get one task",
   security: [{ Bearer: [] }],
   params: paramsWithTaskId,
   response: {
     [SuccessCode.OK]: {
-      description: "Задача",
+      description: "Task",
       ...taskSchema,
     },
     [ClientErrorCode.NOT_FOUND]: SwaggerContract.ClientErrorResponseFactory(

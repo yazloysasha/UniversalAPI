@@ -4,7 +4,7 @@ import { User, UserRole } from "@entities";
 import { ExtendedUser, IPagination, RegularUser } from "@types";
 
 /**
- * Сервис для работы с пользователями
+ * Service for working with users
  */
 export class UserService {
   constructor(private userRepository: Repository<User>) {}
@@ -17,9 +17,6 @@ export class UserService {
     "updatedAt",
   ];
 
-  /**
-   * Получить всех пользователей
-   */
   async getUsers({ pagination }: { pagination: IPagination }): Promise<{
     totalSize: number;
     users: RegularUser[];
@@ -39,9 +36,6 @@ export class UserService {
     };
   }
 
-  /**
-   * Получить пользователя
-   */
   async getUser({
     userId,
     extended = false,
@@ -82,9 +76,6 @@ export class UserService {
     return user;
   }
 
-  /**
-   * Отредактировать пользователя
-   */
   async editUser({
     userId,
     name,

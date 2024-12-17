@@ -11,20 +11,20 @@ import appDataSource from "@consts/appDataSource";
 import { di, appLogger, RedisClient } from "@config";
 
 /**
- * Установить зависимости в DI-контейнере
+ * Setup dependencies in DI container
  */
 export const setupDIContainer = (): void => {
-  appLogger.info("Установка зависимостей...");
+  appLogger.info("Injecting dependencies...");
 
   /**
-   * Таблицы операционной базы данных
+   * Operational database tables
    */
   const taskRepository = appDataSource.getRepository(Task);
   const userRepository = appDataSource.getRepository(User);
   const sessionRepository = appDataSource.getRepository(Session);
 
   /**
-   * Кэширующая база данных
+   * Caching database client
    */
   const redisClient = RedisClient.getInstance();
 
@@ -43,5 +43,5 @@ export const setupDIContainer = (): void => {
     [AnalyticalService.name]: asClass(AnalyticalService).singleton(),
   });
 
-  appLogger.verbose("Зависимости установлены");
+  appLogger.verbose("Dependencies are injected");
 };

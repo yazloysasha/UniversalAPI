@@ -29,6 +29,6 @@ class DI {
 }
 
 /**
- * DI-контейнер
+ * Dependency injection container
  */
 export const di = DI.getInstance();

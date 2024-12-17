@@ -4,7 +4,7 @@ import { AppFastifySchema, ClientErrorCode, SuccessCode } from "@types";
 
 export const deleteTaskSchema = {
   tags: [SwaggerContract.ClientTag.TASKS],
-  summary: "Удалить задачу",
+  summary: "Delete a task",
   security: [{ Bearer: [] }],
   params: paramsWithTaskId,
   response: {
@@ -22,7 +22,7 @@ export const deleteTaskSchema = {
         },
         taskId: {
           type: "string",
-          description: "ID удалённой задачи",
+          description: "Remote task ID",
           example: SwaggerContract.UUIDExample,
         },
       },

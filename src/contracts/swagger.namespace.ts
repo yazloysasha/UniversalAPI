@@ -11,12 +11,9 @@ import {
 import { FastifySwaggerUiOptions } from "@fastify/swagger-ui";
 import { FastifyDynamicSwaggerOptions } from "@fastify/swagger";
 
-/**
- * Инструкции для сваггера
- */
 export namespace SwaggerContract {
   /**
-   * Тег для документации Client API
+   * Tag for Client API documentation
    */
   export enum ClientTag {
     AUTH = "Auth",
@@ -24,14 +21,14 @@ export namespace SwaggerContract {
   }
 
   /**
-   * Тег для документации Admin API
+   * Tag for Admin API documentation
    */
   export enum AdminTag {
     USERS = "Users",
   }
 
   /**
-   * Описания для кодов ответа REST API
+   * Descriptions for REST API response codes
    */
   export const CodeDescriptions = {
     [InformationalCode.CONTINUE]: "Продолжайте",
@@ -121,18 +118,11 @@ export namespace SwaggerContract {
     [Property in StatusCodes]: string;
   };
 
-  /**
-   * Пример UUID
-   */
   export const UUIDExample = "3fa85f64-5717-4562-b3fc-2c963f66afa6";
-
-  /**
-   * Пример Mongoose ID
-   */
   export const MongooseIDExample = "66f271c7e1ab2c1ef584e7ec";
 
   /**
-   * Схема запроса со включенной пагинацией
+   * Query schema with pagination enabled
    */
   export const EnablePaginationSchema = {
     type: "object",
@@ -141,7 +131,7 @@ export namespace SwaggerContract {
         type: "integer",
         minimum: 0,
         default: 0,
-        description: "Сколько элементов необходимо пропустить",
+        description: "How many elements need to be skipped",
         example: 0,
       },
       limit: {
@@ -149,35 +139,35 @@ export namespace SwaggerContract {
         minimum: 1,
         maximum: 100,
         default: 100,
-        description: "Максимальное количество элементов",
+        description: "Maximum count of elements",
         example: 100,
       },
     },
   } as const satisfies AppJSONSchema;
 
   /**
-   * Схема для ответа на запрос с действием
+   * Schema for responding to a request with an action
    */
   export const ActionResponseSchema = {
     type: "object",
     required: ["alert", "message"],
-    description: "Ответ на действие",
+    description: "Response to action",
     properties: {
       alert: {
         type: "boolean",
-        description: "Нужно ли показывать уведомление пользователю",
+        description: "Should the notification be shown to the user",
         example: true,
       },
       message: {
         type: "string",
-        description: "Сообщение для уведомления",
+        description: "Message for notification",
         example: "Успешно сохранено",
       },
     },
   } as const satisfies AppJSONSchema;
 
   /**
-   * Тип схемы для ответа на запрос с действием
+   * Schema type for response to request with action
    */
   export type ActionResponseType = {
     type: "object";
@@ -199,28 +189,28 @@ export namespace SwaggerContract {
   };
 
   /**
-   * Схема для ответа на запрос с пагинацией
+   * Schema for responding a query with pagination
    */
   export const PaginatedResponseSchema = {
     type: "object",
     required: ["totalSize", "items"],
-    description: "Ответ на запрос",
+    description: "Reply to request",
     properties: {
       totalSize: {
         type: "integer",
-        description: "Количество всех элементов",
+        description: "Count of all elements",
         example: 128,
       },
       items: {
         type: "array",
-        description: "Элементы множества",
-        // "items" заполняет разработчик
+        description: "Elements of array",
+        // "items" writed by the developer
       },
     },
   } as const satisfies AppJSONSchema;
 
   /**
-   * Тип схемы для ответа на запрос с пагинацией
+   * Schema type for responding a query with pagination
    */
   export type PaginatedResponseType = {
     type: "object";
@@ -242,7 +232,7 @@ export namespace SwaggerContract {
   };
 
   /**
-   * Получить схему для ответа с ошибкой
+   * Get the schema for the response with the error
    */
   export const ClientErrorResponseFactory = (
     clientErrorCode: ClientErrorCode
@@ -250,12 +240,12 @@ export namespace SwaggerContract {
     return {
       type: ActionResponseSchema.type,
       required: ActionResponseSchema.required,
-      description: "Ответ на запрос с ошибкой",
+      description: "Response to request with error",
       properties: {
         alert: ActionResponseSchema.properties.alert,
         message: {
           type: ActionResponseSchema.properties.message.type,
-          description: "Описание ошибки",
+          description: "Error description",
           example: CodeDescriptions[clientErrorCode],
         },
       },
@@ -288,7 +278,7 @@ export namespace SwaggerContract {
 
         openapi.tags!.push({
           name: SwaggerContract.AdminTag.USERS,
-          description: "Маршруты для управления пользователями",
+          description: "Routes for user management",
         });
         break;
 
@@ -301,11 +291,11 @@ export namespace SwaggerContract {
         openapi.tags!.push(
           {
             name: SwaggerContract.ClientTag.AUTH,
-            description: "Маршруты для авторизации",
+            description: "Authorization routes",
           },
           {
             name: SwaggerContract.ClientTag.TASKS,
-            description: "Маршруты для работы с задачами",
+            description: "Routes for working with tasks",
           }
         );
         break;

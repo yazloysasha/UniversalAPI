@@ -4,7 +4,7 @@ import appConfig from "@consts/appConfig";
 import { Session, Task, User } from "@entities";
 
 /**
- * Ресурсы для операционной базы данных
+ * Resources for operational database
  */
 export default new DataSource({
   type: "postgres",

@@ -1,7 +1,7 @@
 import { parseConfig } from "@utils";
 
 /**
- * Конфигурация проекта
+ * Main configuration of the project
  */
 const appConfig = parseConfig();
 

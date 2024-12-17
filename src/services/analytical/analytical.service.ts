@@ -4,14 +4,11 @@ import { ErrorLog, RequestLog } from "@models";
 import { IErrorLog, IRequestLog } from "@types";
 
 /**
- * Сервис для сбора аналитики
+ * Analytics collection service
  */
 export class AnalyticalService {
   private enabled = appConfig.ENABLED_MODULES.includes("analytics");
 
-  /**
-   * Создать лог об ошибке
-   */
   async createErrorLog(data: IErrorLog): Promise<void> {
     if (!this.enabled) {
       appLogger.error(`${data.name}: ${data.message || "???"}`);
@@ -22,15 +19,12 @@ export class AnalyticalService {
     try {
       await ErrorLog.create(data);
     } catch (err) {
-      appLogger.error("Не удалось создать отчёт об ошибке");
+      appLogger.error("Failed to create error report");
 
       console.error(err);
     }
   }
 
-  /**
-   * Создать лог о запросе
-   */
   async createRequestLog(data: IRequestLog): Promise<void> {
     if (!this.enabled) {
       return appLogger.requestInfo(data);

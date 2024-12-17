@@ -3,7 +3,7 @@ import { AppFastifySchema, ClientErrorCode, SuccessCode } from "@types";
 
 export const logoutSchema = {
   tags: [SwaggerContract.ClientTag.AUTH],
-  summary: "Выйти из аккаунта",
+  summary: "Logout from account",
   security: [{ Bearer: [] }],
   response: {
     [SuccessCode.OK]: {

@@ -4,19 +4,19 @@ import { AppFastifySchema, SuccessCode } from "@types";
 
 export const getTasksSchema = {
   tags: [SwaggerContract.ClientTag.TASKS],
-  summary: "Получить список задач",
+  summary: "Get list of all tasks",
   security: [{ Bearer: [] }],
   querystring: SwaggerContract.EnablePaginationSchema,
   response: {
     [SuccessCode.OK]: {
       type: "object",
-      description: "Ответ на запрос",
+      description: "Reply to request",
       required: ["totalSize", "items"],
       properties: {
         totalSize: SwaggerContract.PaginatedResponseSchema.properties.totalSize,
         items: {
           type: "array",
-          description: "Задачи",
+          description: "Tasks",
           items: taskSchema,
         },
       },

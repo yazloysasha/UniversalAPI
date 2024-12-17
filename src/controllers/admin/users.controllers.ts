@@ -16,7 +16,7 @@ import { AppFastifyRoute } from "@types";
 import { verifyPreHandler } from "@middleware";
 
 /**
- * Получение всех пользователей
+ * Get all users
  */
 export const getUsersController: AppFastifyRoute<GetUsersType> = {
   url: "/users",
@@ -27,7 +27,7 @@ export const getUsersController: AppFastifyRoute<GetUsersType> = {
 };
 
 /**
- * Получение одного пользователя
+ * Get one user
  */
 export const getUserController: AppFastifyRoute<GetUserType> = {
   url: "/users/:userId",
@@ -38,7 +38,7 @@ export const getUserController: AppFastifyRoute<GetUserType> = {
 };
 
 /**
- * Редактирование пользователя
+ * Edit a user
  */
 export const editUserController: AppFastifyRoute<EditUserType> = {
   url: "/users/:userId",

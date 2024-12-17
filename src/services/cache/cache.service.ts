@@ -4,7 +4,7 @@ import { isAsyncFunction } from "util/types";
 import { RedisService } from "./redis.service";
 
 /**
- * Сервис для работы с кэшем
+ * Service for working with cache
  */
 export class CacheService extends RedisService {
   constructor(redisClient: Redis) {
@@ -12,7 +12,7 @@ export class CacheService extends RedisService {
   }
 
   /**
-   * Получить или установить значение
+   * Get or set a value in the cache
    */
   async getOrSet<ValueType = boolean | number | string | object>({
     item,
@@ -24,10 +24,10 @@ export class CacheService extends RedisService {
     const value = await this.get<ValueType>(item);
     if (value) return value;
 
-    // Выполнить функцию, которую указали для обновления кэша
+    // Execute the function you specified to update the cache
     const newValue = isAsyncFunction(func) ? await func() : func();
 
-    // Обновить значение в кэше
+    // Update value in cache
     await this.set(item, newValue);
 
     return newValue;

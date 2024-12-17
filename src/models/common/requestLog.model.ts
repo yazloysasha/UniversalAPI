@@ -9,19 +9,17 @@ import { model, Schema } from "mongoose";
 
 const requestLogSchema = new Schema(
   {
-    // Метод запроса
     method: {
       type: String,
       required: true,
     },
 
-    // URL запроса
     url: {
       type: String,
       required: true,
     },
 
-    // Код ответа
+    // Response code
     statusCode: {
       type: Number,
       enum: Object.values({
@@ -34,7 +32,7 @@ const requestLogSchema = new Schema(
       required: true,
     },
 
-    // Длительность запроса (в миллисекундах)
+    // Request duration (in milliseconds)
     duration: {
       type: Number,
       required: true,
@@ -46,6 +44,6 @@ const requestLogSchema = new Schema(
 );
 
 /**
- * Лог всех запросов
+ * Log of all requests
  */
 export const RequestLog = model("RequestLog", requestLogSchema);

@@ -4,12 +4,12 @@ import { AppFastifySchema, ClientErrorCode, SuccessCode } from "@types";
 
 export const getUserSchema = {
   tags: [SwaggerContract.AdminTag.USERS],
-  summary: "Получить пользователя",
+  summary: "Get one user",
   security: [{ Bearer: [] }],
   params: paramsWithUserId,
   response: {
     [SuccessCode.OK]: {
-      description: "Пользователь",
+      description: "User",
       ...extendedUserSchema,
     },
     [ClientErrorCode.NOT_FOUND]: SwaggerContract.ClientErrorResponseFactory(

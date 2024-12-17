@@ -7,13 +7,13 @@ export const taskSample = {
   content: {
     type: "string",
     minLength: 1,
-    description: "Текст задачи",
-    example: "Сделать API для проекта",
+    description: "Text of the task",
+    example: "Make an API for the project",
   },
   status: {
     type: "string",
     enum: [TaskStatus.DONE, TaskStatus.NOT_DONE],
-    description: "Статус задачи",
+    description: "Task status",
     example: TaskStatus.NOT_DONE,
   },
 } as const satisfies { [Property in string]: AppJSONSchema };
@@ -25,7 +25,7 @@ export const taskSchema = {
     id: {
       type: "string",
       format: CustomFormat.UUID,
-      description: "ID задачи",
+      description: "Task ID",
       example: SwaggerContract.UUIDExample,
     },
     ...taskSample,
@@ -40,7 +40,7 @@ export const paramsWithTaskId = {
     taskId: {
       type: "string",
       format: CustomFormat.UUID,
-      description: "ID задачи",
+      description: "Task ID",
       example: SwaggerContract.UUIDExample,
     },
   },

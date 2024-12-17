@@ -4,7 +4,7 @@ import { Task, TaskStatus } from "@entities";
 import { RegularTask, IPagination } from "@types";
 
 /**
- * Сервис для управления задачами
+ * Task management service
  */
 export class TaskService {
   constructor(private taskRepository: Repository<Task>) {}
@@ -17,9 +17,6 @@ export class TaskService {
     "updatedAt",
   ];
 
-  /**
-   * Получить все задачи
-   */
   async getTasks({
     userId,
     pagination,
@@ -46,9 +43,6 @@ export class TaskService {
     };
   }
 
-  /**
-   * Заменить задачи
-   */
   async replaceTasks({
     userId,
     tasks,
@@ -63,9 +57,6 @@ export class TaskService {
     );
   }
 
-  /**
-   * Создать задачу
-   */
   async createTask({
     userId,
     content,
@@ -86,9 +77,6 @@ export class TaskService {
     return task;
   }
 
-  /**
-   * Получить задачу
-   */
   async getTask({
     userId,
     taskId,
@@ -106,9 +94,6 @@ export class TaskService {
     return task;
   }
 
-  /**
-   * Отредактировать задачу
-   */
   async editTask({
     userId,
     taskId,
@@ -133,9 +118,6 @@ export class TaskService {
     return result.raw[0];
   }
 
-  /**
-   * Удалить задачу
-   */
   async deleteTask({
     userId,
     taskId,

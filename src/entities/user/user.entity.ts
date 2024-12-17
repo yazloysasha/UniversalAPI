@@ -13,40 +13,31 @@ export enum UserRole {
   ADMINISTRATOR = "Administrator",
 }
 
-/**
- * Пользователь
- */
 @Entity()
 export class User {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 
-  /**
-   * Имя
-   */
   @Column({ type: "text", unique: true })
   name!: string;
 
   /**
-   * Зашифрованный пароль
+   * Encrypted password
    */
   @Column({ type: "text" })
   password!: string;
 
-  /**
-   * Роль пользователя
-   */
   @Column({ type: "enum", enum: UserRole, nullable: true })
   role!: UserRole | null;
 
   /**
-   * Сессии пользователя
+   * User sessions
    */
   @OneToMany(() => Session, (session) => session.user)
   sessions!: Session[];
 
   /**
-   * Задачи пользователя
+   * User tasks
    */
   @OneToMany(() => Task, (task) => task.user)
   tasks!: Task[];

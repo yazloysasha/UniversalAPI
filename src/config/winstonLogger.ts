@@ -1,12 +1,12 @@
 import chalk from "chalk";
-import { duration, locale } from "moment";
+import { locale } from "moment";
 import { IRequestLog } from "@types";
 import { format, transports, createLogger, Logger } from "winston";
 
-locale("ru");
+locale("en");
 
 export const commonFormat = format.combine(
-  format.timestamp({ format: "DD.MM.YYYY HH:mm:ss" }),
+  format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
   format.colorize({ all: true }),
   format.printf((info) => `[${info.timestamp}] ${info.message}`)
 );
@@ -68,7 +68,7 @@ export class AppLogger {
   }
 
   /**
-   * Информация о запросе REST API
+   * REST API request information
    */
   requestInfo(data: IRequestLog): void {
     const { method, statusCode, duration } = data;
@@ -119,13 +119,13 @@ export class AppLogger {
     }
 
     if (duration < 200) {
-      coloredDuration = chalk.green(duration, "мс");
+      coloredDuration = chalk.green(duration, "ms");
     } else if (duration < 500) {
-      coloredDuration = chalk.yellowBright(duration, "мс");
+      coloredDuration = chalk.yellowBright(duration, "ms");
     } else if (duration < 1000) {
-      coloredDuration = chalk.red(duration, "мс");
+      coloredDuration = chalk.red(duration, "ms");
     } else {
-      coloredDuration = chalk.black(duration, "мс");
+      coloredDuration = chalk.black(duration, "ms");
     }
 
     const prefix = `${coloredMethod} ${coloredStatusCode} ${data.url}`;
@@ -135,6 +135,6 @@ export class AppLogger {
 }
 
 /**
- * Лог приложения
+ * Application log system
  */
 export const appLogger = AppLogger.getInstance();

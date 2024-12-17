@@ -2,14 +2,14 @@ import "dotenv/config";
 import { FastifyRoutes, IAppConfig, Module } from "@types";
 
 /**
- * Парсинг .env в проектную конфигурацию
+ * Parsing .env into project config
  */
 export const parseConfig = (): IAppConfig => {
   const {
     ENV,
     ENABLED_MODULES,
     ENABLED_FASTIFY_ROUTES,
-    ENABLED_QUEUE_TASKS,
+    ENABLED_TASK_QUEUES,
     BCRYPT_ROUNDS_COUNT,
     JWT_SECRET_KEY,
     POSTGRESQL_URL,
@@ -33,8 +33,8 @@ export const parseConfig = (): IAppConfig => {
       ? (ENABLED_MODULES.split(",") as Module[])
       : [],
     ENABLED_FASTIFY_ROUTES: enabledFastifyRoutes,
-    ENABLED_QUEUE_TASKS: ENABLED_QUEUE_TASKS
-      ? ENABLED_QUEUE_TASKS.split(",")
+    ENABLED_TASK_QUEUES: ENABLED_TASK_QUEUES
+      ? ENABLED_TASK_QUEUES.split(",")
       : [],
     BCRYPT_ROUNDS_COUNT: BCRYPT_ROUNDS_COUNT ? Number(BCRYPT_ROUNDS_COUNT) : 8,
     JWT_SECRET_KEY,

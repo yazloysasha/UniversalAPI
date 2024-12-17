@@ -4,7 +4,7 @@ import { appLogger } from "@config";
 import appConfig from "@consts/appConfig";
 
 /**
- * Подключение к операционной базе данных
+ * Connecting to analytical database
  */
 export const connectToAnalyticalDatabase = async (): Promise<void> => {
   if (!appConfig.MONGODB_URL) {
@@ -13,17 +13,17 @@ export const connectToAnalyticalDatabase = async (): Promise<void> => {
     });
   }
 
-  appLogger.info("Подключение к аналитической базе данных...");
+  appLogger.info("Connecting to analytical database...");
 
   try {
     await connect(appConfig.MONGODB_URL);
 
-    appLogger.verbose("Соединение с аналитической базой данных установлено");
+    appLogger.verbose("Connection to analytical database established");
   } catch (err) {
     console.error(err);
 
     throw ApiError.badGateway({
-      msg: "Не удалось установить соединение с аналитической базой данных",
+      msg: "Failed to establish connection to analytical database",
     });
   }
 };

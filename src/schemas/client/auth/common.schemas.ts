@@ -4,13 +4,13 @@ export const authSample = {
   name: {
     type: "string",
     minLength: 1,
-    description: "Имя пользователя",
+    description: "Username",
     example: "admin",
   },
   password: {
     type: "string",
     minLength: 1,
-    description: "Пароль пользователя",
+    description: "User password",
     example: "admin",
   },
 } as const satisfies { [Property in string]: AppJSONSchema };
@@ -26,7 +26,7 @@ export const tokenSample = {
 
 export const authSchema = {
   type: "object",
-  description: "Данные пользователя",
+  description: "User data",
   required: ["name", "password"],
   properties: authSample,
 } as const satisfies AppJSONSchema;

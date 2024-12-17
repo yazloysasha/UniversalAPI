@@ -4,7 +4,7 @@ import { validate as isValidUUID } from "uuid";
 import { AppFastifyInstance, CustomFormat } from "@types";
 
 /**
- * Валидатор ошибок для Fastify
+ * Data Validator for Fastify
  */
 export const setupAjvValidator = (fastify: AppFastifyInstance): void => {
   const ajv = new Ajv({
@@ -21,7 +21,7 @@ export const setupAjvValidator = (fastify: AppFastifyInstance): void => {
   ajvErrors(ajv);
 
   /**
-   * Формат для проверки UUID
+   * Format for checking UUID
    */
   ajv.addFormat(CustomFormat.UUID, {
     type: "string",

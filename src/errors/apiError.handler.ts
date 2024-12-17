@@ -12,7 +12,7 @@ export const apiErrorHandler = (
   reply: FastifyReply
 ): void => {
   /**
-   * Ошибка валидации
+   * Validation error
    */
   if (error.code == "FST_ERR_VALIDATION") {
     reply.code(ClientErrorCode.BAD_REQUEST).send({
@@ -26,7 +26,7 @@ export const apiErrorHandler = (
   }
 
   /**
-   * Ошибка загрузки слишком большого файла
+   * Error uploading file too large
    */
   if (error.code == "FST_REQ_FILE_TOO_LARGE") {
     reply.code(ClientErrorCode.BAD_REQUEST).send({
@@ -39,7 +39,7 @@ export const apiErrorHandler = (
   }
 
   /**
-   * Ошибка неверного формата контента
+   * Invalid content format error
    */
   if (error.code == "FST_ERR_CTP_INVALID_MEDIA_TYPE") {
     reply.code(ClientErrorCode.UNSUPPORTED_MEDIA_TYPE).send({
@@ -52,7 +52,7 @@ export const apiErrorHandler = (
   }
 
   /**
-   * Ошибка, выброшенная сервисом
+   * Error thrown by the service
    */
   if (error instanceof ApiError) {
     reply.code(error.statusCode).send({
@@ -68,7 +68,7 @@ export const apiErrorHandler = (
     AnalyticalService.name
   );
 
-  // Создать лог для необработанного исключения
+  // Create a log for an unhandled exception
   analyticalService.createErrorLog({
     name: error.name,
     message: error.message,
@@ -78,7 +78,7 @@ export const apiErrorHandler = (
   });
 
   /**
-   * Ошибка операционной базы данных (неправильный запрос или проблема с соединением)
+   * Operational database error (bad query or connection problem)
    */
   if (error instanceof TypeORMError) {
     reply.code(ServerErrorCode.BAD_GATEWAY).send({
@@ -91,7 +91,7 @@ export const apiErrorHandler = (
   }
 
   /**
-   * Ошибка аналитической базы данных
+   * Analytical database error
    */
   if (error instanceof MongooseError) {
     reply.code(ServerErrorCode.BAD_GATEWAY).send({
@@ -104,7 +104,7 @@ export const apiErrorHandler = (
   }
 
   /**
-   * Неизвестная ошибка
+   * Unknown error
    */
   reply.code(ServerErrorCode.INTERNAL_SERVER_ERROR).send({
     alert: true,

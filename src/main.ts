@@ -9,14 +9,14 @@ import { FastifyRoutes } from "@types";
 import appConfig from "@consts/appConfig";
 
 const bootstrapApp = async (): Promise<void> => {
-  // Сначала установить все зависимости, без них ничего работать не может
+  // First inject all dependencies, without them nothing can work
   try {
     setupDIContainer();
   } catch (err) {
     appLogger.fatal((err as Error).message);
   }
 
-  // Запустить Fastify API
+  // Launch Fastify API
   if (appConfig.ENABLED_MODULES.includes("fastify")) {
     for (const routes in appConfig.ENABLED_FASTIFY_ROUTES) {
       try {
@@ -30,14 +30,14 @@ const bootstrapApp = async (): Promise<void> => {
     }
   }
 
-  // Подключиться к операционной базе данных
+  // Connect to operational database
   try {
     await connectToOperationalDatabase();
   } catch (err) {
     appLogger.fatal((err as Error).message);
   }
 
-  // Подключиться к аналитической базе данных
+  // Connect to analytical database
   if (appConfig.ENABLED_MODULES.includes("analytics")) {
     try {
       await connectToAnalyticalDatabase();
@@ -46,7 +46,7 @@ const bootstrapApp = async (): Promise<void> => {
     }
   }
 
-  appLogger.verbose("Запуск проекта завершён");
+  appLogger.verbose("Project launch completed");
 };
 
 bootstrapApp();

@@ -4,12 +4,12 @@ import { paramsWithTaskId, taskSample, taskSchema } from "./common.schemas";
 
 export const editTaskSchema = {
   tags: [SwaggerContract.ClientTag.TASKS],
-  summary: "Отредактировать задачу",
+  summary: "Edit a task",
   security: [{ Bearer: [] }],
   params: paramsWithTaskId,
   body: {
     type: "object",
-    description: "Редактируемые поля",
+    description: "Editable attributes",
     properties: taskSample,
   },
   response: {
@@ -26,7 +26,7 @@ export const editTaskSchema = {
           example: "Успешно сохранено",
         },
         task: {
-          description: "Отредактированная задача",
+          description: "Edited task",
           ...taskSchema,
         },
       },

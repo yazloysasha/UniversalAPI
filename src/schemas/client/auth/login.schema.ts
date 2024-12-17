@@ -4,7 +4,7 @@ import { AppFastifySchema, ClientErrorCode, SuccessCode } from "@types";
 
 export const loginSchema = {
   tags: [SwaggerContract.ClientTag.AUTH],
-  summary: "Войти в аккаунт",
+  summary: "Login to account",
   body: authSchema,
   response: {
     [SuccessCode.OK]: {

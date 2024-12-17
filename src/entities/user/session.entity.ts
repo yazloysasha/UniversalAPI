@@ -8,16 +8,13 @@ import {
 } from "typeorm";
 import { User } from "./user.entity";
 
-/**
- * Сессия пользователя
- */
 @Entity()
 export class Session {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 
   /**
-   * Пользователь сессии
+   * Session user
    */
   @ManyToOne(() => User, (user) => user.sessions, {
     onDelete: "CASCADE",
@@ -26,7 +23,7 @@ export class Session {
   user!: User;
 
   /**
-   * Ссылка на пользователя сессии
+   * Link to the session user
    */
   @Column()
   userId!: string;

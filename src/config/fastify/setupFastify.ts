@@ -17,7 +17,7 @@ import { AppFastifyInstance, FastifyRoutes } from "@types";
 import { JsonSchemaToTsProvider } from "@fastify/type-provider-json-schema-to-ts";
 
 /**
- * Запуск систем Fastify
+ * Launch of Fastify systems
  */
 export const setupFastify = async (
   routes: FastifyRoutes,
@@ -29,39 +29,39 @@ export const setupFastify = async (
     });
   }
 
-  appLogger.info(`Запуск приложения Fastify (${routes})...`);
+  appLogger.info(`Launching the Fastify app (${routes})...`);
 
   const fastify: AppFastifyInstance = Fastify({
     disableRequestLogging: true,
   })
-    // Для улучшенной типизации запросов и ответов
+    // For improved typing of requests and responses
     .withTypeProvider<JsonSchemaToTsProvider>();
 
-  // Установить собственный обработчик ошибок
+  // Set own error handler
   fastify.setErrorHandler(apiErrorHandler);
 
-  // Установить валидатор ошибок
+  // Install error validator
   setupAjvValidator(fastify);
 
-  // Добавить хуки запросов
+  // Add query hooks
   setupFastifyHooks(fastify);
 
-  // Регистрация сваггера
+  // Swagger registration
   await fastify.register(fastifySwagger, SwaggerContract.GetConfig(routes));
   await fastify.register(fastifySwaggerUi, SwaggerContract.ConfigUi);
 
-  // Прочие плагины
+  // Other plugins
   await fastify.register(fastifyCookie);
   await fastify.register(fastifyFormbody);
   await fastify.register(fastifyCors, { origin: true, credentials: true });
 
-  // Регистрация маршрутов
+  // Registration of routes
   await setupFastifyRoutes(fastify, routes);
 
   await fastify.listen({ port });
   await fastify.ready();
 
-  appLogger.verbose(`Приложение Fastify (${routes}) запущено на порту ${port}`);
+  appLogger.verbose(`Fastify app (${routes}) is running on port ${port}`);
 
   console.log(getFastifyRoutes(fastify));
 };

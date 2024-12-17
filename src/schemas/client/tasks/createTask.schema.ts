@@ -4,11 +4,11 @@ import { taskSample, taskSchema } from "./common.schemas";
 
 export const createTaskSchema = {
   tags: [SwaggerContract.ClientTag.TASKS],
-  summary: "Создать новую задачу",
+  summary: "Create a new task",
   security: [{ Bearer: [] }],
   body: {
     type: "object",
-    description: "Новая задача",
+    description: "New task",
     required: ["content", "status"],
     properties: taskSample,
   },
@@ -26,7 +26,7 @@ export const createTaskSchema = {
           example: "Успешно сохранено",
         },
         task: {
-          description: "Созданная задача",
+          description: "Created task",
           ...taskSchema,
         },
       },

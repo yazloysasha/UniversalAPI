@@ -7,7 +7,7 @@ import appConfig from "@consts/appConfig";
 import { JwtPayload, sign, verify } from "jsonwebtoken";
 
 /**
- * Сервис для авторизации
+ * User authorization service
  */
 export class AuthService {
   constructor(
@@ -15,9 +15,6 @@ export class AuthService {
     private sessionRepository: Repository<Session>
   ) {}
 
-  /**
-   * Получить JWT
-   */
   signJWT({ sessionId }: { sessionId: string }): string {
     return sign({ sessionId }, appConfig.JWT_SECRET_KEY!, {
       algorithm: "HS256",
@@ -25,15 +22,12 @@ export class AuthService {
     });
   }
 
-  /**
-   * Проверить JWT
-   */
   verifyJWT({ token }: { token: string }): string | JwtPayload {
     return verify(token, appConfig.JWT_SECRET_KEY!);
   }
 
   /**
-   * Новая сессия и получение JWT
+   * New session and getting signed JWT
    */
   async newSession({ userId }: { userId: string }): Promise<string> {
     const session = this.sessionRepository.create({
@@ -46,7 +40,7 @@ export class AuthService {
   }
 
   /**
-   * Получить сессию
+   * Get session by ID
    */
   async getSession({
     sessionId,
@@ -66,14 +60,14 @@ export class AuthService {
   }
 
   /**
-   * Уничтожить сессию
+   * Destroy session by ID
    */
   async destroySession({ sessionId }: { sessionId: string }): Promise<void> {
     await this.sessionRepository.delete({ id: sessionId });
   }
 
   /**
-   * Регистрация нового пользователя
+   * New user registration
    */
   async register({
     name,
@@ -103,7 +97,7 @@ export class AuthService {
   }
 
   /**
-   * Аутентификация пользователя в системе
+   * User login in the system
    */
   async login({
     name,

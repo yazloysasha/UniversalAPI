@@ -4,7 +4,7 @@ import { appLogger, di } from "@config";
 import appConfig from "@consts/appConfig";
 
 /**
- * Подключение к операционной базе данных
+ * Connecting to operational database
  */
 export const connectToOperationalDatabase = async (): Promise<void> => {
   const appDataSource = di.container.resolve<DataSource>("appDataSource");
@@ -15,17 +15,17 @@ export const connectToOperationalDatabase = async (): Promise<void> => {
     });
   }
 
-  appLogger.info("Подключение к операционной базе данных...");
+  appLogger.info("Connecting to operational database...");
 
   try {
     await appDataSource.initialize();
 
-    appLogger.verbose("Соединение с операционной базой данных установлено");
+    appLogger.verbose("Connection to operational database established");
   } catch (err) {
     console.error(err);
 
     throw ApiError.badGateway({
-      msg: "Не удалось установить соединение с операционной базой данных",
+      msg: "Failed to establish connection to operational database",
     });
   }
 };

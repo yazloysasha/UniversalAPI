@@ -15,7 +15,7 @@ export const authPreHandler =
     try {
       let token = req.headers.authorization!;
       if (!/^Bearer\s(\S+)$/.test(token)) {
-        throw Error("Токен не соответствует формату");
+        throw Error("Token does not match format");
       }
 
       token = token.slice(7);
@@ -29,11 +29,11 @@ export const authPreHandler =
         !payload.iat ||
         !payload.exp
       ) {
-        throw Error("Полезная нагрузка не соответствует проектной");
+        throw Error("The payload does not match our design");
       }
 
       if (Math.round(Date.now() / 1000) > payload.exp) {
-        throw Error("Время жизни токена истекло");
+        throw Error("Token lifetime expired");
       }
 
       const { sessionId } = payload as { sessionId: string };

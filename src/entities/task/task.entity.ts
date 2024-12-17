@@ -6,35 +6,26 @@ import {
   UpdateDateColumn,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { User } from "@entities/user";
+import { User } from "../user";
 
 export enum TaskStatus {
   DONE = "Done",
   NOT_DONE = "NotDone",
 }
 
-/**
- * Задача
- */
 @Entity()
 export class Task {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 
-  /**
-   * Описание
-   */
   @Column({ type: "text" })
   content!: string;
 
-  /**
-   * Статус
-   */
   @Column({ type: "enum", enum: TaskStatus })
   status!: TaskStatus;
 
   /**
-   * Создатель задачи
+   * Task creator
    */
   @ManyToOne(() => User, (user) => user.tasks, {
     onDelete: "CASCADE",
@@ -43,7 +34,7 @@ export class Task {
   user!: User;
 
   /**
-   * Ссылка на создателя задачи
+   * Link to the task creator
    */
   @Column()
   userId!: string;
