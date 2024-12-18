@@ -33,6 +33,7 @@ export const createTaskSchema = {
       },
     } as const satisfies SwaggerContract.ActionResponseType,
     400: SwaggerContract.ClientErrorResponseFactory(400),
+    401: SwaggerContract.ClientErrorResponseFactory(401),
   },
 } as const satisfies AppFastifySchema;
 

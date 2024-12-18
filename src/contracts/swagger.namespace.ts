@@ -19,6 +19,7 @@ export namespace SwaggerContract {
    */
   export enum ClientTag {
     AUTH = "Auth",
+    USER = "User",
     TASKS = "Tasks",
   }
 
@@ -286,6 +287,10 @@ export namespace SwaggerContract {
           {
             name: SwaggerContract.ClientTag.AUTH,
             description: "Маршруты для авторизации",
+          },
+          {
+            name: SwaggerContract.ClientTag.USER,
+            description: "Маршруты для пользователя",
           },
           {
             name: SwaggerContract.ClientTag.TASKS,

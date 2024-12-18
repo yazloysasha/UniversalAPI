@@ -21,6 +21,7 @@ export const getTasksSchema = {
         },
       },
     } as const satisfies SwaggerContract.PaginatedResponseType,
+    401: SwaggerContract.ClientErrorResponseFactory(401),
   },
 } as const satisfies AppFastifySchema;
 

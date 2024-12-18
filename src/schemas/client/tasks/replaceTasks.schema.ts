@@ -23,6 +23,7 @@ export const replaceTasksSchema = {
   },
   response: {
     201: SwaggerContract.ActionResponseSchema,
+    401: SwaggerContract.ClientErrorResponseFactory(401),
   },
 } as const satisfies AppFastifySchema;
 

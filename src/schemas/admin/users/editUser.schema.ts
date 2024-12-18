@@ -1,7 +1,8 @@
 import i18next from "i18next";
 import { AppFastifySchema } from "@types";
 import { SwaggerContract } from "@contracts";
-import { paramsWithUserId, userSample, userSchema } from "./common.schemas";
+import { paramsWithUserId } from "./common.schemas";
+import { userSample, userSchema } from "@schemas/client";
 
 export const editUserSchema = {
   tags: [SwaggerContract.AdminTag.USERS],
@@ -32,6 +33,8 @@ export const editUserSchema = {
         },
       },
     } as const satisfies SwaggerContract.ActionResponseType,
+    401: SwaggerContract.ClientErrorResponseFactory(401),
+    403: SwaggerContract.ClientErrorResponseFactory(403),
     404: SwaggerContract.ClientErrorResponseFactory(404),
   },
 } as const satisfies AppFastifySchema;

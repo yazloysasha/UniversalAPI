@@ -1,6 +1,6 @@
 import { AppFastifySchema } from "@types";
 import { SwaggerContract } from "@contracts";
-import { userSchema } from "./common.schemas";
+import { userSchema } from "@schemas/client";
 
 export const getUsersSchema = {
   tags: [SwaggerContract.AdminTag.USERS],
@@ -21,6 +21,8 @@ export const getUsersSchema = {
         },
       },
     } as const satisfies SwaggerContract.PaginatedResponseType,
+    401: SwaggerContract.ClientErrorResponseFactory(401),
+    403: SwaggerContract.ClientErrorResponseFactory(403),
   },
 } as const satisfies AppFastifySchema;
 

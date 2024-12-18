@@ -12,6 +12,7 @@ export const getTaskSchema = {
       description: "Задача",
       ...taskSchema,
     },
+    401: SwaggerContract.ClientErrorResponseFactory(401),
     404: SwaggerContract.ClientErrorResponseFactory(404),
   },
 } as const satisfies AppFastifySchema;

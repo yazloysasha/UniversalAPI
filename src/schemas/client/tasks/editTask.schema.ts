@@ -32,6 +32,7 @@ export const editTaskSchema = {
         },
       },
     } as const satisfies SwaggerContract.ActionResponseType,
+    401: SwaggerContract.ClientErrorResponseFactory(401),
     404: SwaggerContract.ClientErrorResponseFactory(404),
   },
 } as const satisfies AppFastifySchema;

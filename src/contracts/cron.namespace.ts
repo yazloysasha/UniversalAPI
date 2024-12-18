@@ -7,8 +7,7 @@ export namespace CronContract {
    */
   export const ClearingUnusualSessions: ITask = {
     name: "ClearingUnusualSessions",
-    // schedule: "0 4 */1 * *",
-    interval: 1000,
+    schedule: "0 4 */1 * *",
     handler: clearingUnusualSessionsTask,
   };
 }
