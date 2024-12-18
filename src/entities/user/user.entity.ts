@@ -48,9 +48,15 @@ export class User {
   @OneToMany(() => Task, (task) => task.user)
   tasks!: Task[];
 
+  /**
+   * Последняя активность пользователя
+   */
   @CreateDateColumn()
-  createdAt!: string;
+  lastVisitAt!: Date;
+
+  @CreateDateColumn()
+  createdAt!: Date;
 
   @UpdateDateColumn()
-  updatedAt!: string;
+  updatedAt!: Date;
 }

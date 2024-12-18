@@ -13,6 +13,7 @@ export class UserService {
     "id",
     "name",
     "role",
+    "lastVisitAt",
     "createdAt",
     "updatedAt",
   ];

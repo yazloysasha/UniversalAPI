@@ -93,6 +93,11 @@
     "auth": {
       "AUTH_FAILED": "Authentication failed",
       "NOT_UNIQUE_NAME": "A user with that name already exists"
+    },
+    "cron": {
+      "INCOMPATIBLE": "You cannot specify both a schedule and an interval",
+      "INVALID_SCHEDULE": "The specified schedule for the task is invalid",
+      "INVALID_INTERVAL": "The specified interval for the task is invalid"
     }
   },
   "system": {

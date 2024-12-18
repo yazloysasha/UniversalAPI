@@ -3,7 +3,7 @@ import { Session, User } from "@entities";
 
 export type RegularUser = Pick<
   User,
-  "id" | "name" | "role" | "createdAt" | "updatedAt"
+  "id" | "name" | "role" | "lastVisitAt" | "createdAt" | "updatedAt"
 >;
 
 export type ExtendedUser = RegularUser & {

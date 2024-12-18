@@ -2,6 +2,7 @@ import { hash } from "@utils";
 import { ApiError } from "@errors";
 import { Repository } from "typeorm";
 import { compareSync } from "bcrypt";
+import { AppContract } from "@contracts";
 import { Session, User } from "@entities";
 import appConfig from "@constants/appConfig";
 import { JwtPayload, sign, verify } from "jsonwebtoken";
@@ -46,21 +47,42 @@ export class AuthService {
   }
 
   /**
-   * Получить сессию по ID
+   * Войти в сессию
    */
-  async getSession({
+  async enterSession({
     sessionId,
     extended = false,
   }: {
     sessionId: string;
     extended?: boolean;
   }): Promise<Session> {
-    const session = await this.sessionRepository.findOne({
-      where: { id: sessionId },
-      relations: extended ? ["user"] : [],
-    });
+    // Получить сессию, обновив последнее время визита
+    const firstResult = await this.sessionRepository
+      .createQueryBuilder()
+      .update()
+      .set({ lastVisitAt: new Date() })
+      .where({ id: sessionId })
+      .returning("*")
+      .execute();
 
-    if (!session) throw ApiError.new(404);
+    if (!firstResult.affected) throw ApiError.new(404);
+
+    const session: Session = firstResult.raw[0];
+
+    // Запрос для обновления последнего времени визита пользователя сессии
+    const queryForUpdatingUser = this.userRepository
+      .createQueryBuilder()
+      .update()
+      .set({ lastVisitAt: session.lastVisitAt })
+      .where({ id: session.userId });
+
+    if (extended) {
+      const secondResult = await queryForUpdatingUser.returning("*").execute();
+
+      session.user = secondResult.raw[0];
+    } else {
+      queryForUpdatingUser.execute();
+    }
 
     return session;
   }
@@ -122,5 +144,18 @@ export class AuthService {
     }
 
     return user.id;
+  }
+
+  /**
+   * Очистить неактивные сессии
+   */
+  async clearInactiveSessions(): Promise<void> {
+    await this.sessionRepository
+      .createQueryBuilder()
+      .delete()
+      .where("lastVisitAt < :timestamp", {
+        timestamp: new Date(Date.now() - AppContract.INACTIVE_SESSION_LIFETIME),
+      })
+      .execute();
   }
 }

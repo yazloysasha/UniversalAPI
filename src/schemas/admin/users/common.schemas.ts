@@ -11,6 +11,11 @@ const userIdSchema = {
   example: SwaggerContract.UUIDExample,
 } as const satisfies AppJSONSchema;
 
+const lastVisitAtSchema = {
+  description: "Дата последнего посещения",
+  example: "2024-12-16T10:51:47.087Z",
+} as const satisfies AppJSONSchema;
+
 export const userSample = {
   name: {
     type: "string",
@@ -29,10 +34,11 @@ export const userSample = {
 
 export const userSchema = {
   type: "object",
-  required: ["id", "name", "role", "createdAt", "updatedAt"],
+  required: ["id", "name", "role", "lastVisitAt", "createdAt", "updatedAt"],
   properties: {
     id: userIdSchema,
     ...userSample,
+    lastVisitAt: lastVisitAtSchema,
     ...timestampsSample,
   },
 } as const satisfies AppJSONSchema;
@@ -45,6 +51,7 @@ export const extendedUserSchema = {
     "role",
     "sessions",
     "tasks",
+    "lastVisitAt",
     "createdAt",
     "updatedAt",
   ],
@@ -73,6 +80,7 @@ export const extendedUserSchema = {
       description: "Список задач пользователя",
       items: taskSchema,
     },
+    lastVisitAt: lastVisitAtSchema,
     ...timestampsSample,
   },
 } as const satisfies AppJSONSchema;

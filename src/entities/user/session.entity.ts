@@ -28,9 +28,15 @@ export class Session {
   @Column()
   userId!: string;
 
+  /**
+   * Последняя активность сессии
+   */
   @CreateDateColumn()
-  createdAt!: string;
+  lastVisitAt!: Date;
+
+  @CreateDateColumn()
+  createdAt!: Date;
 
   @UpdateDateColumn()
-  updatedAt!: string;
+  updatedAt!: Date;
 }

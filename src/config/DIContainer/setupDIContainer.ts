@@ -1,5 +1,6 @@
 import {
   AuthService,
+  CronService,
   TaskService,
   UserService,
   CacheService,
@@ -33,6 +34,7 @@ export const setupDIContainer = (): void => {
     redisClient: asValue(redisClient),
 
     [AuthService.name]: asClass(AuthService).singleton(),
+    [CronService.name]: asClass(CronService).singleton(),
     [TaskService.name]: asClass(TaskService).singleton(),
     [UserService.name]: asClass(UserService).singleton(),
     [CacheService.name]: asClass(CacheService).singleton(),

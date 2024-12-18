@@ -41,7 +41,10 @@ export const authPreHandler =
 
       const { sessionId } = payload as { sessionId: string };
 
-      req.session = await authService.getSession({ sessionId, extended });
+      req.session = await authService.enterSession({
+        sessionId,
+        extended,
+      });
 
       if (extended) {
         req.user = req.session.user;

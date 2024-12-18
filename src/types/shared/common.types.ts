@@ -1,3 +1,4 @@
+import { TaskType } from "@types";
 import { FastifyRoutes } from "./fastify.types";
 
 export enum CustomFormat {
@@ -17,7 +18,8 @@ export interface IAppConfig {
   ENV: "development" | "production";
   ENABLED_MODULES: Module[];
   ENABLED_FASTIFY_ROUTES: { [x in FastifyRoutes]?: number };
-  ENABLED_TASK_QUEUES: string[];
+  ENABLED_TASK_TYPES: TaskType[];
+  ENABLED_TASKS: string[];
   BCRYPT_ROUNDS_COUNT: number;
   JWT_SECRET_KEY?: string;
   POSTGRESQL_URL?: string;

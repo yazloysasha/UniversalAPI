@@ -1,6 +1,7 @@
 import {
   appLogger,
   setupFastify,
+  setupTaskQueue,
   setupDIContainer,
   setupMultilingualism,
   connectToAnalyticalDatabase,
@@ -14,11 +15,7 @@ const bootstrapApp = async (): Promise<void> => {
   setupMultilingualism();
 
   // Сначала установить все зависимости, без них ничего не может работать
-  try {
-    setupDIContainer();
-  } catch (err) {
-    appLogger.fatal((err as Error).message);
-  }
+  setupDIContainer();
 
   // Запустить Fastify API
   if (appConfig.ENABLED_MODULES.includes("fastify")) {
@@ -45,6 +42,15 @@ const bootstrapApp = async (): Promise<void> => {
   if (appConfig.ENABLED_MODULES.includes("analytics")) {
     try {
       await connectToAnalyticalDatabase();
+    } catch (err) {
+      appLogger.fatal((err as Error).message);
+    }
+  }
+
+  // Запустить очередь задач
+  if (appConfig.ENABLED_MODULES.includes("queue")) {
+    try {
+      setupTaskQueue();
     } catch (err) {
       appLogger.fatal((err as Error).message);
     }

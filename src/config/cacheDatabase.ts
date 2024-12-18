@@ -24,15 +24,11 @@ export class RedisClient {
 
     RedisClient.instance = new Redis(appConfig.REDIS_URL);
 
-    RedisClient.instance.on("ready", async () => {
+    RedisClient.instance.on("ready", () => {
       appLogger.verbose("Соединение с кэширующей базой данных установлено");
-
-      if (!appConfig.ENABLED_MODULES.includes("queue")) return;
-
-      // TODO: Запуск задач BullMQ
     });
 
-    RedisClient.instance.on("reconnecting", async () => {
+    RedisClient.instance.on("reconnecting", () => {
       appLogger.verbose("Переподключение к кэширующей базе данных...");
     });
 

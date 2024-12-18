@@ -46,8 +46,8 @@ export class Task {
   userId!: string;
 
   @CreateDateColumn()
-  createdAt!: string;
+  createdAt!: Date;
 
   @UpdateDateColumn()
-  updatedAt!: string;
+  updatedAt!: Date;
 }
