@@ -1,38 +1,26 @@
-import {
-  SuccessCode,
-  RedirectionCode,
-  ClientErrorCode,
-  ServerErrorCode,
-  InformationalCode,
-} from "@types";
 import { model, Schema } from "mongoose";
 
 const requestLogSchema = new Schema(
   {
+    // Метод запроса
     method: {
       type: String,
       required: true,
     },
 
+    // URL запроса
     url: {
       type: String,
       required: true,
     },
 
-    // Response code
+    // Код ответа
     statusCode: {
       type: Number,
-      enum: Object.values({
-        ...SuccessCode,
-        ...RedirectionCode,
-        ...ClientErrorCode,
-        ...ServerErrorCode,
-        ...InformationalCode,
-      }).filter((value) => typeof value === "number"),
       required: true,
     },
 
-    // Request duration (in milliseconds)
+    // Длительность запроса (в миллисекундах)
     duration: {
       type: Number,
       required: true,
@@ -44,6 +32,6 @@ const requestLogSchema = new Schema(
 );
 
 /**
- * Log of all requests
+ * Лог всех запросов
  */
 export const RequestLog = model("RequestLog", requestLogSchema);

@@ -1,7 +1,7 @@
 import { di } from "@config";
 import { TaskService } from "@services";
+import { AppFastifyHandler } from "@types";
 import { CreateTaskType } from "@schemas/client";
-import { AppFastifyHandler, SuccessCode } from "@types";
 
 export const createTaskHandler: AppFastifyHandler<CreateTaskType> = async (
   req,
@@ -14,9 +14,9 @@ export const createTaskHandler: AppFastifyHandler<CreateTaskType> = async (
     ...req.body,
   });
 
-  reply.code(SuccessCode.CREATED).send({
+  reply.code(201).send({
     alert: true,
-    message: "Успешно сохранено",
+    message: req.i18n.t("swagger.messages.SAVED"),
     task: createdTask,
   });
 };

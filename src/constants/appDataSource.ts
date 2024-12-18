@@ -1,10 +1,10 @@
 import "reflect-metadata";
+import appConfig from "./appConfig";
 import { DataSource } from "typeorm";
-import appConfig from "@consts/appConfig";
 import { Session, Task, User } from "@entities";
 
 /**
- * Resources for operational database
+ * Ресурсы для операционной базы данных
  */
 export default new DataSource({
   type: "postgres",

@@ -2,7 +2,7 @@ import Redis from "ioredis";
 import { CacheItem } from "@types";
 
 /**
- * Basic service for working with Redis
+ * Базовый сервис для работы с Redis
  */
 export abstract class RedisService {
   constructor(private redisClient: Redis) {}
@@ -30,7 +30,7 @@ export abstract class RedisService {
   }
 
   /**
-   * Get cached value
+   * Получить значение из кэша
    */
   protected async get<ValueType = boolean | number | string | object>(
     item: CacheItem
@@ -42,7 +42,7 @@ export abstract class RedisService {
   }
 
   /**
-   * Set value to cache
+   * Установить значение в кэш
    */
   protected async set<ValueType = boolean | number | string | object>(
     item: CacheItem,
@@ -58,7 +58,7 @@ export abstract class RedisService {
   }
 
   /**
-   * Delete value from cache
+   * Удалить значение из кэша
    */
   protected async delete(item: CacheItem): Promise<void> {
     await this.redisClient.del(item.key);

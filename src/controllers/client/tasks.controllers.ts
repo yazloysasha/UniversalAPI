@@ -24,7 +24,7 @@ import { AppFastifyRoute } from "@types";
 import { authPreHandler } from "@middleware";
 
 /**
- * Get all tasks
+ * Получить все задачи
  */
 export const getTasksController: AppFastifyRoute<GetTasksType> = {
   url: "/tasks",
@@ -35,7 +35,7 @@ export const getTasksController: AppFastifyRoute<GetTasksType> = {
 };
 
 /**
- * Create a new task
+ * Создать новую задачу
  */
 export const createTaskController: AppFastifyRoute<CreateTaskType> = {
   url: "/tasks",
@@ -46,7 +46,7 @@ export const createTaskController: AppFastifyRoute<CreateTaskType> = {
 };
 
 /**
- * Replace all tasks
+ * Заменить все задачи
  */
 export const replaceTasksController: AppFastifyRoute<ReplaceTasksType> = {
   url: "/tasks",
@@ -57,7 +57,7 @@ export const replaceTasksController: AppFastifyRoute<ReplaceTasksType> = {
 };
 
 /**
- * Get one task
+ * Получить одну задачу
  */
 export const getTaskController: AppFastifyRoute<GetTaskType> = {
   url: "/tasks/:taskId",
@@ -68,7 +68,7 @@ export const getTaskController: AppFastifyRoute<GetTaskType> = {
 };
 
 /**
- * Edit a task
+ * Отредактировать задачу
  */
 export const editTaskController: AppFastifyRoute<EditTaskType> = {
   url: "/tasks/:taskId",
@@ -79,7 +79,7 @@ export const editTaskController: AppFastifyRoute<EditTaskType> = {
 };
 
 /**
- * Delete a task
+ * Удалить задачу
  */
 export const deleteTaskController: AppFastifyRoute<DeleteTaskType> = {
   url: "/tasks/:taskId",

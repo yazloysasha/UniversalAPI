@@ -2,7 +2,7 @@ import "dotenv/config";
 import { FastifyRoutes, IAppConfig, Module } from "@types";
 
 /**
- * Parsing .env into project config
+ * Парсинг .env в проектную конфигурацию
  */
 export const parseConfig = (): IAppConfig => {
   const {

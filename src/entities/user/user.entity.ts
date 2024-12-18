@@ -18,26 +18,32 @@ export class User {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 
+  /**
+   * Имя пользователя
+   */
   @Column({ type: "text", unique: true })
   name!: string;
 
   /**
-   * Encrypted password
+   * Зашифрованный пароль
    */
   @Column({ type: "text" })
   password!: string;
 
+  /**
+   * Роль пользователя
+   */
   @Column({ type: "enum", enum: UserRole, nullable: true })
   role!: UserRole | null;
 
   /**
-   * User sessions
+   * Сессии пользователя
    */
   @OneToMany(() => Session, (session) => session.user)
   sessions!: Session[];
 
   /**
-   * User tasks
+   * Задачи пользователя
    */
   @OneToMany(() => Task, (task) => task.user)
   tasks!: Task[];

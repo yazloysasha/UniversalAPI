@@ -1,20 +1,18 @@
+import { AppFastifySchema } from "@types";
 import { SwaggerContract } from "@contracts";
 import { paramsWithUserId, extendedUserSchema } from "./common.schemas";
-import { AppFastifySchema, ClientErrorCode, SuccessCode } from "@types";
 
 export const getUserSchema = {
   tags: [SwaggerContract.AdminTag.USERS],
-  summary: "Get one user",
+  summary: "Получить одного пользователя",
   security: [{ Bearer: [] }],
   params: paramsWithUserId,
   response: {
-    [SuccessCode.OK]: {
-      description: "User",
+    200: {
+      description: "Пользователь",
       ...extendedUserSchema,
     },
-    [ClientErrorCode.NOT_FOUND]: SwaggerContract.ClientErrorResponseFactory(
-      ClientErrorCode.NOT_FOUND
-    ),
+    404: SwaggerContract.ClientErrorResponseFactory(404),
   },
 } as const satisfies AppFastifySchema;
 

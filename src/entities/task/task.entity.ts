@@ -18,14 +18,20 @@ export class Task {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 
+  /**
+   * Описание задачи
+   */
   @Column({ type: "text" })
   content!: string;
 
+  /**
+   * Статус задачи
+   */
   @Column({ type: "enum", enum: TaskStatus })
   status!: TaskStatus;
 
   /**
-   * Task creator
+   * Создатель задачи
    */
   @ManyToOne(() => User, (user) => user.tasks, {
     onDelete: "CASCADE",
@@ -34,7 +40,7 @@ export class Task {
   user!: User;
 
   /**
-   * Link to the task creator
+   * Ссылка на создателя задачи
    */
   @Column()
   userId!: string;

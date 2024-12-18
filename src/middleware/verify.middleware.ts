@@ -8,7 +8,7 @@ export const verifyPreHandler =
   ): AppFastifyPreHandler<SchemaType> =>
   (req, reply, done) => {
     if (!roles.includes(req.user?.role!)) {
-      throw ApiError.forbidden({ msg: "Доступ запрещён" });
+      throw ApiError.new(403);
     }
 
     done();

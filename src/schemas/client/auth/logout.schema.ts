@@ -1,12 +1,13 @@
+import i18next from "i18next";
+import { AppFastifySchema } from "@types";
 import { SwaggerContract } from "@contracts";
-import { AppFastifySchema, ClientErrorCode, SuccessCode } from "@types";
 
 export const logoutSchema = {
   tags: [SwaggerContract.ClientTag.AUTH],
-  summary: "Logout from account",
+  summary: "Выйти из аккаунта",
   security: [{ Bearer: [] }],
   response: {
-    [SuccessCode.OK]: {
+    200: {
       type: "object",
       description: SwaggerContract.ActionResponseSchema.description,
       required: ["alert", "message"],
@@ -16,13 +17,11 @@ export const logoutSchema = {
           type: "string",
           description:
             SwaggerContract.ActionResponseSchema.properties.message.description,
-          example: "Вы успешно вышли из аккаунта",
+          example: i18next.t("swagger.messages.LOGGED_OUT"),
         },
       },
     } as const satisfies SwaggerContract.ActionResponseType,
-    [ClientErrorCode.UNAUTHORIZED]: SwaggerContract.ClientErrorResponseFactory(
-      ClientErrorCode.UNAUTHORIZED
-    ),
+    401: SwaggerContract.ClientErrorResponseFactory(401),
   },
 } as const satisfies AppFastifySchema;
 

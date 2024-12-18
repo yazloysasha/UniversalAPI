@@ -1,7 +1,7 @@
 import { di } from "@config";
 import { UserService } from "@services";
+import { AppFastifyHandler } from "@types";
 import { EditUserType } from "@schemas/admin";
-import { AppFastifyHandler, SuccessCode } from "@types";
 
 export const editUserHandler: AppFastifyHandler<EditUserType> = async (
   req,
@@ -14,9 +14,9 @@ export const editUserHandler: AppFastifyHandler<EditUserType> = async (
     ...req.body,
   });
 
-  reply.code(SuccessCode.OK).send({
+  reply.code(200).send({
     alert: true,
-    message: "Успешно сохранено",
+    message: req.i18n.t("swagger.messages.SAVED"),
     user: updatedUser,
   });
 };

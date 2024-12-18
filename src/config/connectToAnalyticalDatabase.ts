@@ -1,29 +1,25 @@
 import { connect } from "mongoose";
 import { ApiError } from "@errors";
 import { appLogger } from "@config";
-import appConfig from "@consts/appConfig";
+import appConfig from "@constants/appConfig";
 
 /**
- * Connecting to analytical database
+ * Подключение к аналитической базе данных
  */
 export const connectToAnalyticalDatabase = async (): Promise<void> => {
   if (!appConfig.MONGODB_URL) {
-    throw ApiError.internalServerError({
-      msg: "Не указана ссылка для подключения к аналитической базе данных",
-    });
+    throw ApiError.new(500, { msg: "system.NO_MONGODB_URL" });
   }
 
-  appLogger.info("Connecting to analytical database...");
+  appLogger.info("Подключение к аналитической базе данных...");
 
   try {
     await connect(appConfig.MONGODB_URL);
 
-    appLogger.verbose("Connection to analytical database established");
+    appLogger.verbose("Соединение с аналитической базой данных установлено");
   } catch (err) {
     console.error(err);
 
-    throw ApiError.badGateway({
-      msg: "Failed to establish connection to analytical database",
-    });
+    throw ApiError.new(502, { msg: "system.NO_CONNECT_MONGODB" });
   }
 };

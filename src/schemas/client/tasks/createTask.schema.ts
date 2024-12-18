@@ -1,19 +1,20 @@
+import i18next from "i18next";
+import { AppFastifySchema } from "@types";
 import { SwaggerContract } from "@contracts";
-import { AppFastifySchema, SuccessCode } from "@types";
 import { taskSample, taskSchema } from "./common.schemas";
 
 export const createTaskSchema = {
   tags: [SwaggerContract.ClientTag.TASKS],
-  summary: "Create a new task",
+  summary: "Создать новую задачу",
   security: [{ Bearer: [] }],
   body: {
     type: "object",
-    description: "New task",
+    description: "Новая задача",
     required: ["content", "status"],
     properties: taskSample,
   },
   response: {
-    [SuccessCode.CREATED]: {
+    201: {
       type: "object",
       description: SwaggerContract.ActionResponseSchema.description,
       required: ["alert", "message", "task"],
@@ -23,14 +24,15 @@ export const createTaskSchema = {
           type: "string",
           description:
             SwaggerContract.ActionResponseSchema.properties.message.description,
-          example: "Успешно сохранено",
+          example: i18next.t("swagger.messages.SAVED"),
         },
         task: {
-          description: "Created task",
+          description: "Созданная задача",
           ...taskSchema,
         },
       },
     } as const satisfies SwaggerContract.ActionResponseType,
+    400: SwaggerContract.ClientErrorResponseFactory(400),
   },
 } as const satisfies AppFastifySchema;
 

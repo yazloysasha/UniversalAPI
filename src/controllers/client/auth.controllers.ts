@@ -11,7 +11,7 @@ import { authPreHandler } from "@middleware";
 import { loginHandler, logoutHandler, registerHandler } from "@handlers/client";
 
 /**
- * Login to account
+ * Войти в аккаунт
  */
 export const loginController: AppFastifyRoute<LoginType> = {
   url: "/login",
@@ -21,7 +21,7 @@ export const loginController: AppFastifyRoute<LoginType> = {
 };
 
 /**
- * User registration
+ * Зарегистрировать аккаунт
  */
 export const registerController: AppFastifyRoute<RegisterType> = {
   url: "/register",
@@ -31,7 +31,7 @@ export const registerController: AppFastifyRoute<RegisterType> = {
 };
 
 /**
- * Logout from account
+ * Выйти из аккаунта
  */
 export const logoutController: AppFastifyRoute<LogoutType> = {
   url: "/logout",

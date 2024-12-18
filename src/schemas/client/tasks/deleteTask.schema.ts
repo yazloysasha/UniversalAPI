@@ -1,14 +1,15 @@
+import i18next from "i18next";
+import { AppFastifySchema } from "@types";
 import { SwaggerContract } from "@contracts";
 import { paramsWithTaskId } from "./common.schemas";
-import { AppFastifySchema, ClientErrorCode, SuccessCode } from "@types";
 
 export const deleteTaskSchema = {
   tags: [SwaggerContract.ClientTag.TASKS],
-  summary: "Delete a task",
+  summary: "Удалить задачу",
   security: [{ Bearer: [] }],
   params: paramsWithTaskId,
   response: {
-    [SuccessCode.OK]: {
+    200: {
       type: "object",
       required: ["alert", "message", "taskId"],
       description: SwaggerContract.ActionResponseSchema.description,
@@ -18,18 +19,16 @@ export const deleteTaskSchema = {
           type: "string",
           description:
             SwaggerContract.ActionResponseSchema.properties.message.description,
-          example: "Успешно удалено",
+          example: i18next.t("swagger.messages.DELETED"),
         },
         taskId: {
           type: "string",
-          description: "Remote task ID",
+          description: "ID удалённой задачи",
           example: SwaggerContract.UUIDExample,
         },
       },
     } as const satisfies SwaggerContract.ActionResponseType,
-    [ClientErrorCode.NOT_FOUND]: SwaggerContract.ClientErrorResponseFactory(
-      ClientErrorCode.NOT_FOUND
-    ),
+    404: SwaggerContract.ClientErrorResponseFactory(404),
   },
 } as const satisfies AppFastifySchema;
 

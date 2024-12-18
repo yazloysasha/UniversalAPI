@@ -14,7 +14,7 @@ export class Session {
   id!: string;
 
   /**
-   * Session user
+   * Пользователь сессии
    */
   @ManyToOne(() => User, (user) => user.sessions, {
     onDelete: "CASCADE",
@@ -23,7 +23,7 @@ export class Session {
   user!: User;
 
   /**
-   * Link to the session user
+   * Ссылка на пользователя сессии
    */
   @Column()
   userId!: string;

@@ -1,7 +1,7 @@
 import { FastifyInstance } from "fastify";
 
 /**
- * Get a list of routes to output to the console
+ * Получить список маршрутов для вывода в консоль
  */
 export const getFastifyRoutes = (fastify: FastifyInstance): string => {
   return fastify.printRoutes({ commonPrefix: false });

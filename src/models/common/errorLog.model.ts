@@ -2,25 +2,28 @@ import { model, Schema } from "mongoose";
 
 const errorLogSchema = new Schema(
   {
+    // Название ошибки
     name: {
       type: String,
       required: true,
     },
 
+    // Сообщение ошибки
     message: {
       type: String,
     },
 
+    // Стек ошибки
     stack: {
       type: String,
     },
 
-    // Request method
+    // Метод запроса
     method: {
       type: String,
     },
 
-    // Request URL
+    // URL запроса
     url: {
       type: String,
     },
@@ -31,6 +34,6 @@ const errorLogSchema = new Schema(
 );
 
 /**
- * Log of unhandled errors in requests
+ * Лог необработанных ошибок в запросах
  */
 export const ErrorLog = model("ErrorLog", errorLogSchema);

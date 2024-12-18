@@ -1,7 +1,7 @@
 import { di } from "@config";
 import { TaskService } from "@services";
+import { AppFastifyHandler } from "@types";
 import { GetTasksType } from "@schemas/client";
-import { AppFastifyHandler, SuccessCode } from "@types";
 
 export const getTasksHandler: AppFastifyHandler<GetTasksType> = async (
   req,
@@ -14,5 +14,5 @@ export const getTasksHandler: AppFastifyHandler<GetTasksType> = async (
     pagination: req.query,
   });
 
-  reply.code(SuccessCode.OK).send({ totalSize, items: tasks });
+  reply.code(200).send({ totalSize, items: tasks });
 };

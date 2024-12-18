@@ -1,19 +1,20 @@
+import i18next from "i18next";
+import { AppFastifySchema } from "@types";
 import { SwaggerContract } from "@contracts";
-import { AppFastifySchema, ClientErrorCode, SuccessCode } from "@types";
 import { paramsWithTaskId, taskSample, taskSchema } from "./common.schemas";
 
 export const editTaskSchema = {
   tags: [SwaggerContract.ClientTag.TASKS],
-  summary: "Edit a task",
+  summary: "Отредактировать задачу",
   security: [{ Bearer: [] }],
   params: paramsWithTaskId,
   body: {
     type: "object",
-    description: "Editable attributes",
+    description: "Редактируемые атрибуты",
     properties: taskSample,
   },
   response: {
-    [SuccessCode.OK]: {
+    200: {
       type: "object",
       description: SwaggerContract.ActionResponseSchema.description,
       required: ["alert", "message", "task"],
@@ -23,17 +24,15 @@ export const editTaskSchema = {
           type: "string",
           description:
             SwaggerContract.ActionResponseSchema.properties.message.description,
-          example: "Успешно сохранено",
+          example: i18next.t("swagger.messages.SAVED"),
         },
         task: {
-          description: "Edited task",
+          description: "Отредактированная задача",
           ...taskSchema,
         },
       },
     } as const satisfies SwaggerContract.ActionResponseType,
-    [ClientErrorCode.NOT_FOUND]: SwaggerContract.ClientErrorResponseFactory(
-      ClientErrorCode.NOT_FOUND
-    ),
+    404: SwaggerContract.ClientErrorResponseFactory(404),
   },
 } as const satisfies AppFastifySchema;
 

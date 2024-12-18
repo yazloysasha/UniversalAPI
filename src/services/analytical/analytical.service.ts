@@ -1,10 +1,10 @@
 import { appLogger } from "@config";
-import appConfig from "@consts/appConfig";
+import appConfig from "@constants/appConfig";
 import { ErrorLog, RequestLog } from "@models";
 import { IErrorLog, IRequestLog } from "@types";
 
 /**
- * Analytics collection service
+ * Сервис для сбора аналитики
  */
 export class AnalyticalService {
   private enabled = appConfig.ENABLED_MODULES.includes("analytics");
@@ -19,7 +19,7 @@ export class AnalyticalService {
     try {
       await ErrorLog.create(data);
     } catch (err) {
-      appLogger.error("Failed to create error report");
+      appLogger.error("Не удалось создать отчёт об ошибке");
 
       console.error(err);
     }

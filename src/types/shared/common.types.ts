@@ -5,6 +5,12 @@ export enum CustomFormat {
   UUID = "uuid",
 }
 
+export type ArgumentsType<F extends Function> = F extends (
+  ...args: infer A
+) => any
+  ? A
+  : never;
+
 export type Module = "fastify" | "analytics" | "redis" | "queue";
 
 export interface IAppConfig {

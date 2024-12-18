@@ -1,10 +1,10 @@
 import Redis from "ioredis";
 import { ApiError } from "@errors";
-import appConfig from "@consts/appConfig";
 import { appLogger } from "./winstonLogger";
+import appConfig from "@constants/appConfig";
 
 /**
- * Client for using Redis
+ * Клиент для работы с Redis
  */
 export class RedisClient {
   static instance: Redis;
@@ -17,31 +17,31 @@ export class RedisClient {
     if (RedisClient.instance) return RedisClient.instance;
 
     if (!appConfig.REDIS_URL) {
-      throw ApiError.internalServerError({
-        msg: "Не указана ссылка для подключения к кэширующей базе данных",
-      });
+      throw ApiError.new(500, { msg: "system.NO_REDIS_URL" });
     }
 
-    appLogger.info("Connecting to caching database...");
+    appLogger.info("Подключение к кэширующей базе данных...");
 
     RedisClient.instance = new Redis(appConfig.REDIS_URL);
 
     RedisClient.instance.on("ready", async () => {
-      appLogger.verbose("Connection to caching database established");
+      appLogger.verbose("Соединение с кэширующей базой данных установлено");
 
       if (!appConfig.ENABLED_MODULES.includes("queue")) return;
 
-      // TODO: Run BullMQ tasks
+      // TODO: Запуск задач BullMQ
     });
 
     RedisClient.instance.on("reconnecting", async () => {
-      appLogger.verbose("Reconnecting to caching database...");
+      appLogger.verbose("Переподключение к кэширующей базе данных...");
     });
 
     RedisClient.instance.on("error", (err) => {
       console.error(err);
 
-      appLogger.fatal("Failed to establish connection to caching database");
+      appLogger.fatal(
+        "Не удалось установить соединение с кэширующей базой данных"
+      );
     });
 
     return RedisClient.instance;

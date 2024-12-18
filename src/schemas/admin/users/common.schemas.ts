@@ -7,7 +7,7 @@ import { timestampsSample } from "@schemas/common.schemas";
 const userIdSchema = {
   type: "string",
   format: CustomFormat.UUID,
-  description: "User ID",
+  description: "ID пользователя",
   example: SwaggerContract.UUIDExample,
 } as const satisfies AppJSONSchema;
 
@@ -15,14 +15,14 @@ export const userSample = {
   name: {
     type: "string",
     minLength: 1,
-    description: "Username",
+    description: "Имя пользователя",
     example: "admin",
   },
   role: {
     type: "string",
     enum: [UserRole.ADMINISTRATOR, null],
     nullable: true,
-    description: "User role",
+    description: "Роль пользователя",
     example: UserRole.ADMINISTRATOR,
   },
 } as const satisfies { [Property in string]: AppJSONSchema };
@@ -53,7 +53,7 @@ export const extendedUserSchema = {
     ...userSample,
     sessions: {
       type: "array",
-      description: "List of active sessions",
+      description: "Список активных сессий",
       items: {
         type: "object",
         required: ["id", "createdAt", "updatedAt"],
@@ -61,7 +61,7 @@ export const extendedUserSchema = {
           id: {
             type: "string",
             format: CustomFormat.UUID,
-            description: "Session ID",
+            description: "ID сессии",
             example: SwaggerContract.UUIDExample,
           },
           ...timestampsSample,
@@ -70,7 +70,7 @@ export const extendedUserSchema = {
     },
     tasks: {
       type: "array",
-      description: "User task list",
+      description: "Список задач пользователя",
       items: taskSchema,
     },
     ...timestampsSample,

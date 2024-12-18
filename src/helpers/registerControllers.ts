@@ -5,7 +5,7 @@ import {
 } from "@types";
 
 /**
- * Registering a Route Group
+ * Регистрация группы маршрутов
  */
 export const registerControllers = async (
   fastify: AppFastifyInstance,

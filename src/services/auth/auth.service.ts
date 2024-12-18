@@ -3,11 +3,11 @@ import { ApiError } from "@errors";
 import { Repository } from "typeorm";
 import { compareSync } from "bcrypt";
 import { Session, User } from "@entities";
-import appConfig from "@consts/appConfig";
+import appConfig from "@constants/appConfig";
 import { JwtPayload, sign, verify } from "jsonwebtoken";
 
 /**
- * User authorization service
+ * Сервис для авторизации пользователей
  */
 export class AuthService {
   constructor(
@@ -15,6 +15,9 @@ export class AuthService {
     private sessionRepository: Repository<Session>
   ) {}
 
+  /**
+   * Получить подписанный JWT
+   */
   signJWT({ sessionId }: { sessionId: string }): string {
     return sign({ sessionId }, appConfig.JWT_SECRET_KEY!, {
       algorithm: "HS256",
@@ -22,12 +25,15 @@ export class AuthService {
     });
   }
 
+  /**
+   * Раскодировать JWT
+   */
   verifyJWT({ token }: { token: string }): string | JwtPayload {
     return verify(token, appConfig.JWT_SECRET_KEY!);
   }
 
   /**
-   * New session and getting signed JWT
+   * Создать новую сессию и получить JWT
    */
   async newSession({ userId }: { userId: string }): Promise<string> {
     const session = this.sessionRepository.create({
@@ -40,7 +46,7 @@ export class AuthService {
   }
 
   /**
-   * Get session by ID
+   * Получить сессию по ID
    */
   async getSession({
     sessionId,
@@ -54,20 +60,20 @@ export class AuthService {
       relations: extended ? ["user"] : [],
     });
 
-    if (!session) throw ApiError.notFound();
+    if (!session) throw ApiError.new(404);
 
     return session;
   }
 
   /**
-   * Destroy session by ID
+   * Уничтожить сессию по ID
    */
   async destroySession({ sessionId }: { sessionId: string }): Promise<void> {
     await this.sessionRepository.delete({ id: sessionId });
   }
 
   /**
-   * New user registration
+   * Регистрация нового пользователя
    */
   async register({
     name,
@@ -87,9 +93,7 @@ export class AuthService {
       return user.id;
     } catch (err) {
       if ((err as Error).message.includes("UQ_065d4d8f3b5adb4a08841eae3c8")) {
-        throw ApiError.badRequest({
-          msg: "Пользователь с таким именем уже существует",
-        });
+        throw ApiError.new(400, { msg: "services.auth.NOT_UNIQUE_NAME" });
       }
 
       throw err;
@@ -97,7 +101,7 @@ export class AuthService {
   }
 
   /**
-   * User login in the system
+   * Аутентификация пользователя в системе
    */
   async login({
     name,
@@ -114,7 +118,7 @@ export class AuthService {
         .getOne();
 
     if (!user || !compareSync(password, user.password)) {
-      throw ApiError.badRequest({ msg: "Авторизация не удалась" });
+      throw ApiError.new(400, { msg: "services.auth.AUTH_FAILED" });
     }
 
     return user.id;

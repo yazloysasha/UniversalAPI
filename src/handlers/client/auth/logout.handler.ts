@@ -1,7 +1,7 @@
 import { di } from "@config";
 import { AuthService } from "@services";
+import { AppFastifyHandler } from "@types";
 import { LogoutType } from "@schemas/client";
-import { AppFastifyHandler, SuccessCode } from "@types";
 
 export const logoutHandler: AppFastifyHandler<LogoutType> = async (
   req,
@@ -11,8 +11,8 @@ export const logoutHandler: AppFastifyHandler<LogoutType> = async (
 
   await authService.destroySession({ sessionId: req.session!.id });
 
-  reply.code(SuccessCode.OK).send({
+  reply.code(200).send({
     alert: true,
-    message: "Вы успешно вышли из аккаунта",
+    message: req.i18n.t("swagger.messages.LOGGED_OUT"),
   });
 };

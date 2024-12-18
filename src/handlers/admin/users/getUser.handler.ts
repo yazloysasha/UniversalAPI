@@ -1,7 +1,7 @@
 import { di } from "@config";
 import { UserService } from "@services";
 import { GetUserType } from "@schemas/admin";
-import { AppFastifyHandler, ExtendedUser, SuccessCode } from "@types";
+import { AppFastifyHandler, ExtendedUser } from "@types";
 
 export const getUserHandler: AppFastifyHandler<GetUserType> = async (
   req,
@@ -14,5 +14,5 @@ export const getUserHandler: AppFastifyHandler<GetUserType> = async (
     extended: true,
   });
 
-  reply.code(SuccessCode.OK).send(user as ExtendedUser);
+  reply.code(200).send(user as ExtendedUser);
 };

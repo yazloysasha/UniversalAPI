@@ -3,10 +3,13 @@ import { ApiError } from "@errors";
 import { AuthService } from "@services";
 import { AppFastifySchema, AppFastifyPreHandler } from "@types";
 
+/**
+ * Авторизация
+ */
 export const authPreHandler =
   <SchemaType extends AppFastifySchema>({
-    required = true,
-    extended = false,
+    required = true, // Обязательна ли
+    extended = false, // Если да, то добавляет в запрос ещё и пользователя
   }: {
     required?: boolean;
     extended?: boolean;
@@ -15,7 +18,7 @@ export const authPreHandler =
     try {
       let token = req.headers.authorization!;
       if (!/^Bearer\s(\S+)$/.test(token)) {
-        throw Error("Token does not match format");
+        throw Error("Токен не соответствует формату");
       }
 
       token = token.slice(7);
@@ -29,11 +32,11 @@ export const authPreHandler =
         !payload.iat ||
         !payload.exp
       ) {
-        throw Error("The payload does not match our design");
+        throw Error("Полезная нагрузка не соответствует нашему проекту");
       }
 
       if (Math.round(Date.now() / 1000) > payload.exp) {
-        throw Error("Token lifetime expired");
+        throw Error("Время жизни токена истекло");
       }
 
       const { sessionId } = payload as { sessionId: string };
@@ -44,6 +47,6 @@ export const authPreHandler =
         req.user = req.session.user;
       }
     } catch {
-      if (required) throw ApiError.unAuth({ msg: "Требуется авторизация" });
+      if (required) throw ApiError.new(401);
     }
   };

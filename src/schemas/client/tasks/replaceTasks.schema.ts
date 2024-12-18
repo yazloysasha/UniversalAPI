@@ -1,10 +1,10 @@
+import { AppFastifySchema } from "@types";
 import { SwaggerContract } from "@contracts";
 import { taskSample } from "./common.schemas";
-import { AppFastifySchema, SuccessCode } from "@types";
 
 export const replaceTasksSchema = {
   tags: [SwaggerContract.ClientTag.TASKS],
-  summary: "Replace task list",
+  summary: "Заменить все задачи",
   security: [{ Bearer: [] }],
   body: {
     type: "object",
@@ -12,7 +12,7 @@ export const replaceTasksSchema = {
     properties: {
       tasks: {
         type: "array",
-        description: "New task list",
+        description: "Новый список задач",
         items: {
           type: "object",
           required: ["content", "status"],
@@ -22,7 +22,7 @@ export const replaceTasksSchema = {
     },
   },
   response: {
-    [SuccessCode.CREATED]: SwaggerContract.ActionResponseSchema,
+    201: SwaggerContract.ActionResponseSchema,
   },
 } as const satisfies AppFastifySchema;
 

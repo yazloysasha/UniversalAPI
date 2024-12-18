@@ -3,14 +3,14 @@ import { AppFastifyInstance } from "@types";
 import { AnalyticalService } from "@services";
 
 /**
- * Setup Fastify tracking hooks
+ * Установка хуков Fastify
  */
 export const setupFastifyHooks = (fastify: AppFastifyInstance): void => {
   const analyticalService = di.container.resolve<AnalyticalService>(
     AnalyticalService.name
   );
 
-  // Logging all responses
+  // Логирование всех ответов
   fastify.addHook("onResponse", (req, reply, done) => {
     analyticalService.createRequestLog({
       method: req.method,

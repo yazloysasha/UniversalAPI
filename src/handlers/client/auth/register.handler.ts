@@ -1,7 +1,7 @@
 import { di } from "@config";
 import { AuthService } from "@services";
+import { AppFastifyHandler } from "@types";
 import { RegisterType } from "@schemas/client";
-import { AppFastifyHandler, SuccessCode } from "@types";
 
 export const registerHandler: AppFastifyHandler<RegisterType> = async (
   req,
@@ -12,9 +12,9 @@ export const registerHandler: AppFastifyHandler<RegisterType> = async (
   const userId = await authService.register(req.body);
   const token = await authService.newSession({ userId });
 
-  reply.code(SuccessCode.CREATED).send({
+  reply.code(201).send({
     alert: true,
-    message: "Вы успешно зарегистрировались",
+    message: req.i18n.t("swagger.messages.REGISTERED"),
     token,
   });
 };

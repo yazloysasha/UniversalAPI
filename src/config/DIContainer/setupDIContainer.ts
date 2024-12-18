@@ -7,25 +7,21 @@ import {
 } from "@services";
 import { asClass, asValue } from "awilix";
 import { Session, Task, User } from "@entities";
-import appDataSource from "@consts/appDataSource";
+import appDataSource from "@constants/appDataSource";
 import { di, appLogger, RedisClient } from "@config";
 
 /**
- * Setup dependencies in DI container
+ * Внедрить зависимости в DI-контейнер
  */
 export const setupDIContainer = (): void => {
-  appLogger.info("Injecting dependencies...");
+  appLogger.info("Внедрение зависимостей...");
 
-  /**
-   * Operational database tables
-   */
+  // Таблицы операционной базы данных
   const taskRepository = appDataSource.getRepository(Task);
   const userRepository = appDataSource.getRepository(User);
   const sessionRepository = appDataSource.getRepository(Session);
 
-  /**
-   * Caching database client
-   */
+  // Клиент для кэширующей базы данных
   const redisClient = RedisClient.getInstance();
 
   di.container.register({
@@ -43,5 +39,5 @@ export const setupDIContainer = (): void => {
     [AnalyticalService.name]: asClass(AnalyticalService).singleton(),
   });
 
-  appLogger.verbose("Dependencies are injected");
+  appLogger.verbose("Зависимости внедрены");
 };

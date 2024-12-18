@@ -2,23 +2,23 @@ const fs = require("fs");
 const child_process = require("child_process");
 
 /**
- * Process name in PM2
+ * Название процесса в PM2
  */
 const PROCESS_NAME = "universal-api";
 
 /**
- * Updating the project on the server
+ * Обновление проекта на сервере
  */
 async function deploy() {
-  console.log("Installing packages...");
+  console.log("Установка пакетов...");
 
   child_process.execSync("npm install");
 
-  console.log("Compilation to JavaScript...");
+  console.log("Компиляция в JavaScript...");
 
   child_process.execSync("npm run build");
 
-  console.log("Performing migrations...");
+  console.log("Выполнение миграций...");
 
   try {
     const migrationRunResult = child_process
@@ -31,10 +31,10 @@ async function deploy() {
   } catch (data) {
     console.log(data);
 
-    throw Error("Failed to perform migration!");
+    throw Error("Не удалось выполнить миграцию!");
   }
 
-  console.log("Checking data integrity...");
+  console.log("Проверка целостности данных...");
 
   try {
     const schemaLogResult = child_process
@@ -47,10 +47,10 @@ async function deploy() {
   } catch (data) {
     console.log(data);
 
-    throw Error("Data loss detected!");
+    throw Error("Обнаружена потеря данных!");
   }
 
-  console.log("Running a project in shadow mode...");
+  console.log("Запуск проекта в теневом режиме...");
 
   let stdout = "";
 
@@ -60,21 +60,21 @@ async function deploy() {
       if (code || signal !== "SIGINT") {
         console.log(stdout);
 
-        throw Error("Running a project in shadow mode!");
+        throw Error("Произошла ошибка при запуске проекта в теневом режиме!");
       }
 
-      console.log("Getting a list of processes...");
+      console.log("Получение списка процессов...");
 
       const pm2List = JSON.parse(child_process.execSync("pm2 jlist"));
       const processIsExists = !!pm2List.find(
         (pm2Process) => pm2Process.name === PROCESS_NAME
       );
 
-      console.log("Resource movement...");
+      console.log("Перемещение ресурсов...");
 
       fs.cpSync("./build", "./dist", { recursive: true });
 
-      console.log("Launching a project in PRODUCTION mode...");
+      console.log("Запуск проекта в режиме PRODUCTION...");
 
       if (processIsExists) {
         child_process.execSync(`pm2 restart "${PROCESS_NAME}"`);
@@ -86,7 +86,7 @@ async function deploy() {
 
       removeBuildDirectory();
 
-      console.log("The project has been successfully launched!");
+      console.log("Проект успешно запущен!");
 
       process.exit();
     });
@@ -101,14 +101,14 @@ async function deploy() {
       !message.includes("listen EADDRINUSE: address already in use")
     ) {
       shadowProcess.kill(9);
-    } else if (message.includes("Project launch completed")) {
+    } else if (message.includes("Запуск проекта завершён")) {
       shadowProcess.kill(2);
     }
   });
 }
 
 /**
- * Clear temporary build directory
+ * Очистить директорию со временной сборкой
  */
 function removeBuildDirectory() {
   if (fs.existsSync("./build")) {

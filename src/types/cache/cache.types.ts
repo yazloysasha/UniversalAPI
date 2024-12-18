@@ -1,21 +1,7 @@
-/**
- * The type of value stored in the cache
- */
 export type CacheType = "boolean" | "number" | "string" | "json";
 
 export interface CacheItem {
-  /**
-   * The key by which the value can be obtained
-   */
-  key: string;
-
-  /**
-   * Value type
-   */
-  type: CacheType;
-
-  /**
-   * How long should it take to remember (in seconds)
-   */
-  duration?: number;
+  key: string; // Ключ, по которому можно получить значение
+  type: CacheType; // Тип хранимого в кэше значения
+  duration?: number; // Сколько времени нужно держать значение в памяти (в секундах)
 }

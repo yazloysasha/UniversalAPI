@@ -1,22 +1,22 @@
+import { AppFastifySchema } from "@types";
 import { SwaggerContract } from "@contracts";
 import { userSchema } from "./common.schemas";
-import { AppFastifySchema, SuccessCode } from "@types";
 
 export const getUsersSchema = {
   tags: [SwaggerContract.AdminTag.USERS],
-  summary: "Get list of all users",
+  summary: "Получить всех пользователей",
   security: [{ Bearer: [] }],
   querystring: SwaggerContract.EnablePaginationSchema,
   response: {
-    [SuccessCode.OK]: {
+    200: {
       type: "object",
-      description: "Reply to request",
+      description: "Ответ на запрос",
       required: ["totalSize", "items"],
       properties: {
         totalSize: SwaggerContract.PaginatedResponseSchema.properties.totalSize,
         items: {
           type: "array",
-          description: "Users",
+          description: "Пользователи",
           items: userSchema,
         },
       },

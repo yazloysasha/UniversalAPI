@@ -1,7 +1,7 @@
 import { di } from "@config";
 import { TaskService } from "@services";
+import { AppFastifyHandler } from "@types";
 import { DeleteTaskType } from "@schemas/client";
-import { AppFastifyHandler, SuccessCode } from "@types";
 
 export const deleteTaskHandler: AppFastifyHandler<DeleteTaskType> = async (
   req,
@@ -14,9 +14,9 @@ export const deleteTaskHandler: AppFastifyHandler<DeleteTaskType> = async (
     taskId: req.params.taskId,
   });
 
-  reply.code(SuccessCode.OK).send({
+  reply.code(200).send({
     alert: true,
-    message: "Успешно удалено",
+    message: req.i18n.t("swagger.messages.DELETED"),
     taskId: req.params.taskId,
   });
 };

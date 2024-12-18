@@ -3,7 +3,7 @@ import { registerControllers } from "@helpers";
 import { AppFastifyInstance, FastifyRoutes } from "@types";
 
 /**
- * Fastify router registration
+ * Регистрация маршрутов Fastify
  */
 export const setupFastifyRoutes = async (
   fastify: AppFastifyInstance,

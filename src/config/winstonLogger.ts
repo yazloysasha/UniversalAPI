@@ -3,10 +3,10 @@ import { locale } from "moment";
 import { IRequestLog } from "@types";
 import { format, transports, createLogger, Logger } from "winston";
 
-locale("en");
+locale("ru");
 
 export const commonFormat = format.combine(
-  format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
+  format.timestamp({ format: "DD.MM.YYYY HH:mm:ss" }),
   format.colorize({ all: true }),
   format.printf((info) => `[${info.timestamp}] ${info.message}`)
 );
@@ -68,7 +68,7 @@ export class AppLogger {
   }
 
   /**
-   * REST API request information
+   * Информация о запросе REST API
    */
   requestInfo(data: IRequestLog): void {
     const { method, statusCode, duration } = data;
@@ -119,13 +119,13 @@ export class AppLogger {
     }
 
     if (duration < 200) {
-      coloredDuration = chalk.green(duration, "ms");
+      coloredDuration = chalk.green(duration, "мс");
     } else if (duration < 500) {
-      coloredDuration = chalk.yellowBright(duration, "ms");
+      coloredDuration = chalk.yellowBright(duration, "мс");
     } else if (duration < 1000) {
-      coloredDuration = chalk.red(duration, "ms");
+      coloredDuration = chalk.red(duration, "мс");
     } else {
-      coloredDuration = chalk.black(duration, "ms");
+      coloredDuration = chalk.black(duration, "мс");
     }
 
     const prefix = `${coloredMethod} ${coloredStatusCode} ${data.url}`;
@@ -135,6 +135,6 @@ export class AppLogger {
 }
 
 /**
- * Application log system
+ * Система логов приложения
  */
 export const appLogger = AppLogger.getInstance();

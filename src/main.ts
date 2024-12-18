@@ -2,21 +2,25 @@ import {
   appLogger,
   setupFastify,
   setupDIContainer,
+  setupMultilingualism,
   connectToAnalyticalDatabase,
   connectToOperationalDatabase,
 } from "@config";
 import { FastifyRoutes } from "@types";
-import appConfig from "@consts/appConfig";
+import appConfig from "@constants/appConfig";
 
 const bootstrapApp = async (): Promise<void> => {
-  // First inject all dependencies, without them nothing can work
+  // Инициализировать мультиязычность
+  setupMultilingualism();
+
+  // Сначала установить все зависимости, без них ничего не может работать
   try {
     setupDIContainer();
   } catch (err) {
     appLogger.fatal((err as Error).message);
   }
 
-  // Launch Fastify API
+  // Запустить Fastify API
   if (appConfig.ENABLED_MODULES.includes("fastify")) {
     for (const routes in appConfig.ENABLED_FASTIFY_ROUTES) {
       try {
@@ -30,14 +34,14 @@ const bootstrapApp = async (): Promise<void> => {
     }
   }
 
-  // Connect to operational database
+  // Подключиться к операционной базе данных
   try {
     await connectToOperationalDatabase();
   } catch (err) {
     appLogger.fatal((err as Error).message);
   }
 
-  // Connect to analytical database
+  // Подключиться к аналитической базе данных
   if (appConfig.ENABLED_MODULES.includes("analytics")) {
     try {
       await connectToAnalyticalDatabase();
@@ -46,7 +50,7 @@ const bootstrapApp = async (): Promise<void> => {
     }
   }
 
-  appLogger.verbose("Project launch completed");
+  appLogger.verbose("Запуск проекта завершён");
 };
 
 bootstrapApp();

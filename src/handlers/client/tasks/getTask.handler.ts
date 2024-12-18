@@ -1,7 +1,7 @@
 import { di } from "@config";
 import { TaskService } from "@services";
+import { AppFastifyHandler } from "@types";
 import { GetTaskType } from "@schemas/client";
-import { AppFastifyHandler, SuccessCode } from "@types";
 
 export const getTaskHandler: AppFastifyHandler<GetTaskType> = async (
   req,
@@ -14,5 +14,5 @@ export const getTaskHandler: AppFastifyHandler<GetTaskType> = async (
     taskId: req.params.taskId,
   });
 
-  reply.code(SuccessCode.OK).send(task);
+  reply.code(200).send(task);
 };

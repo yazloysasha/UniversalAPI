@@ -4,7 +4,7 @@ import { User, UserRole } from "@entities";
 import { ExtendedUser, IPagination, RegularUser } from "@types";
 
 /**
- * Service for working with users
+ * Сервис для управления пользователями
  */
 export class UserService {
   constructor(private userRepository: Repository<User>) {}
@@ -17,6 +17,9 @@ export class UserService {
     "updatedAt",
   ];
 
+  /**
+   * Получить список пользователей
+   */
   async getUsers({ pagination }: { pagination: IPagination }): Promise<{
     totalSize: number;
     users: RegularUser[];
@@ -36,6 +39,9 @@ export class UserService {
     };
   }
 
+  /**
+   * Получить пользователя
+   */
   async getUser({
     userId,
     extended = false,
@@ -71,11 +77,14 @@ export class UserService {
       relations: extended ? ["sessions", "tasks"] : [],
     });
 
-    if (!user) throw ApiError.notFound();
+    if (!user) throw ApiError.new(404);
 
     return user;
   }
 
+  /**
+   * Отредактировать пользователя
+   */
   async editUser({
     userId,
     name,
@@ -93,7 +102,7 @@ export class UserService {
       .returning(this.regularAttributes)
       .execute();
 
-    if (!result.affected) throw ApiError.notFound();
+    if (!result.affected) throw ApiError.new(404);
 
     return result.raw[0];
   }

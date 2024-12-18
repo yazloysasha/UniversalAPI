@@ -1,7 +1,7 @@
 import { di } from "@config";
 import { UserService } from "@services";
+import { AppFastifyHandler } from "@types";
 import { GetUsersType } from "@schemas/admin";
-import { AppFastifyHandler, SuccessCode } from "@types";
 
 export const getUsersHandler: AppFastifyHandler<GetUsersType> = async (
   req,
@@ -13,5 +13,5 @@ export const getUsersHandler: AppFastifyHandler<GetUsersType> = async (
     pagination: req.query,
   });
 
-  reply.code(SuccessCode.OK).send({ totalSize, items: users });
+  reply.code(200).send({ totalSize, items: users });
 };

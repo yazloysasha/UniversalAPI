@@ -1,69 +1,32 @@
+import { I18n, StatusCodes } from "@types";
 import { SwaggerContract } from "@contracts";
-import { ClientErrorCode, ServerErrorCode, StatusCodes } from "@types";
 
-type IApiErrorProps = {
-  alert?: boolean;
-  msg?: string;
-};
+type I18nArgs = { [x: string]: I18nArgs | boolean | number | string };
 
+/**
+ * Ошибка API
+ */
 export class ApiError extends Error {
+  public name = "ApiError";
+
   constructor(
     public statusCode: StatusCodes,
-    public message: string,
+    public message: I18n,
     public alert: boolean,
-    public name = "ApiError"
+    public args: I18nArgs
   ) {
     super(message);
   }
 
-  static badRequest({
-    msg = SwaggerContract.CodeDescriptions[ClientErrorCode.BAD_REQUEST],
-    alert = true,
-  }: IApiErrorProps = {}): ApiError {
-    return new ApiError(ClientErrorCode.BAD_REQUEST, msg, alert);
-  }
-
-  static unAuth({
-    msg = SwaggerContract.CodeDescriptions[ClientErrorCode.UNAUTHORIZED],
-    alert = true,
-  }: IApiErrorProps = {}): ApiError {
-    return new ApiError(ClientErrorCode.UNAUTHORIZED, msg, alert);
-  }
-
-  static forbidden({
-    msg = SwaggerContract.CodeDescriptions[ClientErrorCode.FORBIDDEN],
-    alert = true,
-  }: IApiErrorProps = {}): ApiError {
-    return new ApiError(ClientErrorCode.FORBIDDEN, msg, alert);
-  }
-
-  static notFound({
-    msg = SwaggerContract.CodeDescriptions[ClientErrorCode.NOT_FOUND],
-    alert = true,
-  }: IApiErrorProps = {}): ApiError {
-    return new ApiError(ClientErrorCode.NOT_FOUND, msg, alert);
-  }
-
-  static tooManyRequests({
-    msg = SwaggerContract.CodeDescriptions[ClientErrorCode.TOO_MANY_REQUESTS],
-    alert = true,
-  }: IApiErrorProps = {}): ApiError {
-    return new ApiError(ClientErrorCode.TOO_MANY_REQUESTS, msg, alert);
-  }
-
-  static internalServerError({
-    msg = SwaggerContract.CodeDescriptions[
-      ServerErrorCode.INTERNAL_SERVER_ERROR
-    ],
-    alert = true,
-  }: IApiErrorProps = {}): ApiError {
-    return new ApiError(ServerErrorCode.INTERNAL_SERVER_ERROR, msg, alert);
-  }
-
-  static badGateway({
-    msg = SwaggerContract.CodeDescriptions[ServerErrorCode.BAD_GATEWAY],
-    alert = true,
-  }: IApiErrorProps = {}): ApiError {
-    return new ApiError(ServerErrorCode.BAD_GATEWAY, msg, alert);
+  static new(
+    statusCode: StatusCodes,
+    { msg, alert, args }: { alert?: boolean; msg?: I18n; args?: I18nArgs } = {}
+  ): ApiError {
+    return new ApiError(
+      statusCode,
+      msg || SwaggerContract.CodeDescriptions[statusCode],
+      alert || true,
+      args || {}
+    );
   }
 }

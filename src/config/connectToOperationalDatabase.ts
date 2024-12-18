@@ -1,31 +1,27 @@
 import { ApiError } from "@errors";
 import { DataSource } from "typeorm";
 import { appLogger, di } from "@config";
-import appConfig from "@consts/appConfig";
+import appConfig from "@constants/appConfig";
 
 /**
- * Connecting to operational database
+ * Подключение к операционной базе данных
  */
 export const connectToOperationalDatabase = async (): Promise<void> => {
   const appDataSource = di.container.resolve<DataSource>("appDataSource");
 
   if (!appConfig.POSTGRESQL_URL) {
-    throw ApiError.internalServerError({
-      msg: "Не указана ссылка для подключения к операционной базе данных",
-    });
+    throw ApiError.new(500, { msg: "system.NO_POSTGRESQL_URL" });
   }
 
-  appLogger.info("Connecting to operational database...");
+  appLogger.info("Подключение к операционной базе данных...");
 
   try {
     await appDataSource.initialize();
 
-    appLogger.verbose("Connection to operational database established");
+    appLogger.verbose("Соединение с операционной базой данных установлено");
   } catch (err) {
     console.error(err);
 
-    throw ApiError.badGateway({
-      msg: "Failed to establish connection to operational database",
-    });
+    throw ApiError.new(502, { msg: "system.NO_CONNECT_POSTGRESQL" });
   }
 };
