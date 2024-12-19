@@ -59,6 +59,7 @@ export class UserService {
               "sessions",
               {
                 id: true,
+                lastVisitAt: true,
                 createdAt: true,
                 updatedAt: true,
               },
@@ -78,7 +79,7 @@ export class UserService {
       relations: extended ? ["sessions", "tasks"] : [],
     });
 
-    if (!user) throw APIError.new(404);
+    if (!user) throw new APIError(404);
 
     return user;
   }
@@ -103,8 +104,18 @@ export class UserService {
       .returning(this.regularAttributes)
       .execute();
 
-    if (!result.affected) throw APIError.new(404);
+    if (!result.affected) throw new APIError(404);
 
     return result.raw[0];
+  }
+
+  /**
+   * Получить топ пользователей по созданным задачам
+   */
+  async getUsersTop(): Promise<(RegularUser & Pick<User, "tasksCount">)[]> {
+    return this.userRepository.find({
+      select: [...this.regularAttributes, "tasksCount"],
+      order: { tasksCount: "DESC" },
+    });
   }
 }

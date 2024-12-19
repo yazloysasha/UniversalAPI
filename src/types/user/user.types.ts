@@ -7,6 +7,6 @@ export type RegularUser = Pick<
 >;
 
 export type ExtendedUser = RegularUser & {
-  sessions: Pick<Session, "id" | "createdAt" | "updatedAt">[];
+  sessions: Pick<Session, "id" | "lastVisitAt" | "createdAt" | "updatedAt">[];
   tasks: RegularTask[];
 };

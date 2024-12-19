@@ -53,7 +53,7 @@ export interface AppFastifySchema extends FastifySchema {
   params?: AppJSONSchema;
   headers?: AppJSONSchema;
   response?: {
-    [Property in StatusCodes]?: AppJSONSchema;
+    [x in StatusCodes]?: AppJSONSchema;
   };
 }
 

@@ -8,7 +8,7 @@ export const verifyPreHandler =
   ): AppFastifyPreHandler<SchemaType> =>
   (req, reply, done) => {
     if (!roles.includes(req.user?.role!)) {
-      throw APIError.new(403);
+      throw new APIError(403);
     }
 
     done();

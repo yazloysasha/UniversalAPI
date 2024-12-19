@@ -70,12 +70,12 @@ export class CronService {
     const equipmentTask: ITaskInQueue = { task, ctx };
 
     if (task.schedule && task.interval) {
-      throw APIError.new(400, { msg: "services.cron.INCOMPATIBLE" });
+      throw new APIError(400, { msg: "services.cron.INCOMPATIBLE" });
     }
 
     if (task.schedule) {
       if (!cron.validate(task.schedule)) {
-        throw APIError.new(400, { msg: "services.cron.INVALID_SCHEDULE" });
+        throw new APIError(400, { msg: "services.cron.INVALID_SCHEDULE" });
       }
 
       cron.schedule(task.schedule, () => {
@@ -88,7 +88,7 @@ export class CronService {
 
     if (task.interval) {
       if (task.interval <= 0) {
-        throw APIError.new(400, { msg: "services.cron.INVALID_INTERVAL" });
+        throw new APIError(400, { msg: "services.cron.INVALID_INTERVAL" });
       }
 
       setInterval(() => {

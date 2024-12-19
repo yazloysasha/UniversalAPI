@@ -23,7 +23,7 @@ export const taskSample = {
     description: "Статус задачи",
     example: TaskStatus.NOT_DONE,
   },
-} as const satisfies { [Property in string]: AppJSONSchema };
+} as const satisfies { [x in string]: AppJSONSchema };
 
 export const taskSchema = {
   type: "object",

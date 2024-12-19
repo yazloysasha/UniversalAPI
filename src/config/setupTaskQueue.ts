@@ -20,6 +20,10 @@ export const setupTaskQueue = (): void => {
 
   for (const taskName of appConfig.ENABLED_TASKS) {
     switch (taskName) {
+      case CronContract.UpdateUsersTop.name:
+        cronService.addTask(CronContract.UpdateUsersTop);
+        break;
+
       case CronContract.ClearingUnusualSessions.name:
         cronService.addTask(CronContract.ClearingUnusualSessions);
         break;
@@ -35,6 +39,7 @@ export const setupTaskQueue = (): void => {
     switch (taskType) {
       // Задачи, связанные с кэшированием
       case "cache":
+        cronService.addTask(CronContract.UpdateUsersTop);
         break;
 
       // Сервисные службы

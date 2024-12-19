@@ -26,7 +26,7 @@ export const setupFastify = async (
   port?: number
 ): Promise<void> => {
   if (typeof port !== "number" || Number.isNaN(port)) {
-    throw APIError.new(500, {
+    throw new APIError(500, {
       msg: "system.NO_FASTIFY_PORT",
       args: { routes },
     });

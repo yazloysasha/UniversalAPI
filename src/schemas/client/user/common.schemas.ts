@@ -32,7 +32,7 @@ export const userSample = {
     description: "Роль пользователя",
     example: UserRole.ADMINISTRATOR,
   },
-} as const satisfies { [Property in string]: AppJSONSchema };
+} as const satisfies { [x in string]: AppJSONSchema };
 
 export const userSchema = {
   type: "object",
@@ -65,7 +65,7 @@ export const extendedUserSchema = {
       description: "Список активных сессий",
       items: {
         type: "object",
-        required: ["id", "createdAt", "updatedAt"],
+        required: ["id", "lastVisitAt", "createdAt", "updatedAt"],
         properties: {
           id: {
             type: "string",
@@ -73,6 +73,7 @@ export const extendedUserSchema = {
             description: "ID сессии",
             example: SwaggerContract.UUIDExample,
           },
+          lastVisitAt: lastVisitAtSchema,
           ...timestampsSample,
         },
       },

@@ -26,24 +26,13 @@ export class TaskService {
   }: {
     userId: string;
     pagination: IPagination;
-  }): Promise<{
-    totalSize: number;
-    tasks: RegularTask[];
-  }> {
-    const [totalSize, tasks] = await Promise.all([
-      this.taskRepository.count(),
-      this.taskRepository.find({
-        skip: pagination.skip,
-        take: pagination.limit,
-        select: this.regularAttributes,
-        where: { userId },
-      }),
-    ]);
-
-    return {
-      totalSize,
-      tasks,
-    };
+  }): Promise<RegularTask[]> {
+    return this.taskRepository.find({
+      skip: pagination.skip,
+      take: pagination.limit,
+      select: this.regularAttributes,
+      where: { userId },
+    });
   }
 
   /**
@@ -101,7 +90,7 @@ export class TaskService {
       select: this.regularAttributes,
     });
 
-    if (!task) throw APIError.new(404);
+    if (!task) throw new APIError(404);
 
     return task;
   }
@@ -128,7 +117,7 @@ export class TaskService {
       .returning(this.regularAttributes)
       .execute();
 
-    if (!result.affected) throw APIError.new(404);
+    if (!result.affected) throw new APIError(404);
 
     return result.raw[0];
   }
@@ -145,6 +134,6 @@ export class TaskService {
   }): Promise<void> {
     const result = await this.taskRepository.delete({ id: taskId, userId });
 
-    if (!result.affected) throw APIError.new(404);
+    if (!result.affected) throw new APIError(404);
   }
 }

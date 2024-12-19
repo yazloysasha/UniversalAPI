@@ -30,7 +30,7 @@ export const getTasksController: AppFastifyRoute<GetTasksType> = {
   url: "/tasks",
   method: "GET",
   schema: getTasksSchema,
-  preHandler: authPreHandler(),
+  preHandler: authPreHandler({ extended: true }),
   handler: getTasksHandler,
 };
 

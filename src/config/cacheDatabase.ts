@@ -17,7 +17,7 @@ export class RedisClient {
     if (RedisClient.instance) return RedisClient.instance;
 
     if (!appConfig.REDIS_URL) {
-      throw APIError.new(500, { msg: "system.NO_REDIS_URL" });
+      throw new APIError(500, { msg: "system.NO_REDIS_URL" });
     }
 
     appLogger.info("Подключение к кэширующей базе данных...");

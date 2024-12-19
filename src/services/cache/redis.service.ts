@@ -7,7 +7,7 @@ import { CacheItem } from "@types";
 export abstract class RedisService {
   constructor(private redisClient: Redis) {}
 
-  private stringify<ValueType = boolean | number | string | object>(
+  private stringify<ValueType = boolean | number | string | any[] | object>(
     item: CacheItem,
     value: ValueType
   ): string {
@@ -18,7 +18,7 @@ export abstract class RedisService {
     return JSON.stringify(value);
   }
 
-  private parse<ValueType = boolean | number | string | object>(
+  private parse<ValueType = boolean | number | string | any[] | object>(
     item: CacheItem,
     value: string
   ): ValueType {
@@ -32,7 +32,7 @@ export abstract class RedisService {
   /**
    * Получить значение из кэша
    */
-  protected async get<ValueType = boolean | number | string | object>(
+  async get<ValueType = boolean | number | string | any[] | object>(
     item: CacheItem
   ): Promise<ValueType | null> {
     const value = await this.redisClient.get(item.key);
@@ -44,7 +44,7 @@ export abstract class RedisService {
   /**
    * Установить значение в кэш
    */
-  protected async set<ValueType = boolean | number | string | object>(
+  async set<ValueType = boolean | number | string | any[] | object>(
     item: CacheItem,
     value: ValueType
   ): Promise<void> {
@@ -60,11 +60,11 @@ export abstract class RedisService {
   /**
    * Удалить значение из кэша
    */
-  protected async delete(item: CacheItem): Promise<void> {
+  async delete(item: CacheItem): Promise<void> {
     await this.redisClient.del(item.key);
   }
 
-  async getArray<ValueType = boolean | number | string | object>(
+  async getArray<ValueType = boolean | number | string | any[] | object>(
     item: CacheItem
   ): Promise<ValueType[]> {
     const array = await this.redisClient.smembers(item.key);
@@ -72,7 +72,7 @@ export abstract class RedisService {
     return array.map((value) => this.parse(item, value));
   }
 
-  async addToArray<ValueType = boolean | number | string | object>(
+  async addToArray<ValueType = boolean | number | string | any[] | object>(
     item: CacheItem,
     ...array: ValueType[]
   ): Promise<void> {
@@ -81,7 +81,7 @@ export abstract class RedisService {
     await this.redisClient.sadd(item.key, ...stringifiedArray);
   }
 
-  async removeFromArray<ValueType = boolean | number | string | object>(
+  async removeFromArray<ValueType = boolean | number | string | any[] | object>(
     item: CacheItem,
     value: ValueType
   ): Promise<void> {

@@ -16,6 +16,7 @@
 # misc
 .DS_Store
 *.pem
+*.rdb
 
 # debug
 npm-debug.log*

@@ -15,5 +15,5 @@ export const timestampsSample = {
     example: SwaggerContract.DateTimeExample,
   },
 } as const satisfies {
-  [Property in string]: AppJSONSchema;
+  [x in string]: AppJSONSchema;
 };

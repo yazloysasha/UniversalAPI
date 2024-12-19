@@ -1,5 +1,5 @@
 import { ITask } from "@types";
-import { clearingUnusualSessionsTask } from "@tasks";
+import { clearingUnusualSessionsTask, updateUsersTopTask } from "@tasks";
 
 export namespace CronContract {
   /**
@@ -9,5 +9,14 @@ export namespace CronContract {
     name: "ClearingUnusualSessions",
     schedule: "0 4 */1 * *",
     handler: clearingUnusualSessionsTask,
+  };
+
+  /**
+   * Обновить топ пользователей (каждый час)
+   */
+  export const UpdateUsersTop: ITask = {
+    name: "UpdateUsersTop",
+    schedule: "0 */1 * * *",
+    handler: updateUsersTopTask,
   };
 }

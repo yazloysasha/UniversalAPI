@@ -1,4 +1,4 @@
-export type CacheType = "boolean" | "number" | "string" | "json";
+export type CacheType = "boolean" | "number" | "string" | "array" | "object";
 
 export interface CacheItem {
   key: string; // Ключ, по которому можно получить значение

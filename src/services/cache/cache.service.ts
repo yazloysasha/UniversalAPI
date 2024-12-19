@@ -14,7 +14,7 @@ export class CacheService extends RedisService {
   /**
    * Получить или установить значение
    */
-  async getOrSet<ValueType = boolean | number | string | object>({
+  async getOrSet<ValueType = boolean | number | string | any[] | object>({
     item,
     func,
   }: {

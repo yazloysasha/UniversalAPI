@@ -43,10 +43,22 @@ export class User {
   sessions!: Session[];
 
   /**
+   * Количество сессий пользователя
+   */
+  @Column({ type: "integer", default: 0 })
+  sessionsCount!: number;
+
+  /**
    * Задачи пользователя
    */
   @OneToMany(() => Task, (task) => task.user)
   tasks!: Task[];
+
+  /**
+   * Количество задач пользователя
+   */
+  @Column({ type: "integer", default: 0 })
+  tasksCount!: number;
 
   /**
    * Последняя активность пользователя

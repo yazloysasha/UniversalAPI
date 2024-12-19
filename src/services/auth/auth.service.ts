@@ -37,7 +37,7 @@ export class AuthService {
    */
   async newSession({ userId }: { userId: string }): Promise<string> {
     const session = this.sessionRepository.create({
-      user: { id: userId },
+      userId,
     });
 
     await this.sessionRepository.insert(session);
@@ -64,23 +64,19 @@ export class AuthService {
       .returning("*")
       .execute();
 
-    if (!firstResult.affected) throw APIError.new(404);
+    if (!firstResult.affected) throw new APIError(404);
 
     const session: Session = firstResult.raw[0];
 
-    // Запрос для обновления последнего времени визита пользователя сессии
-    const queryForUpdatingUser = this.userRepository
-      .createQueryBuilder()
-      .update()
-      .set({ lastVisitAt: session.lastVisitAt })
-      .where({ id: session.userId });
-
+    // Получить пользователя сессии, если нужно
     if (extended) {
-      const secondResult = await queryForUpdatingUser.returning("*").execute();
+      const user = await this.userRepository.findOne({
+        where: { id: session.userId },
+      });
 
-      session.user = secondResult.raw[0];
-    } else {
-      queryForUpdatingUser.execute();
+      if (user) {
+        session.user = user;
+      }
     }
 
     return session;
@@ -114,7 +110,7 @@ export class AuthService {
       return user.id;
     } catch (err) {
       if ((err as Error).message.includes("UQ_065d4d8f3b5adb4a08841eae3c8")) {
-        throw APIError.new(400, { msg: "services.auth.NOT_UNIQUE_NAME" });
+        throw new APIError(400, { msg: "services.auth.NOT_UNIQUE_NAME" });
       }
 
       throw err;
@@ -139,7 +135,7 @@ export class AuthService {
         .getOne();
 
     if (!user || !compareSync(password, user.password)) {
-      throw APIError.new(400, { msg: "services.auth.AUTH_FAILED" });
+      throw new APIError(400, { msg: "services.auth.AUTH_FAILED" });
     }
 
     return user.id;

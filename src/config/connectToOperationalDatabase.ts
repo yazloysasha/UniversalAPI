@@ -10,7 +10,7 @@ export const connectToOperationalDatabase = async (): Promise<void> => {
   const appDataSource = di.container.resolve<DataSource>("appDataSource");
 
   if (!appConfig.POSTGRESQL_URL) {
-    throw APIError.new(500, { msg: "system.NO_POSTGRESQL_URL" });
+    throw new APIError(500, { msg: "system.NO_POSTGRESQL_URL" });
   }
 
   appLogger.info("Подключение к операционной базе данных...");
@@ -22,6 +22,6 @@ export const connectToOperationalDatabase = async (): Promise<void> => {
   } catch (err) {
     console.error(err);
 
-    throw APIError.new(502, { msg: "system.NO_CONNECT_POSTGRESQL" });
+    throw new APIError(502, { msg: "system.NO_CONNECT_POSTGRESQL" });
   }
 };

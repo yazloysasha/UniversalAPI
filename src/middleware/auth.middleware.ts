@@ -50,6 +50,6 @@ export const authPreHandler =
         req.user = req.session.user;
       }
     } catch {
-      if (required) throw APIError.new(401);
+      if (required) throw new APIError(401);
     }
   };

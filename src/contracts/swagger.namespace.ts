@@ -110,7 +110,7 @@ export namespace SwaggerContract {
     [ServerErrorCode.SSL_HANDSHAKE_FAILED]: "swagger.codes.525",
     [ServerErrorCode.INVALID_SSL_CERTIFICATE]: "swagger.codes.526",
   } as const satisfies {
-    [Property in StatusCodes]: I18n;
+    [x in StatusCodes]: I18n;
   };
 
   export const UUIDExample = "3fa85f64-5717-4562-b3fc-2c963f66afa6";

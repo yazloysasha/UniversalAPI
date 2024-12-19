@@ -8,7 +8,7 @@ import appConfig from "@constants/appConfig";
  */
 export const connectToAnalyticalDatabase = async (): Promise<void> => {
   if (!appConfig.MONGODB_URL) {
-    throw APIError.new(500, { msg: "system.NO_MONGODB_URL" });
+    throw new APIError(500, { msg: "system.NO_MONGODB_URL" });
   }
 
   appLogger.info("Подключение к аналитической базе данных...");
@@ -20,6 +20,6 @@ export const connectToAnalyticalDatabase = async (): Promise<void> => {
   } catch (err) {
     console.error(err);
 
-    throw APIError.new(502, { msg: "system.NO_CONNECT_MONGODB" });
+    throw new APIError(502, { msg: "system.NO_CONNECT_MONGODB" });
   }
 };
