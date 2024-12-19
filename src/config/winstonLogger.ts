@@ -1,6 +1,7 @@
 import chalk from "chalk";
+import i18next from "i18next";
 import { locale } from "moment";
-import { IRequestLog } from "@types";
+import { I18n, IRequestLog } from "@types";
 import { format, transports, createLogger, Logger } from "winston";
 
 locale("ru");
@@ -47,8 +48,13 @@ export class AppLogger {
     this.logger.verbose(chalk.cyanBright(message));
   }
 
-  fatal(message: string): void {
-    this.logger.error(chalk.bgRedBright("FATAL:", message));
+  fatal(message: string, translate = false): void {
+    this.logger.error(
+      chalk.bgRedBright(
+        "FATAL:",
+        translate ? i18next.t(message as I18n) : message
+      )
+    );
   }
 
   error(message: string): void {

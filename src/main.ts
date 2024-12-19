@@ -26,7 +26,7 @@ const bootstrapApp = async (): Promise<void> => {
           appConfig.ENABLED_FASTIFY_ROUTES[routes as FastifyRoutes]
         );
       } catch (err) {
-        appLogger.fatal((err as Error).message);
+        appLogger.fatal((err as Error).message, true);
       }
     }
   }
@@ -35,7 +35,7 @@ const bootstrapApp = async (): Promise<void> => {
   try {
     await connectToOperationalDatabase();
   } catch (err) {
-    appLogger.fatal((err as Error).message);
+    appLogger.fatal((err as Error).message, true);
   }
 
   // Подключиться к аналитической базе данных
@@ -43,7 +43,7 @@ const bootstrapApp = async (): Promise<void> => {
     try {
       await connectToAnalyticalDatabase();
     } catch (err) {
-      appLogger.fatal((err as Error).message);
+      appLogger.fatal((err as Error).message, true);
     }
   }
 
@@ -52,7 +52,7 @@ const bootstrapApp = async (): Promise<void> => {
     try {
       setupTaskQueue();
     } catch (err) {
-      appLogger.fatal((err as Error).message);
+      appLogger.fatal((err as Error).message, true);
     }
   }
 
