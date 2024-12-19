@@ -26,7 +26,6 @@ export const setupDIContainer = (): void => {
   const redisClient = RedisClient.getInstance();
 
   di.container.register({
-    appDataSource: asValue(appDataSource),
     taskRepository: asValue(taskRepository),
     userRepository: asValue(userRepository),
     sessionRepository: asValue(sessionRepository),
