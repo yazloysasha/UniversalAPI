@@ -1,3 +1,3 @@
+export * from "./APIError";
 export * from "./hash";
-export * from "./parseConfig";
 export * from "./primitive";

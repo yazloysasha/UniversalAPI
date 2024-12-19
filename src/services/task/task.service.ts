@@ -1,4 +1,4 @@
-import { ApiError } from "@errors";
+import { APIError } from "@utils";
 import { Repository } from "typeorm";
 import { Task, TaskStatus } from "@entities";
 import { RegularTask, IPagination } from "@types";
@@ -101,7 +101,7 @@ export class TaskService {
       select: this.regularAttributes,
     });
 
-    if (!task) throw ApiError.new(404);
+    if (!task) throw APIError.new(404);
 
     return task;
   }
@@ -128,7 +128,7 @@ export class TaskService {
       .returning(this.regularAttributes)
       .execute();
 
-    if (!result.affected) throw ApiError.new(404);
+    if (!result.affected) throw APIError.new(404);
 
     return result.raw[0];
   }
@@ -145,6 +145,6 @@ export class TaskService {
   }): Promise<void> {
     const result = await this.taskRepository.delete({ id: taskId, userId });
 
-    if (!result.affected) throw ApiError.new(404);
+    if (!result.affected) throw APIError.new(404);
   }
 }

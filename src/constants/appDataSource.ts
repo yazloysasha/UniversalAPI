@@ -6,7 +6,7 @@ import { Session, Task, User } from "@entities";
 /**
  * Ресурсы для операционной базы данных
  */
-export default new DataSource({
+const appDataSource = new DataSource({
   type: "postgres",
   url: appConfig.POSTGRESQL_URL,
   entities: [Task, User, Session],
@@ -17,3 +17,5 @@ export default new DataSource({
   ],
   synchronize: false,
 });
+
+export default appDataSource;

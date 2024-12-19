@@ -1,10 +1,13 @@
 import { di } from "@config";
-import { ApiError } from "@errors";
+import { APIError } from "@utils";
 import { TypeORMError } from "typeorm";
 import { MongooseError } from "mongoose";
 import { AnalyticalService } from "@services";
 import { FastifyError, FastifyReply, FastifyRequest } from "fastify";
 
+/**
+ * Обработчик ошибок в запросах
+ */
 export const apiErrorHandler = (
   error: FastifyError,
   req: FastifyRequest,
@@ -45,7 +48,7 @@ export const apiErrorHandler = (
   }
 
   // Ошибка, выброшенная нашим сервисом
-  if (error instanceof ApiError) {
+  if (error instanceof APIError) {
     reply.code(error.statusCode).send({
       alert: error.alert,
       type: "error",

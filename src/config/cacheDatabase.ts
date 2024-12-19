@@ -1,5 +1,5 @@
 import Redis from "ioredis";
-import { ApiError } from "@errors";
+import { APIError } from "@utils";
 import { appLogger } from "./winstonLogger";
 import appConfig from "@constants/appConfig";
 
@@ -17,7 +17,7 @@ export class RedisClient {
     if (RedisClient.instance) return RedisClient.instance;
 
     if (!appConfig.REDIS_URL) {
-      throw ApiError.new(500, { msg: "system.NO_REDIS_URL" });
+      throw APIError.new(500, { msg: "system.NO_REDIS_URL" });
     }
 
     appLogger.info("Подключение к кэширующей базе данных...");

@@ -1,7 +1,6 @@
-import { hash } from "@utils";
-import { ApiError } from "@errors";
 import { Repository } from "typeorm";
 import { compareSync } from "bcrypt";
+import { APIError, hash } from "@utils";
 import { AppContract } from "@contracts";
 import { Session, User } from "@entities";
 import appConfig from "@constants/appConfig";
@@ -65,7 +64,7 @@ export class AuthService {
       .returning("*")
       .execute();
 
-    if (!firstResult.affected) throw ApiError.new(404);
+    if (!firstResult.affected) throw APIError.new(404);
 
     const session: Session = firstResult.raw[0];
 
@@ -115,7 +114,7 @@ export class AuthService {
       return user.id;
     } catch (err) {
       if ((err as Error).message.includes("UQ_065d4d8f3b5adb4a08841eae3c8")) {
-        throw ApiError.new(400, { msg: "services.auth.NOT_UNIQUE_NAME" });
+        throw APIError.new(400, { msg: "services.auth.NOT_UNIQUE_NAME" });
       }
 
       throw err;
@@ -140,7 +139,7 @@ export class AuthService {
         .getOne();
 
     if (!user || !compareSync(password, user.password)) {
-      throw ApiError.new(400, { msg: "services.auth.AUTH_FAILED" });
+      throw APIError.new(400, { msg: "services.auth.AUTH_FAILED" });
     }
 
     return user.id;

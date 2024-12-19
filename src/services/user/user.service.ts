@@ -1,4 +1,4 @@
-import { ApiError } from "@errors";
+import { APIError } from "@utils";
 import { Repository } from "typeorm";
 import { User, UserRole } from "@entities";
 import { ExtendedUser, IPagination, RegularUser } from "@types";
@@ -78,7 +78,7 @@ export class UserService {
       relations: extended ? ["sessions", "tasks"] : [],
     });
 
-    if (!user) throw ApiError.new(404);
+    if (!user) throw APIError.new(404);
 
     return user;
   }
@@ -103,7 +103,7 @@ export class UserService {
       .returning(this.regularAttributes)
       .execute();
 
-    if (!result.affected) throw ApiError.new(404);
+    if (!result.affected) throw APIError.new(404);
 
     return result.raw[0];
   }

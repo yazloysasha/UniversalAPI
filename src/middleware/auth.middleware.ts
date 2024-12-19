@@ -1,5 +1,5 @@
 import { di } from "@config";
-import { ApiError } from "@errors";
+import { APIError } from "@utils";
 import { AuthService } from "@services";
 import { AppFastifySchema, AppFastifyPreHandler } from "@types";
 
@@ -50,6 +50,6 @@ export const authPreHandler =
         req.user = req.session.user;
       }
     } catch {
-      if (required) throw ApiError.new(401);
+      if (required) throw APIError.new(401);
     }
   };

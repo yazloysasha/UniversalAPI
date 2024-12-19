@@ -1,6 +1,6 @@
 import chalk from "chalk";
 import cron from "node-cron";
-import { ApiError } from "@errors";
+import { APIError } from "@utils";
 import { appLogger } from "@config";
 import { ITask, ITaskInQueue, TaskContext } from "@types";
 
@@ -70,12 +70,12 @@ export class CronService {
     const equipmentTask: ITaskInQueue = { task, ctx };
 
     if (task.schedule && task.interval) {
-      throw ApiError.new(400, { msg: "services.cron.INCOMPATIBLE" });
+      throw APIError.new(400, { msg: "services.cron.INCOMPATIBLE" });
     }
 
     if (task.schedule) {
       if (!cron.validate(task.schedule)) {
-        throw ApiError.new(400, { msg: "services.cron.INVALID_SCHEDULE" });
+        throw APIError.new(400, { msg: "services.cron.INVALID_SCHEDULE" });
       }
 
       cron.schedule(task.schedule, () => {
@@ -88,7 +88,7 @@ export class CronService {
 
     if (task.interval) {
       if (task.interval <= 0) {
-        throw ApiError.new(400, { msg: "services.cron.INVALID_INTERVAL" });
+        throw APIError.new(400, { msg: "services.cron.INVALID_INTERVAL" });
       }
 
       setInterval(() => {

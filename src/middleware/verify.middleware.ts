@@ -1,4 +1,4 @@
-import { ApiError } from "@errors";
+import { APIError } from "@utils";
 import { UserRole } from "@entities";
 import { AppFastifySchema, AppFastifyPreHandler } from "@types";
 
@@ -8,7 +8,7 @@ export const verifyPreHandler =
   ): AppFastifyPreHandler<SchemaType> =>
   (req, reply, done) => {
     if (!roles.includes(req.user?.role!)) {
-      throw ApiError.new(403);
+      throw APIError.new(403);
     }
 
     done();

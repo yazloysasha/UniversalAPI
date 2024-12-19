@@ -6,16 +6,16 @@ import {
 } from "@config";
 import Fastify from "fastify";
 import i18next from "i18next";
+import { APIError } from "@utils";
 import fastifyCors from "@fastify/cors";
-import { getFastifyRoutes } from "@helpers";
 import fastifyCookie from "@fastify/cookie";
 import { SwaggerContract } from "@contracts";
 import fastifySwagger from "@fastify/swagger";
 import fastifyFormbody from "@fastify/formbody";
 import { plugin } from "i18next-http-middleware";
 import fastifySwaggerUi from "@fastify/swagger-ui";
-import { ApiError, apiErrorHandler } from "@errors";
 import { AppFastifyInstance, FastifyRoutes } from "@types";
+import { apiErrorHandler, getFastifyRoutes } from "@helpers";
 import { JsonSchemaToTsProvider } from "@fastify/type-provider-json-schema-to-ts";
 
 /**
@@ -26,7 +26,7 @@ export const setupFastify = async (
   port?: number
 ): Promise<void> => {
   if (typeof port !== "number" || Number.isNaN(port)) {
-    throw ApiError.new(500, {
+    throw APIError.new(500, {
       msg: "system.NO_FASTIFY_PORT",
       args: { routes },
     });

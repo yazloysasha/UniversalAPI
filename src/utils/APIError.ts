@@ -1,13 +1,11 @@
-import { I18n, StatusCodes } from "@types";
 import { SwaggerContract } from "@contracts";
-
-type I18nArgs = { [x: string]: I18nArgs | boolean | number | string };
+import { I18n, I18nArgs, StatusCodes } from "@types";
 
 /**
  * Ошибка API
  */
-export class ApiError extends Error {
-  public name = "ApiError";
+export class APIError extends Error {
+  public name = "APIError";
 
   constructor(
     public statusCode: StatusCodes,
@@ -21,8 +19,8 @@ export class ApiError extends Error {
   static new(
     statusCode: StatusCodes,
     { msg, alert, args }: { alert?: boolean; msg?: I18n; args?: I18nArgs } = {}
-  ): ApiError {
-    return new ApiError(
+  ): APIError {
+    return new APIError(
       statusCode,
       msg || SwaggerContract.CodeDescriptions[statusCode],
       alert || true,

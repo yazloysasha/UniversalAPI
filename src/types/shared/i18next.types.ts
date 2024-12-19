@@ -18,3 +18,5 @@ export type I18n = Exclude<
   >[0],
   TemplateStringsArray
 >;
+
+export type I18nArgs = { [x: string]: I18nArgs | boolean | number | string };
