@@ -2,7 +2,7 @@
 
 ## Начало работы
 1. Для работы с кодом использовать **Visual Studio Code**.
-2. Клонировать репозиторий: `git@github.com:yazloysasha/UniversalAPI.git`.
+2. Клонировать репозиторий: `git clone git@github.com:yazloysasha/UniversalAPI.git`.
 3. Установить зависимости: `npm install`.
 4. Установить плагин **Prettier - Code formatter**.
 5. Прожать CTRL + SHIFT + P и ввести `User Settings`.
