@@ -13,6 +13,8 @@ const appDataSource = new DataSource({
   migrations: [
     appConfig.ENV === "production"
       ? "./dist/migrations/*.js"
+      : appConfig.ENV === "preproduction"
+      ? "./build/migrations/*.js"
       : "./src/migrations/*.ts",
   ],
   synchronize: false,

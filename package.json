@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "cross-env ENV=development nodemon -q",
     "build": "tsc && npx tsconfig-replace-paths -s ./src",
-    "pre-start": "cross-env ENV=production node build/main.js",
+    "pre-start": "cross-env ENV=preproduction node build/main.js",
     "start": "cross-env ENV=production node dist/main.js",
     "deploy": "git pull && node ./scripts/deploy.js",
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli -d ./src/constants/appDataSource.ts",
