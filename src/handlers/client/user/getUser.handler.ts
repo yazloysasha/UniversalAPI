@@ -1,4 +1,5 @@
 import { di } from "@config";
+import { primitive } from "@utils";
 import { UserService } from "@services";
 import { GetUserType } from "@schemas/client";
 import { AppFastifyHandler, ExtendedUser } from "@types";
@@ -14,5 +15,5 @@ export const getUserHandler: AppFastifyHandler<GetUserType> = async (
     extended: true,
   });
 
-  reply.code(200).send(user as ExtendedUser);
+  reply.code(200).send(primitive(user as ExtendedUser));
 };

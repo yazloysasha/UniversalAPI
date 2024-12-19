@@ -1,4 +1,5 @@
 import { di } from "@config";
+import { primitive } from "@utils";
 import { TaskService } from "@services";
 import { AppFastifyHandler } from "@types";
 import { EditTaskType } from "@schemas/client";
@@ -18,6 +19,6 @@ export const editTaskHandler: AppFastifyHandler<EditTaskType> = async (
   reply.code(200).send({
     alert: true,
     message: req.i18n.t("swagger.messages.SAVED"),
-    task: updatedTask,
+    task: primitive(updatedTask),
   });
 };

@@ -12,8 +12,10 @@ export const userIdSchema = {
 } as const satisfies AppJSONSchema;
 
 const lastVisitAtSchema = {
+  type: "string",
+  format: CustomFormat.DATE_TIME,
   description: "Дата последнего посещения",
-  example: "2024-12-16T10:51:47.087Z",
+  example: SwaggerContract.DateTimeExample,
 } as const satisfies AppJSONSchema;
 
 export const userSample = {

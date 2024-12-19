@@ -1,16 +1,26 @@
+import { Types } from "mongoose";
 import { TaskType } from "@types";
 import { FastifyRoutes } from "./fastify.types";
-
-export enum CustomFormat {
-  MONGOOSE_ID = "objectId",
-  UUID = "uuid",
-}
 
 export type ArgumentsType<F extends Function> = F extends (
   ...args: infer A
 ) => any
   ? A
   : never;
+
+export type Primitive<T> = {
+  [k in keyof T]: T[k] extends Date | Types.ObjectId
+    ? never
+    : T[k] extends object
+    ? Primitive<T[k]>
+    : T[k];
+};
+
+export enum CustomFormat {
+  UUID = "uuid",
+  MONGOOSE_ID = "objectId",
+  DATE_TIME = "dateTime",
+}
 
 export type Module = "fastify" | "analytics" | "redis" | "queue";
 

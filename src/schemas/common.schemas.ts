@@ -1,13 +1,18 @@
-import { AppJSONSchema } from "@types";
+import { SwaggerContract } from "@contracts";
+import { AppJSONSchema, CustomFormat } from "@types";
 
 export const timestampsSample = {
   createdAt: {
+    type: "string",
+    format: CustomFormat.DATE_TIME,
     description: "Дата создания",
-    example: "2024-12-16T10:51:47.087Z",
+    example: SwaggerContract.DateTimeExample,
   },
   updatedAt: {
+    type: "string",
+    format: CustomFormat.DATE_TIME,
     description: "Дата обновления",
-    example: "2024-12-16T10:51:47.087Z",
+    example: SwaggerContract.DateTimeExample,
   },
 } as const satisfies {
   [Property in string]: AppJSONSchema;

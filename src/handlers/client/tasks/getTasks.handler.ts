@@ -1,4 +1,5 @@
 import { di } from "@config";
+import { primitive } from "@utils";
 import { TaskService } from "@services";
 import { AppFastifyHandler } from "@types";
 import { GetTasksType } from "@schemas/client";
@@ -14,5 +15,5 @@ export const getTasksHandler: AppFastifyHandler<GetTasksType> = async (
     pagination: req.query,
   });
 
-  reply.code(200).send({ totalSize, items: tasks });
+  reply.code(200).send({ totalSize, items: primitive(tasks) });
 };

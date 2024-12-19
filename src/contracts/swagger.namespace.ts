@@ -115,6 +115,7 @@ export namespace SwaggerContract {
 
   export const UUIDExample = "3fa85f64-5717-4562-b3fc-2c963f66afa6";
   export const MongooseIDExample = "66f271c7e1ab2c1ef584e7ec";
+  export const DateTimeExample = "2024-12-16T10:51:47.087Z";
 
   /**
    * Схема запроса со включённой пагинацией

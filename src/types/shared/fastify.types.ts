@@ -23,26 +23,27 @@ export type AppFastifyInstance = FastifyInstance<
   JsonSchemaToTsProvider
 >;
 
-export type AppJSONSchema = JSONSchema & {
-  items?: AppJSONSchema | readonly AppJSONSchema[];
-  additionalItems?: AppJSONSchema;
-  contains?: AppJSONSchema;
-  properties?: Readonly<Record<string, AppJSONSchema>>;
-  patternProperties?: Readonly<Record<string, AppJSONSchema>>;
-  additionalProperties?: AppJSONSchema;
-  unevaluatedProperties?: AppJSONSchema;
-  dependencies?: Readonly<Record<string, AppJSONSchema | readonly string[]>>;
-  propertyNames?: AppJSONSchema;
-  if?: AppJSONSchema;
-  then?: AppJSONSchema;
-  else?: AppJSONSchema;
-  allOf?: readonly AppJSONSchema[];
-  anyOf?: readonly AppJSONSchema[];
-  oneOf?: readonly AppJSONSchema[];
-  not?: AppJSONSchema;
-  definitions?: Readonly<Record<string, AppJSONSchema>>;
-  example?: unknown;
-};
+export type AppJSONSchema = JSONSchema &
+  Readonly<{
+    items?: AppJSONSchema | readonly AppJSONSchema[];
+    additionalItems?: AppJSONSchema;
+    contains?: AppJSONSchema;
+    properties?: Readonly<Record<string, AppJSONSchema>>;
+    patternProperties?: Readonly<Record<string, AppJSONSchema>>;
+    additionalProperties?: AppJSONSchema;
+    unevaluatedProperties?: AppJSONSchema;
+    dependencies?: Readonly<Record<string, AppJSONSchema | readonly string[]>>;
+    propertyNames?: AppJSONSchema;
+    if?: AppJSONSchema;
+    then?: AppJSONSchema;
+    else?: AppJSONSchema;
+    allOf?: readonly AppJSONSchema[];
+    anyOf?: readonly AppJSONSchema[];
+    oneOf?: readonly AppJSONSchema[];
+    not?: AppJSONSchema;
+    definitions?: Readonly<Record<string, AppJSONSchema>>;
+    example?: unknown;
+  }>;
 
 export interface AppFastifySchema extends FastifySchema {
   tags?: SwaggerContract.AdminTag[] | SwaggerContract.ClientTag[];
