@@ -50,7 +50,7 @@ export const setupFastify = async (
   setupFastifyHooks(fastify);
 
   // Интернационализация и локализация
-  await fastify.register(plugin, { i18next });
+  await fastify.register(plugin as never, { i18next });
 
   // Регистрация сваггера
   await fastify.register(fastifySwagger, SwaggerContract.GetConfig(routes));
