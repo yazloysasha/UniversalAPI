@@ -15,7 +15,7 @@ import fastifyFormbody from "@fastify/formbody";
 import { plugin } from "i18next-http-middleware";
 import fastifySwaggerUi from "@fastify/swagger-ui";
 import { AppFastifyInstance, FastifyRoutes } from "@types";
-import { apiErrorHandler, getFastifyRoutes } from "@helpers";
+import { fastifyErrorHandler, getFastifyRoutes } from "@helpers";
 import { JsonSchemaToTsProvider } from "@fastify/type-provider-json-schema-to-ts";
 
 /**
@@ -41,13 +41,10 @@ export const setupFastify = async (
     .withTypeProvider<JsonSchemaToTsProvider>();
 
   // Установить собственный обработчик ошибок
-  fastify.setErrorHandler(apiErrorHandler);
+  fastify.setErrorHandler(fastifyErrorHandler);
 
   // Установить валидатор ошибок
   setupAjvValidator(fastify);
-
-  // Добавить хуки запросов
-  setupFastifyHooks(fastify);
 
   // Интернационализация и локализация
   await fastify.register(plugin as never, { i18next });
@@ -62,7 +59,10 @@ export const setupFastify = async (
   await fastify.register(fastifyCors, { origin: true, credentials: true });
 
   // Регистрация маршрутов
-  await setupFastifyRoutes(fastify, routes);
+  setupFastifyRoutes(fastify, routes);
+
+  // Добавить хуки для запросов и ответов
+  setupFastifyHooks(fastify);
 
   await fastify.listen({ port });
   await fastify.ready();

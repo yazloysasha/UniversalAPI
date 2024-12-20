@@ -1,15 +1,11 @@
 import { APIError } from "@utils";
 import { UserRole } from "@entities";
-import { AppFastifySchema, AppFastifyPreHandler } from "@types";
+import { FastifyRequest } from "fastify";
 
 export const verifyPreHandler =
-  <SchemaType extends AppFastifySchema>(
-    roles: UserRole[] = []
-  ): AppFastifyPreHandler<SchemaType> =>
-  (req, reply, done) => {
-    if (!roles.includes(req.user?.role!)) {
-      throw new APIError(403);
-    }
+  (roles: UserRole[] = []) =>
+  async (req: FastifyRequest): Promise<void> => {
+    if (roles.includes(req.user?.role!)) return;
 
-    done();
+    throw new APIError(403);
   };

@@ -7,11 +7,11 @@ import {
 /**
  * Регистрация группы маршрутов
  */
-export const registerControllers = async (
+export const registerControllers = (
   fastify: AppFastifyInstance,
   controllers: { [x: string]: AppFastifyRoute<any> },
   commonPreHandlers: AppFastifyPreHandler<any>[] = []
-): Promise<void> => {
+): void => {
   for (const key in controllers) {
     if (!controllers[key].preHandler) {
       controllers[key].preHandler = [];

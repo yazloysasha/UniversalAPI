@@ -1,27 +1,32 @@
 import { di } from "@config";
 import { APIError } from "@utils";
 import { AuthService } from "@services";
-import { AppFastifySchema, AppFastifyPreHandler } from "@types";
+import { FastifyRequest } from "fastify";
 
 /**
  * Авторизация
  */
 export const authPreHandler =
-  <SchemaType extends AppFastifySchema>({
+  ({
     required = true, // Обязательна ли
     extended = false, // Если да, то добавляет в запрос ещё и пользователя
   }: {
     required?: boolean;
     extended?: boolean;
-  } = {}): AppFastifyPreHandler<SchemaType> =>
-  async (req, reply) => {
-    try {
-      let token = req.headers.authorization!;
-      if (!/^Bearer\s(\S+)$/.test(token)) {
-        throw Error("Токен не соответствует формату");
-      }
+  } = {}) =>
+  async (req: FastifyRequest): Promise<void> => {
+    let token: string;
 
-      token = token.slice(7);
+    try {
+      if (req.cookies["token"]) {
+        token = req.cookies["token"];
+      } else {
+        if (!/^Bearer\s(\S+)$/.test(req.headers.authorization!)) {
+          throw Error("Токен не соответствует формату");
+        }
+
+        token = req.headers.authorization!.slice(7);
+      }
 
       const authService = di.container.resolve<AuthService>(AuthService.name);
 

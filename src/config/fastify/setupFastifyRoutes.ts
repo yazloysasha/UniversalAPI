@@ -5,10 +5,10 @@ import { AppFastifyInstance, FastifyRoutes } from "@types";
 /**
  * Регистрация маршрутов Fastify
  */
-export const setupFastifyRoutes = async (
+export const setupFastifyRoutes = (
   fastify: AppFastifyInstance,
   routes: FastifyRoutes
-): Promise<void> => {
+): void => {
   switch (routes) {
     case "admin":
       return registerControllers(fastify, require("@controllers/admin"), [

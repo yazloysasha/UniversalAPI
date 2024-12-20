@@ -1,4 +1,5 @@
 import { di } from "@config";
+import i18next from "i18next";
 import { APIError } from "@utils";
 import { TypeORMError } from "typeorm";
 import { MongooseError } from "mongoose";
@@ -8,17 +9,19 @@ import { FastifyError, FastifyReply, FastifyRequest } from "fastify";
 /**
  * Обработчик ошибок в запросах
  */
-export const apiErrorHandler = (
+export const fastifyErrorHandler = (
   error: FastifyError,
   req: FastifyRequest,
   reply: FastifyReply
 ): void => {
+  const i18n = req.i18n || i18next;
+
   // Ошибка валидации
   if (error.code === "FST_ERR_VALIDATION") {
     reply.code(400).send({
       alert: true,
       type: "error",
-      message: req.i18n.t("swagger.errors.VALIDATION"),
+      message: i18n.t("swagger.errors.VALIDATION"),
       errors: error.validation?.map((error) => error.message),
     });
 
@@ -30,7 +33,7 @@ export const apiErrorHandler = (
     reply.code(400).send({
       alert: true,
       type: "error",
-      message: req.i18n.t("swagger.errors.FILE_TOO_LARGE"),
+      message: i18n.t("swagger.errors.FILE_TOO_LARGE"),
     });
 
     return;
@@ -41,7 +44,7 @@ export const apiErrorHandler = (
     reply.code(415).send({
       alert: false,
       type: "error",
-      message: req.i18n.t("swagger.errors.INVALID_MEDIA_TYPE"),
+      message: i18n.t("swagger.errors.INVALID_MEDIA_TYPE"),
     });
 
     return;
@@ -52,7 +55,7 @@ export const apiErrorHandler = (
     reply.code(error.statusCode).send({
       alert: error.alert,
       type: "error",
-      message: req.i18n.t(error.message),
+      message: i18n.t(error.message),
     });
 
     return;
@@ -76,7 +79,7 @@ export const apiErrorHandler = (
     reply.code(502).send({
       alert: true,
       type: "error",
-      message: req.i18n.t("swagger.errors.OPERATIONAL_DATABASE"),
+      message: i18n.t("swagger.errors.OPERATIONAL_DATABASE"),
     });
 
     return;
@@ -87,7 +90,7 @@ export const apiErrorHandler = (
     reply.code(502).send({
       alert: true,
       type: "error",
-      message: req.i18n.t("swagger.errors.ANALYTICAL_DATABASE"),
+      message: i18n.t("swagger.errors.ANALYTICAL_DATABASE"),
     });
 
     return;
@@ -97,6 +100,6 @@ export const apiErrorHandler = (
   reply.code(500).send({
     alert: true,
     type: "error",
-    message: req.i18n.t("swagger.errors.UNKNOWN"),
+    message: i18n.t("swagger.errors.UNKNOWN"),
   });
 };
