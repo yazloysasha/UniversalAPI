@@ -15,18 +15,13 @@ export const authPreHandler =
     extended?: boolean;
   } = {}) =>
   async (req: FastifyRequest): Promise<void> => {
-    let token: string;
-
     try {
-      if (req.cookies["token"]) {
-        token = req.cookies["token"];
-      } else {
-        if (!/^Bearer\s(\S+)$/.test(req.headers.authorization!)) {
-          throw Error("Токен не соответствует формату");
-        }
-
-        token = req.headers.authorization!.slice(7);
+      let token = req.headers.authorization!;
+      if (!/^Bearer\s(\S+)$/.test(token)) {
+        throw Error("Токен не соответствует формату");
       }
+
+      token = token.slice(7);
 
       const authService = di.container.resolve<AuthService>(AuthService.name);
 
