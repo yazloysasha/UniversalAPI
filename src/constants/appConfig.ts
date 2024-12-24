@@ -27,7 +27,7 @@ if (ENABLED_FASTIFY_ROUTES) {
 /**
  * Главная конфигурация проекта
  */
-const appConfig = {
+const appConfig: IAppConfig = {
   ENV: ENV as "development" | "preproduction" | "production",
   ENABLED_MODULES: ENABLED_MODULES
     ? (ENABLED_MODULES.split(",") as Module[])
