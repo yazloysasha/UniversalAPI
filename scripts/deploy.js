@@ -53,11 +53,12 @@ async function deploy() {
   console.log("Запуск проекта в теневом режиме...");
 
   let stdout = "";
+  let success = true;
 
   const shadowProcess = child_process
     .spawn("npm run pre-start", { shell: true })
-    .on("exit", (code, signal) => {
-      if (code || signal !== "SIGINT") {
+    .on("exit", () => {
+      if (!success) {
         console.log(stdout);
 
         throw Error("Произошла ошибка при запуске проекта в теневом режиме!");
@@ -100,9 +101,11 @@ async function deploy() {
       message.includes("FATAL:") &&
       !message.includes("listen EADDRINUSE: address already in use")
     ) {
-      shadowProcess.kill(9);
+      success = false;
+
+      shadowProcess.kill();
     } else if (message.includes("Запуск проекта завершён")) {
-      shadowProcess.kill(2);
+      shadowProcess.kill();
     }
   });
 }
