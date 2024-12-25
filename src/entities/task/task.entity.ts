@@ -27,7 +27,7 @@ export class Task {
   /**
    * Статус задачи
    */
-  @Column({ type: "enum", enum: TaskStatus })
+  @Column({ type: "enum", enum: TaskStatus, enumName: "TaskStatus" })
   status!: TaskStatus;
 
   /**

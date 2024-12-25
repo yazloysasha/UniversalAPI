@@ -33,7 +33,12 @@ export class User {
   /**
    * Роль пользователя
    */
-  @Column({ type: "enum", enum: UserRole, nullable: true })
+  @Column({
+    type: "enum",
+    enum: UserRole,
+    enumName: "UserRole",
+    nullable: true,
+  })
   role!: UserRole | null;
 
   /**
