@@ -2,13 +2,11 @@ import { Session, Task } from "@entities";
 import { createPLPGSQLTrigger } from "@helpers";
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class Migration1734606786983 implements MigrationInterface {
-  name = "Migration1734606786983";
-
-  /**
-   * Дублирование атрибута "lastVisitAt" из сессии в пользователя
-   */
-  private duplicateLastVisitFromSessionTrigger = createPLPGSQLTrigger<Session>({
+/**
+ * Дублирование атрибута "lastVisitAt" из сессии в пользователя
+ */
+export const duplicateLastVisitFromSessionTrigger =
+  createPLPGSQLTrigger<Session>({
     name: "duplicateLastVisitFromSession",
     table: "session",
     fires: "AFTER",
@@ -25,59 +23,62 @@ export class Migration1734606786983 implements MigrationInterface {
     `,
   });
 
-  /**
-   * Агрегация количества сессий в пользователя
-   */
-  private aggregateSessionsCountTrigger = createPLPGSQLTrigger<Session>({
-    name: "aggregateSessionsCount",
-    table: "session",
-    fires: "AFTER",
-    events: ["INSERT", "DELETE"],
-    code: `
-      BEGIN
-        IF TG_OP = 'INSERT' THEN
-          UPDATE "user"
-          SET "sessionsCount" = "sessionsCount" + 1
-          WHERE "id" = NEW."userId";
-
-          RETURN NEW;
-        END IF;
-
+/**
+ * Агрегация количества сессий в пользователя
+ */
+export const aggregateSessionsCountTrigger = createPLPGSQLTrigger<Session>({
+  name: "aggregateSessionsCount",
+  table: "session",
+  fires: "AFTER",
+  events: ["INSERT", "DELETE"],
+  code: `
+    BEGIN
+      IF TG_OP = 'INSERT' THEN
         UPDATE "user"
-        SET "sessionsCount" = "sessionsCount" - 1
-        WHERE "id" = OLD."userId";
+        SET "sessionsCount" = "sessionsCount" + 1
+        WHERE "id" = NEW."userId";
 
-        RETURN OLD;
-      END;
-    `,
-  });
+        RETURN NEW;
+      END IF;
 
-  /**
-   * Агрегация количества задач в пользователя
-   */
-  private aggregateTasksCountTrigger = createPLPGSQLTrigger<Task>({
-    name: "aggregateTasksCount",
-    table: "task",
-    fires: "AFTER",
-    events: ["INSERT", "DELETE"],
-    code: `
-      BEGIN
-        IF TG_OP = 'INSERT' THEN
-          UPDATE "user"
-          SET "tasksCount" = "tasksCount" + 1
-          WHERE "id" = NEW."userId";
+      UPDATE "user"
+      SET "sessionsCount" = "sessionsCount" - 1
+      WHERE "id" = OLD."userId";
 
-          RETURN NEW;
-        END IF;
+      RETURN OLD;
+    END;
+  `,
+});
 
+/**
+ * Агрегация количества задач в пользователя
+ */
+export const aggregateTasksCountTrigger = createPLPGSQLTrigger<Task>({
+  name: "aggregateTasksCount",
+  table: "task",
+  fires: "AFTER",
+  events: ["INSERT", "DELETE"],
+  code: `
+    BEGIN
+      IF TG_OP = 'INSERT' THEN
         UPDATE "user"
-        SET "tasksCount" = "tasksCount" - 1
-        WHERE "id" = OLD."userId";
+        SET "tasksCount" = "tasksCount" + 1
+        WHERE "id" = NEW."userId";
 
-        RETURN OLD;
-      END;
-    `,
-  });
+        RETURN NEW;
+      END IF;
+
+      UPDATE "user"
+      SET "tasksCount" = "tasksCount" - 1
+      WHERE "id" = OLD."userId";
+
+      RETURN OLD;
+    END;
+  `,
+});
+
+export class Migration1734606786983 implements MigrationInterface {
+  name = "Migration1734606786983";
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
@@ -103,29 +104,25 @@ export class Migration1734606786983 implements MigrationInterface {
     );
 
     await queryRunner.query(
-      this.duplicateLastVisitFromSessionTrigger.create.procedure
+      duplicateLastVisitFromSessionTrigger.create.procedure
     );
     await queryRunner.query(
-      this.duplicateLastVisitFromSessionTrigger.create.trigger
+      duplicateLastVisitFromSessionTrigger.create.trigger
     );
-    await queryRunner.query(
-      this.aggregateSessionsCountTrigger.create.procedure
-    );
-    await queryRunner.query(this.aggregateSessionsCountTrigger.create.trigger);
-    await queryRunner.query(this.aggregateTasksCountTrigger.create.procedure);
-    await queryRunner.query(this.aggregateTasksCountTrigger.create.trigger);
+    await queryRunner.query(aggregateSessionsCountTrigger.create.procedure);
+    await queryRunner.query(aggregateSessionsCountTrigger.create.trigger);
+    await queryRunner.query(aggregateTasksCountTrigger.create.procedure);
+    await queryRunner.query(aggregateTasksCountTrigger.create.trigger);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(this.aggregateTasksCountTrigger.drop.trigger);
-    await queryRunner.query(this.aggregateTasksCountTrigger.drop.procedure);
-    await queryRunner.query(this.aggregateSessionsCountTrigger.drop.trigger);
-    await queryRunner.query(this.aggregateSessionsCountTrigger.drop.procedure);
+    await queryRunner.query(aggregateTasksCountTrigger.drop.trigger);
+    await queryRunner.query(aggregateTasksCountTrigger.drop.procedure);
+    await queryRunner.query(aggregateSessionsCountTrigger.drop.trigger);
+    await queryRunner.query(aggregateSessionsCountTrigger.drop.procedure);
+    await queryRunner.query(duplicateLastVisitFromSessionTrigger.drop.trigger);
     await queryRunner.query(
-      this.duplicateLastVisitFromSessionTrigger.drop.trigger
-    );
-    await queryRunner.query(
-      this.duplicateLastVisitFromSessionTrigger.drop.procedure
+      duplicateLastVisitFromSessionTrigger.drop.procedure
     );
 
     await queryRunner.query(
