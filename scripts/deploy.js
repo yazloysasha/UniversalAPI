@@ -88,8 +88,6 @@ async function deploy() {
       removeBuildDirectory();
 
       console.log("Проект успешно запущен!");
-
-      process.exit();
     });
 
   shadowProcess.stdout.on("data", (data) => {
