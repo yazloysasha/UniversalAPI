@@ -142,6 +142,31 @@ export namespace SwaggerContract {
   } as const satisfies AppJSONSchema;
 
   /**
+   * Тип схемы для запроса со включённой пагинацией
+   */
+  export type EnablePaginationType = {
+    type: "object";
+    properties: {
+      skip: {
+        type: "integer";
+        minimum: number;
+        default: number;
+        description: string;
+        example: number;
+      };
+      limit: {
+        type: "integer";
+        minimum: number;
+        maximum: 100;
+        default: number;
+        description: string;
+        example: number;
+      };
+      [x: string]: AppJSONSchema;
+    };
+  };
+
+  /**
    * Схема для ответа на запрос с действием
    */
   export const ActionResponseSchema = {
