@@ -21,10 +21,7 @@ const bootstrapApp = async (): Promise<void> => {
   if (appConfig.ENABLED_MODULES.includes("fastify")) {
     for (const routes in appConfig.ENABLED_FASTIFY_ROUTES) {
       try {
-        await setupFastify(
-          routes as FastifyRoutes,
-          appConfig.ENABLED_FASTIFY_ROUTES[routes as FastifyRoutes]
-        );
+        await setupFastify(routes as FastifyRoutes);
       } catch (err) {
         appLogger.fatal((err as Error).message, true);
       }

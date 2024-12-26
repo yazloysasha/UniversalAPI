@@ -18,9 +18,13 @@ const enabledFastifyRoutes: IAppConfig["ENABLED_FASTIFY_ROUTES"] = {};
 
 if (ENABLED_FASTIFY_ROUTES) {
   ENABLED_FASTIFY_ROUTES.split(",").forEach((group) => {
-    const [name, port] = group.split(":");
+    const [name, value] = group.split("=");
+    const [host, port] = value.split(":");
 
-    enabledFastifyRoutes[name as FastifyRoutes] = Number(port);
+    enabledFastifyRoutes[name as FastifyRoutes] = {
+      host,
+      port: Number(port),
+    };
   });
 }
 

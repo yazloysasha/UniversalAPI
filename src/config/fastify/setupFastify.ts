@@ -10,6 +10,7 @@ import { APIError } from "@utils";
 import fastifyCors from "@fastify/cors";
 import fastifyCookie from "@fastify/cookie";
 import { SwaggerContract } from "@contracts";
+import appConfig from "@constants/appConfig";
 import fastifySwagger from "@fastify/swagger";
 import fastifyFormbody from "@fastify/formbody";
 import { plugin } from "i18next-http-middleware";
@@ -21,10 +22,16 @@ import { JsonSchemaToTsProvider } from "@fastify/type-provider-json-schema-to-ts
 /**
  * Запуск систем Fastify
  */
-export const setupFastify = async (
-  routes: FastifyRoutes,
-  port?: number
-): Promise<void> => {
+export const setupFastify = async (routes: FastifyRoutes): Promise<void> => {
+  const { host, port } = appConfig.ENABLED_FASTIFY_ROUTES[routes]!;
+
+  if (!host) {
+    throw new APIError(500, {
+      msg: "system.NO_FASTIFY_HOST",
+      args: { routes },
+    });
+  }
+
   if (typeof port !== "number" || Number.isNaN(port)) {
     throw new APIError(500, {
       msg: "system.NO_FASTIFY_PORT",
@@ -64,10 +71,12 @@ export const setupFastify = async (
   // Добавить хуки для запросов и ответов
   setupFastifyHooks(fastify);
 
-  await fastify.listen({ port });
+  await fastify.listen({ host, port });
   await fastify.ready();
 
-  appLogger.verbose(`Приложение Fastify (${routes}) запущено на порту ${port}`);
+  appLogger.verbose(
+    `Приложение Fastify (${routes}) запущено на '${host}:${port}'`
+  );
 
   console.log(getFastifyRoutes(fastify));
 };

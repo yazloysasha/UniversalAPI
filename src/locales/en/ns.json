@@ -101,6 +101,7 @@
     }
   },
   "system": {
+    "NO_FASTIFY_HOST": "No host specified for running Fastify routes ({{routes}})",
     "NO_FASTIFY_PORT": "No port specified for running Fastify routes ({{routes}})",
     "NO_POSTGRESQL_URL": "No link specified for connecting to the operational database",
     "NO_MONGODB_URL": "No link specified for connecting to the analytical database",
