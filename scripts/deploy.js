@@ -66,9 +66,7 @@ async function deploy() {
 
       console.log("Получение списка процессов...");
 
-      console.log(String(child_process.execSync("pm2 jlist")));
-
-      const pm2List = JSON.parse(child_process.execSync("pm2 jlist"));
+      const pm2List = JSON.parse(child_process.execSync("pm2 jlist --silent"));
       const processIsExists = !!pm2List.find(
         (pm2Process) => pm2Process.name === PROCESS_NAME
       );
