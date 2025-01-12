@@ -39,9 +39,9 @@ export const createPLPGSQLTrigger = <
         LANGUAGE 'plpgsql'
         COST 100
         VOLATILE NOT LEAKPROOF
-      AS \$BODY\$
+      AS $BODY$
       ${code}
-      \$BODY\$
+      $BODY$
     `,
       trigger: `
       CREATE TRIGGER "${name}"

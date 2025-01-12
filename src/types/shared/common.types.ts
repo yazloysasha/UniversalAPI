@@ -2,7 +2,7 @@ import { Types } from "mongoose";
 import { TaskType } from "@types";
 import { FastifyRoutes } from "./fastify.types";
 
-export type ArgumentsType<F extends Function> = F extends (
+export type ArgumentsType<F extends () => any> = F extends (
   ...args: infer A
 ) => any
   ? A

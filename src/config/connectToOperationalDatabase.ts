@@ -1,5 +1,5 @@
 import { APIError } from "@utils";
-import { appLogger, di } from "@config";
+import { appLogger } from "@config";
 import appConfig from "@constants/appConfig";
 import appDataSource from "@constants/appDataSource";
 
