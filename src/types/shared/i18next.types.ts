@@ -1,12 +1,14 @@
 import i18next from "i18next";
-import ru from "@locales/ru/ns.json";
+import ru from "@locales/ru/ru.json";
+import us from "@locales/en/us.json";
 import { ArgumentsType } from "./common.types";
 
 declare module "i18next" {
   interface CustomTypeOptions {
-    defaultNS: "ns";
+    defaultNS: "ru";
     resources: {
-      ns: typeof ru;
+      us: typeof us;
+      ru: typeof ru;
     };
   }
 }
