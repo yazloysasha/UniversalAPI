@@ -11,48 +11,53 @@ import appConfig from "@constants/appConfig";
 export const setupTaskQueue = (): void => {
   const cronService = di.container.resolve<CronService>(CronService.name);
 
-  const coloredEnabledTasks = chalk.bold(appConfig.ENABLED_TASKS.join(", "));
-  const coloredEnabledTaskTypes = chalk.bold(
-    appConfig.ENABLED_TASK_TYPES.join(", ")
-  );
+  if (appConfig.ENABLED_TASKS.length) {
+    const coloredEnabledTasks = chalk.bold(appConfig.ENABLED_TASKS.join(", "));
 
-  appLogger.info(`Установка одиночных задач (${coloredEnabledTasks})...`);
+    appLogger.info(`Установка одиночных задач (${coloredEnabledTasks})...`);
 
-  for (const taskName of appConfig.ENABLED_TASKS) {
-    switch (taskName) {
-      case CronContract.UpdateUsersTop.name:
-        cronService.addTask(CronContract.UpdateUsersTop);
-        break;
+    for (const taskName of appConfig.ENABLED_TASKS) {
+      switch (taskName) {
+        case CronContract.UpdateUsersTop.name:
+          cronService.addTask(CronContract.UpdateUsersTop);
+          break;
 
-      case CronContract.ClearingUnusualSessions.name:
-        cronService.addTask(CronContract.ClearingUnusualSessions);
-        break;
+        case CronContract.ClearingUnusualSessions.name:
+          cronService.addTask(CronContract.ClearingUnusualSessions);
+          break;
 
-      default:
-        appLogger.error(`Не удалось определить название задачи: ${taskName}`);
+        default:
+          appLogger.error(`Не удалось определить название задачи: ${taskName}`);
+      }
     }
   }
 
-  appLogger.info(`Установка групп задач (${coloredEnabledTaskTypes})...`);
+  if (appConfig.ENABLED_TASK_TYPES.length) {
+    const coloredEnabledTaskTypes = chalk.bold(
+      appConfig.ENABLED_TASK_TYPES.join(", ")
+    );
 
-  for (const taskType of appConfig.ENABLED_TASK_TYPES) {
-    switch (taskType) {
-      // Задачи, связанные с кэшированием
-      case "cache":
-        cronService.addTask(CronContract.UpdateUsersTop);
-        break;
+    appLogger.info(`Установка групп задач (${coloredEnabledTaskTypes})...`);
 
-      // Сервисные службы
-      case "service":
-        cronService.addTask(CronContract.ClearingUnusualSessions);
-        break;
+    for (const taskType of appConfig.ENABLED_TASK_TYPES) {
+      switch (taskType) {
+        // Задачи, связанные с кэшированием
+        case "cache":
+          cronService.addTask(CronContract.UpdateUsersTop);
+          break;
 
-      // Бизнес-процессы
-      case "business":
-        break;
+        // Сервисные службы
+        case "service":
+          cronService.addTask(CronContract.ClearingUnusualSessions);
+          break;
 
-      default:
-        appLogger.error(`Не удалось определить тип задачи: ${taskType}`);
+        // Бизнес-процессы
+        case "business":
+          break;
+
+        default:
+          appLogger.error(`Не удалось определить тип задачи: ${taskType}`);
+      }
     }
   }
 
