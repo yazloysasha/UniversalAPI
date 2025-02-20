@@ -8,7 +8,7 @@ export const getUsersHandler: AppFastifyHandler<GetUsersType> = async (
   req,
   reply
 ) => {
-  const userService = di.container.resolve<UserService>(UserService.name);
+  const userService = di.container.resolve<UserService>(UserService.key);
 
   const { totalSize, users } = await userService.getUsers({
     pagination: req.query,

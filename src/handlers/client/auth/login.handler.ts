@@ -7,7 +7,7 @@ export const loginHandler: AppFastifyHandler<LoginType> = async (
   req,
   reply
 ) => {
-  const authService = di.container.resolve<AuthService>(AuthService.name);
+  const authService = di.container.resolve<AuthService>(AuthService.key);
 
   const userId = await authService.login(req.body);
   const token = await authService.newSession({ userId });

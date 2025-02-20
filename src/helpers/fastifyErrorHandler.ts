@@ -62,7 +62,7 @@ export const fastifyErrorHandler = (
   }
 
   const analyticalService = di.container.resolve<AnalyticalService>(
-    AnalyticalService.name
+    AnalyticalService.key
   );
 
   // Создать лог для необработанного исключения

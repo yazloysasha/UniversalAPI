@@ -9,7 +9,7 @@ import appConfig from "@constants/appConfig";
  * Запуск очереди задач
  */
 export const setupTaskQueue = (): void => {
-  const cronService = di.container.resolve<CronService>(CronService.name);
+  const cronService = di.container.resolve<CronService>(CronService.key);
 
   if (appConfig.ENABLED_TASKS.length) {
     const coloredEnabledTasks = chalk.bold(appConfig.ENABLED_TASKS.join(", "));

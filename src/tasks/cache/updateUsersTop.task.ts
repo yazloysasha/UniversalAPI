@@ -4,8 +4,8 @@ import { CacheContract } from "@contracts";
 import { CacheService, UserService } from "@services";
 
 export const updateUsersTopTask: TaskHandler = async (ctx) => {
-  const userService = di.container.resolve<UserService>(UserService.name);
-  const cacheService = di.container.resolve<CacheService>(CacheService.name);
+  const userService = di.container.resolve<UserService>(UserService.key);
+  const cacheService = di.container.resolve<CacheService>(CacheService.key);
 
   const usersTop = await userService.getUsersTop();
 

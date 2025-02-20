@@ -7,6 +7,8 @@ import { ExtendedUser, IPagination, RegularUser } from "@types";
  * Сервис для управления пользователями
  */
 export class UserService {
+  static key = "userService";
+
   constructor(private userRepository: Repository<User>) {}
 
   private regularAttributes: (keyof User)[] = [

@@ -7,7 +7,7 @@ export const registerHandler: AppFastifyHandler<RegisterType> = async (
   req,
   reply
 ) => {
-  const authService = di.container.resolve<AuthService>(AuthService.name);
+  const authService = di.container.resolve<AuthService>(AuthService.key);
 
   const userId = await authService.register(req.body);
   const token = await authService.newSession({ userId });

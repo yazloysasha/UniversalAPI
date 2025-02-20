@@ -3,7 +3,7 @@ import { TaskHandler } from "@types";
 import { AuthService } from "@services";
 
 export const clearingUnusualSessionsTask: TaskHandler = async () => {
-  const authService = di.container.resolve<AuthService>(AuthService.name);
+  const authService = di.container.resolve<AuthService>(AuthService.key);
 
   await authService.clearInactiveSessions();
 };

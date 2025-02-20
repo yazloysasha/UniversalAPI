@@ -8,7 +8,7 @@ export const getTaskHandler: AppFastifyHandler<GetTaskType> = async (
   req,
   reply
 ) => {
-  const taskService = di.container.resolve<TaskService>(TaskService.name);
+  const taskService = di.container.resolve<TaskService>(TaskService.key);
 
   const task = await taskService.getTask({
     userId: req.session!.userId,

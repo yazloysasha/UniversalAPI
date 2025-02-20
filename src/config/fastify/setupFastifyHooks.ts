@@ -7,7 +7,7 @@ import { AnalyticalService } from "@services";
  */
 export const setupFastifyHooks = (fastify: AppFastifyInstance): void => {
   const analyticalService = di.container.resolve<AnalyticalService>(
-    AnalyticalService.name
+    AnalyticalService.key
   );
 
   // Логирование всех ответов

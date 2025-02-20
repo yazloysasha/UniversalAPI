@@ -8,7 +8,7 @@ export const editTaskHandler: AppFastifyHandler<EditTaskType> = async (
   req,
   reply
 ) => {
-  const taskService = di.container.resolve<TaskService>(TaskService.name);
+  const taskService = di.container.resolve<TaskService>(TaskService.key);
 
   const updatedTask = await taskService.editTask({
     userId: req.session!.userId,

@@ -32,12 +32,12 @@ export const setupDIContainer = (): void => {
 
     redisClient: asValue(redisClient),
 
-    [AuthService.name]: asClass(AuthService).singleton(),
-    [CronService.name]: asClass(CronService).singleton(),
-    [TaskService.name]: asClass(TaskService).singleton(),
-    [UserService.name]: asClass(UserService).singleton(),
-    [CacheService.name]: asClass(CacheService).singleton(),
-    [AnalyticalService.name]: asClass(AnalyticalService).singleton(),
+    [AuthService.key]: asClass(AuthService).singleton(),
+    [CronService.key]: asClass(CronService).singleton(),
+    [TaskService.key]: asClass(TaskService).singleton(),
+    [UserService.key]: asClass(UserService).singleton(),
+    [CacheService.key]: asClass(CacheService).singleton(),
+    [AnalyticalService.key]: asClass(AnalyticalService).singleton(),
   });
 
   appLogger.verbose("Зависимости внедрены");

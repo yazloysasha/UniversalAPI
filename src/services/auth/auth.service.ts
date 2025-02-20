@@ -10,6 +10,8 @@ import { JwtPayload, sign, verify } from "jsonwebtoken";
  * Сервис для авторизации пользователей
  */
 export class AuthService {
+  static key = "authService";
+
   constructor(
     private userRepository: Repository<User>,
     private sessionRepository: Repository<Session>

@@ -8,7 +8,7 @@ export const editUserHandler: AppFastifyHandler<EditUserType> = async (
   req,
   reply
 ) => {
-  const userService = di.container.resolve<UserService>(UserService.name);
+  const userService = di.container.resolve<UserService>(UserService.key);
 
   const updatedUser = await userService.editUser({
     userId: req.params.userId,

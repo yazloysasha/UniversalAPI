@@ -8,6 +8,8 @@ import { ITask, ITaskInQueue, TaskContext } from "@types";
  * Сервис для управления отложенными задачами
  */
 export class CronService {
+  static key = "cronService";
+
   private queue: ITaskInQueue[] = [];
   private activeTaskNames = new Set<string>();
   private configuredTaskNames = new Set<string>();

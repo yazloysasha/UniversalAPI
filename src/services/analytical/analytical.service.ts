@@ -7,6 +7,8 @@ import { IErrorLog, IRequestLog } from "@types";
  * Сервис для сбора аналитики
  */
 export class AnalyticalService {
+  static key = "analyticalService";
+
   private enabled = appConfig.ENABLED_MODULES.includes("analytics");
 
   async createErrorLog(data: IErrorLog): Promise<void> {

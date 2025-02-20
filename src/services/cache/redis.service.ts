@@ -5,6 +5,8 @@ import { CacheItem } from "@types";
  * Базовый сервис для работы с Redis
  */
 export abstract class RedisService {
+  static key = "redisService";
+
   constructor(private redisClient: Redis) {}
 
   private stringify<ValueType = boolean | number | string | any[] | object>(

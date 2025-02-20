@@ -7,7 +7,7 @@ export const logoutHandler: AppFastifyHandler<LogoutType> = async (
   req,
   reply
 ) => {
-  const authService = di.container.resolve<AuthService>(AuthService.name);
+  const authService = di.container.resolve<AuthService>(AuthService.key);
 
   await authService.destroySession({ sessionId: req.session!.id });
 

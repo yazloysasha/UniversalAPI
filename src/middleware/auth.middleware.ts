@@ -23,7 +23,7 @@ export const authPreHandler =
 
       token = token.slice(7);
 
-      const authService = di.container.resolve<AuthService>(AuthService.name);
+      const authService = di.container.resolve<AuthService>(AuthService.key);
 
       const payload = authService.verifyJWT({ token });
       if (

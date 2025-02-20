@@ -7,6 +7,8 @@ import { RedisService } from "./redis.service";
  * Сервис для работы с кэшем
  */
 export class CacheService extends RedisService {
+  static key = "cacheService";
+
   constructor(redisClient: Redis) {
     super(redisClient);
   }

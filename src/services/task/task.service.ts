@@ -7,6 +7,8 @@ import { RegularTask, IPagination } from "@types";
  * Сервис для управления задачами
  */
 export class TaskService {
+  static key = "taskService";
+
   constructor(private taskRepository: Repository<Task>) {}
 
   private regularAttributes: (keyof Task)[] = [
