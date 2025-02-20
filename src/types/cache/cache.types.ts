@@ -1,3 +1,5 @@
+export type BasicType = boolean | number | string | object;
+
 export type CacheType = "boolean" | "number" | "string" | "array" | "object";
 
 export interface CacheItem {

@@ -1,6 +1,6 @@
 import Redis from "ioredis";
-import { CacheItem } from "@types";
 import { isAsyncFunction } from "util/types";
+import { BasicType, CacheItem } from "@types";
 import { RedisService } from "./redis.service";
 
 /**
@@ -16,7 +16,7 @@ export class CacheService extends RedisService {
   /**
    * Получить или установить значение
    */
-  async getOrSet<ValueType = boolean | number | string | any[] | object>({
+  async getOrSet<ValueType = BasicType | BasicType[]>({
     item,
     func,
   }: {
