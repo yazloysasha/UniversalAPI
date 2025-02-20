@@ -1,5 +1,7 @@
 import { authPreHandler } from "@middleware";
 import { registerControllers } from "@helpers";
+import * as adminControllers from "@controllers/admin";
+import * as clientControllers from "@controllers/client";
 import { AppFastifyInstance, FastifyRoutes } from "@types";
 
 /**
@@ -11,11 +13,11 @@ export const setupFastifyRoutes = (
 ): void => {
   switch (routes) {
     case "admin":
-      return registerControllers(fastify, require("@controllers/admin"), [
+      return registerControllers(fastify, adminControllers, [
         authPreHandler({ extended: true }),
       ]);
 
     case "client":
-      return registerControllers(fastify, require("@controllers/client"));
+      return registerControllers(fastify, clientControllers);
   }
 };
