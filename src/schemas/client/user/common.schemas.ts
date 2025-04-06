@@ -19,6 +19,7 @@ const lastVisitAtSchema = {
 } as const satisfies AppJSONSchema;
 
 export const userSample = {
+  id: userIdSchema,
   name: {
     type: "string",
     minLength: 1,
@@ -32,17 +33,14 @@ export const userSample = {
     description: "Роль пользователя",
     example: UserRole.ADMINISTRATOR,
   },
+  lastVisitAt: lastVisitAtSchema,
+  ...timestampsSample,
 } as const satisfies { [x in string]: AppJSONSchema };
 
 export const userSchema = {
   type: "object",
   required: ["id", "name", "role", "lastVisitAt", "createdAt", "updatedAt"],
-  properties: {
-    id: userIdSchema,
-    ...userSample,
-    lastVisitAt: lastVisitAtSchema,
-    ...timestampsSample,
-  },
+  properties: userSample,
 } as const satisfies AppJSONSchema;
 
 export const extendedUserSchema = {
@@ -51,14 +49,13 @@ export const extendedUserSchema = {
     "id",
     "name",
     "role",
-    "sessions",
-    "tasks",
     "lastVisitAt",
     "createdAt",
     "updatedAt",
+    "sessions",
+    "tasks",
   ],
   properties: {
-    id: userIdSchema,
     ...userSample,
     sessions: {
       type: "array",
@@ -83,7 +80,5 @@ export const extendedUserSchema = {
       description: "Список задач пользователя",
       items: taskSchema,
     },
-    lastVisitAt: lastVisitAtSchema,
-    ...timestampsSample,
   },
 } as const satisfies AppJSONSchema;

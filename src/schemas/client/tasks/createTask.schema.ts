@@ -11,7 +11,10 @@ export const createTaskSchema = {
     type: "object",
     description: "Новая задача",
     required: ["content", "status"],
-    properties: taskSample,
+    properties: {
+      content: taskSample.content,
+      status: taskSample.status,
+    },
   },
   response: {
     201: {

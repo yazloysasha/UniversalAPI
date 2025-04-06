@@ -9,9 +9,18 @@ export type ArgumentsType<F extends () => any> = F extends (
   : never;
 
 export type Primitive<T> = {
-  [k in keyof T]: T[k] extends Date | Types.ObjectId
+  [k in keyof T]: T[k] extends
+    | bigint
+    | Date
+    | Types.ObjectId
+    | (bigint | null)
+    | (Date | null)
+    | (Types.ObjectId | null)
+    | (bigint | undefined)
+    | (Date | undefined)
+    | (Types.ObjectId | undefined)
     ? never
-    : T[k] extends object
+    : T[k] extends object | (object | null) | (object | undefined)
     ? Primitive<T[k]>
     : T[k];
 };

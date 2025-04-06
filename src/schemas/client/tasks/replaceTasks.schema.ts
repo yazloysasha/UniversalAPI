@@ -16,7 +16,10 @@ export const replaceTasksSchema = {
         items: {
           type: "object",
           required: ["content", "status"],
-          properties: taskSample,
+          properties: {
+            content: taskSample.content,
+            status: taskSample.status,
+          },
         },
       },
     },

@@ -12,7 +12,10 @@ export const editUserSchema = {
   body: {
     type: "object",
     description: "Редактируемые атрибуты",
-    properties: userSample,
+    properties: {
+      name: userSample.name,
+      role: userSample.role,
+    },
   },
   response: {
     200: {

@@ -45,13 +45,13 @@ export class UserService {
   /**
    * Получить пользователя
    */
-  async getUser({
+  async getUser<UserType extends RegularUser | ExtendedUser = RegularUser>({
     userId,
     extended = false,
   }: {
     userId: string;
     extended?: boolean;
-  }): Promise<RegularUser | ExtendedUser> {
+  }): Promise<UserType> {
     const user = await this.userRepository.findOne({
       where: { id: userId },
       select: extended
@@ -83,7 +83,7 @@ export class UserService {
 
     if (!user) throw new APIError(404);
 
-    return user;
+    return user as RegularUser | ExtendedUser as UserType;
   }
 
   /**

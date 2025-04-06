@@ -11,7 +11,10 @@ export const editTaskSchema = {
   body: {
     type: "object",
     description: "Редактируемые атрибуты",
-    properties: taskSample,
+    properties: {
+      content: taskSample.content,
+      status: taskSample.status,
+    },
   },
   response: {
     200: {

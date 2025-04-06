@@ -10,10 +10,10 @@ export const getUserHandler: AppFastifyHandler<GetUserType> = async (
 ) => {
   const userService = di.container.resolve<UserService>(UserService.key);
 
-  const user = await userService.getUser({
+  const user = await userService.getUser<ExtendedUser>({
     userId: req.params.userId,
     extended: true,
   });
 
-  reply.code(200).send(primitive(user as ExtendedUser));
+  reply.code(200).send(primitive(user));
 };

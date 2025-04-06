@@ -11,6 +11,7 @@ const taskIdSchema = {
 } as const satisfies AppJSONSchema;
 
 export const taskSample = {
+  id: taskIdSchema,
   content: {
     type: "string",
     minLength: 1,
@@ -23,16 +24,13 @@ export const taskSample = {
     description: "Статус задачи",
     example: TaskStatus.NOT_DONE,
   },
+  ...timestampsSample,
 } as const satisfies { [x in string]: AppJSONSchema };
 
 export const taskSchema = {
   type: "object",
   required: ["id", "content", "status", "createdAt", "updatedAt"],
-  properties: {
-    id: taskIdSchema,
-    ...taskSample,
-    ...timestampsSample,
-  },
+  properties: taskSample,
 } as const satisfies AppJSONSchema;
 
 export const paramsWithTaskId = {
