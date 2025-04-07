@@ -13,7 +13,6 @@ export const registerHandler: AppFastifyHandler<RegisterType> = async (
   const token = await authService.newSession({ userId });
 
   reply.code(201).send({
-    alert: true,
     message: req.i18n.t("swagger.messages.REGISTERED"),
     token,
   });

@@ -10,13 +10,15 @@ export const getTasksHandler: AppFastifyHandler<GetTasksType> = async (
 ) => {
   const taskService = di.container.resolve<TaskService>(TaskService.key);
 
-  const tasks = await taskService.getTasks({
-    userId: req.user!.id,
+  const { totalSize, tasks } = await taskService.getTasks({
     pagination: req.query,
+    authorId: req.session!.userId,
+    filter: req.query,
+    sort: req.query,
   });
 
   reply.code(200).send({
-    totalSize: req.user!.tasksCount,
+    totalSize,
     items: primitive(tasks),
   });
 };

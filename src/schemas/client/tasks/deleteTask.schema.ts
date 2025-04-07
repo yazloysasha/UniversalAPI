@@ -11,10 +11,9 @@ export const deleteTaskSchema = {
   response: {
     200: {
       type: "object",
-      required: ["alert", "message", "taskId"],
+      required: ["message", "taskId"],
       description: SwaggerContract.ActionResponseSchema.description,
       properties: {
-        alert: SwaggerContract.ActionResponseSchema.properties.alert,
         message: {
           type: "string",
           description:

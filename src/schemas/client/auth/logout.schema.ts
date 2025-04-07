@@ -10,9 +10,8 @@ export const logoutSchema = {
     200: {
       type: "object",
       description: SwaggerContract.ActionResponseSchema.description,
-      required: ["alert", "message"],
+      required: ["message"],
       properties: {
-        alert: SwaggerContract.ActionResponseSchema.properties.alert,
         message: {
           type: "string",
           description:

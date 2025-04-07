@@ -3,9 +3,9 @@
     "messages": {
       "SAVED": "Successfully saved",
       "DELETED": "Successfully deleted",
-      "LOGGED": "You have successfully logged in",
-      "LOGGED_OUT": "You have successfully logged out",
-      "REGISTERED": "You have successfully registered"
+      "LOGGED": "Successfully logged in",
+      "LOGGED_OUT": "Successfully logged out",
+      "REGISTERED": "Successfully registered"
     },
     "errors": {
       "VALIDATION": "Validation error",
@@ -95,9 +95,12 @@
       "NOT_UNIQUE_NAME": "A user with that name already exists"
     },
     "cron": {
-      "INCOMPATIBLE": "You cannot specify both a schedule and an interval",
-      "INVALID_SCHEDULE": "The specified schedule for the task is invalid",
-      "INVALID_INTERVAL": "The specified interval for the task is invalid"
+      "INCOMPATIBLE": "Cannot specify both schedule and interval",
+      "INVALID_SCHEDULE": "Invalid schedule specified for the task",
+      "INVALID_INTERVAL": "Invalid interval specified for the task"
+    },
+    "task": {
+      "EMPTY_NAME": "The task name cannot be empty"
     }
   },
   "system": {

@@ -10,19 +10,20 @@ export const createTaskSchema = {
   body: {
     type: "object",
     description: "Новая задача",
-    required: ["content", "status"],
+    required: ["name", "description", "deadline", "priority"],
     properties: {
-      content: taskSample.content,
-      status: taskSample.status,
+      name: taskSample.name,
+      description: taskSample.description,
+      deadline: taskSample.deadline,
+      priority: { ...taskSample.priority, nullable: true },
     },
   },
   response: {
     201: {
       type: "object",
       description: SwaggerContract.ActionResponseSchema.description,
-      required: ["alert", "message", "task"],
+      required: ["message", "task"],
       properties: {
-        alert: SwaggerContract.ActionResponseSchema.properties.alert,
         message: {
           type: "string",
           description:

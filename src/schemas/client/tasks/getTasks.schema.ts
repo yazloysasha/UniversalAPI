@@ -1,12 +1,70 @@
 import { AppFastifySchema } from "@types";
 import { SwaggerContract } from "@contracts";
 import { taskSchema } from "./common.schemas";
+import { TaskPriority, TaskStatus } from "@entities";
 
 export const getTasksSchema = {
   tags: [SwaggerContract.ClientTag.TASKS],
   summary: "Получить все задачи",
   security: [{ Bearer: [] }],
-  querystring: SwaggerContract.EnablePaginationSchema,
+  querystring: {
+    type: "object",
+    properties: {
+      ...SwaggerContract.EnablePaginationSchema.properties,
+      status: {
+        type: "string",
+        enum: [
+          TaskStatus.ACTIVE,
+          TaskStatus.COMPLETED,
+          TaskStatus.OVERDUE,
+          TaskStatus.LATE,
+        ],
+        description: "Фильтрация по статусу задачи",
+        example: TaskStatus.ACTIVE,
+      },
+      priority: {
+        type: "string",
+        enum: [
+          TaskPriority.LOW,
+          TaskPriority.MEDIUM,
+          TaskPriority.HIGH,
+          TaskPriority.CRITICAL,
+        ],
+        description: "Фильтрация по приоритету задачи",
+        example: TaskPriority.LOW,
+      },
+      name: {
+        type: "string",
+        enum: ["ASC", "DESC"],
+        description: "Сортировка по названию задачи",
+        example: "ASC",
+      },
+      description: {
+        type: "string",
+        enum: ["ASC", "DESC"],
+        description: "Сортировка по описанию задачи",
+        example: "ASC",
+      },
+      deadline: {
+        type: "string",
+        enum: ["ASC", "DESC"],
+        description: "Сортировка по дате выполнения задачи",
+        example: "ASC",
+      },
+      createdAt: {
+        type: "string",
+        enum: ["ASC", "DESC"],
+        description: "Сортировка по дате создания задачи",
+        example: "ASC",
+      },
+      updatedAt: {
+        type: "string",
+        enum: ["ASC", "DESC"],
+        description: "Сортировка по дате обновления задачи",
+        example: "ASC",
+      },
+    },
+  } as const satisfies SwaggerContract.EnablePaginationType,
   response: {
     200: {
       type: "object",

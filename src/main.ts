@@ -1,9 +1,10 @@
+import "@config/setupMultilingualism";
+
 import {
   appLogger,
   setupFastify,
   setupTaskQueue,
   setupDIContainer,
-  setupMultilingualism,
   connectToAnalyticalDatabase,
   connectToOperationalDatabase,
 } from "@config";
@@ -11,9 +12,6 @@ import { FastifyRoutes } from "@types";
 import appConfig from "@constants/appConfig";
 
 const bootstrapApp = async (): Promise<void> => {
-  // Инициализировать мультиязычность
-  setupMultilingualism();
-
   // Сначала установить все зависимости, без них ничего не может работать
   setupDIContainer();
 

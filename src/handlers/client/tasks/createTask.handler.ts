@@ -11,12 +11,12 @@ export const createTaskHandler: AppFastifyHandler<CreateTaskType> = async (
   const taskService = di.container.resolve<TaskService>(TaskService.key);
 
   const createdTask = await taskService.createTask({
-    userId: req.session!.userId,
+    authorId: req.session!.userId,
     ...req.body,
+    deadline: req.body.deadline ? new Date(req.body.deadline) : null,
   });
 
   reply.code(201).send({
-    alert: true,
     message: req.i18n.t("swagger.messages.SAVED"),
     task: primitive(createdTask),
   });

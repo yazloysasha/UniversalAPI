@@ -10,12 +10,11 @@ export const deleteTaskHandler: AppFastifyHandler<DeleteTaskType> = async (
   const taskService = di.container.resolve<TaskService>(TaskService.key);
 
   await taskService.deleteTask({
-    userId: req.session!.userId,
     taskId: req.params.taskId,
+    authorId: req.session!.userId,
   });
 
   reply.code(200).send({
-    alert: true,
     message: req.i18n.t("swagger.messages.DELETED"),
     taskId: req.params.taskId,
   });

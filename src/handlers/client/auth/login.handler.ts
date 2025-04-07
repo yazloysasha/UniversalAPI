@@ -13,7 +13,6 @@ export const loginHandler: AppFastifyHandler<LoginType> = async (
   const token = await authService.newSession({ userId });
 
   reply.code(200).send({
-    alert: true,
     message: req.i18n.t("swagger.messages.LOGGED"),
     token,
   });

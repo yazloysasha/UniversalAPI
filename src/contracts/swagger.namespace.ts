@@ -171,14 +171,9 @@ export namespace SwaggerContract {
    */
   export const ActionResponseSchema = {
     type: "object",
-    required: ["alert", "message"],
+    required: ["message"],
     description: "Ответ на действие",
     properties: {
-      alert: {
-        type: "boolean",
-        description: "Нужно ли показывать уведомление пользователю",
-        example: true,
-      },
       message: {
         type: "string",
         description: "Сообщение для уведомления",
@@ -192,14 +187,9 @@ export namespace SwaggerContract {
    */
   export type ActionResponseType = {
     type: "object";
-    required: readonly ["alert", "message", ...string[]];
+    required: readonly ["message", ...string[]];
     description: string;
     properties: {
-      alert: {
-        type: "boolean";
-        description: string;
-        example: boolean;
-      };
       message: {
         type: "string";
         description: string;
@@ -263,7 +253,6 @@ export namespace SwaggerContract {
       required: ActionResponseSchema.required,
       description: "Ответ на запрос с ошибкой",
       properties: {
-        alert: ActionResponseSchema.properties.alert,
         message: {
           type: ActionResponseSchema.properties.message.type,
           description: "Описание ошибки",

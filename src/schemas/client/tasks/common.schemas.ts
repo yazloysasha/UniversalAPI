@@ -1,5 +1,5 @@
-import { TaskStatus } from "@entities";
 import { SwaggerContract } from "@contracts";
+import { TaskPriority, TaskStatus } from "@entities";
 import { AppJSONSchema, CustomFormat } from "@types";
 import { timestampsSample } from "@schemas/common.schemas";
 
@@ -12,24 +12,63 @@ const taskIdSchema = {
 
 export const taskSample = {
   id: taskIdSchema,
-  content: {
+  name: {
     type: "string",
     minLength: 1,
-    description: "Текст задачи",
+    description: "Название задачи",
+    example: "API для проекта",
+  },
+  description: {
+    type: "string",
+    nullable: true,
+    minLength: 1,
+    description: "Описание задачи",
     example: "Сделать API для проекта",
+  },
+  deadline: {
+    type: "string",
+    format: CustomFormat.DATE_TIME,
+    nullable: true,
+    description: "Дата выполнения задачи",
+    example: SwaggerContract.DateTimeExample,
   },
   status: {
     type: "string",
-    enum: [TaskStatus.DONE, TaskStatus.NOT_DONE],
+    enum: [
+      TaskStatus.ACTIVE,
+      TaskStatus.COMPLETED,
+      TaskStatus.OVERDUE,
+      TaskStatus.LATE,
+    ],
     description: "Статус задачи",
-    example: TaskStatus.NOT_DONE,
+    example: TaskStatus.ACTIVE,
+  },
+  priority: {
+    type: "string",
+    enum: [
+      TaskPriority.LOW,
+      TaskPriority.MEDIUM,
+      TaskPriority.HIGH,
+      TaskPriority.CRITICAL,
+    ],
+    description: "Приоритет задачи",
+    example: TaskPriority.LOW,
   },
   ...timestampsSample,
 } as const satisfies { [x in string]: AppJSONSchema };
 
 export const taskSchema = {
   type: "object",
-  required: ["id", "content", "status", "createdAt", "updatedAt"],
+  required: [
+    "id",
+    "name",
+    "description",
+    "deadline",
+    "status",
+    "priority",
+    "createdAt",
+    "updatedAt",
+  ],
   properties: taskSample,
 } as const satisfies AppJSONSchema;
 

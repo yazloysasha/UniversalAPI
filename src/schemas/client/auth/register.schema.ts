@@ -11,9 +11,8 @@ export const registerSchema = {
     201: {
       type: "object",
       description: SwaggerContract.ActionResponseSchema.description,
-      required: ["alert", "message", "token"],
+      required: ["message", "token"],
       properties: {
-        alert: SwaggerContract.ActionResponseSchema.properties.alert,
         message: {
           type: "string",
           description:

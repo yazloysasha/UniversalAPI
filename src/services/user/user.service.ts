@@ -27,14 +27,11 @@ export class UserService {
     totalSize: number;
     users: RegularUser[];
   }> {
-    const [totalSize, users] = await Promise.all([
-      this.userRepository.count(),
-      this.userRepository.find({
-        skip: pagination.skip,
-        take: pagination.limit,
-        select: this.regularAttributes,
-      }),
-    ]);
+    const [users, totalSize] = await this.userRepository.findAndCount({
+      skip: pagination.skip,
+      take: pagination.limit,
+      select: this.regularAttributes,
+    });
 
     return {
       totalSize,
@@ -70,8 +67,11 @@ export class UserService {
               "tasks",
               {
                 id: true,
-                content: true,
+                name: true,
+                description: true,
+                deadline: true,
                 status: true,
+                priority: true,
                 createdAt: true,
                 updatedAt: true,
               },

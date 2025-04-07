@@ -12,17 +12,23 @@ export const editTaskSchema = {
     type: "object",
     description: "Редактируемые атрибуты",
     properties: {
-      content: taskSample.content,
-      status: taskSample.status,
+      name: taskSample.name,
+      description: taskSample.description,
+      deadline: taskSample.deadline,
+      priority: { ...taskSample.priority, nullable: true },
+      done: {
+        type: "boolean",
+        description: "Отметка о выполнении задачи",
+        example: true,
+      },
     },
   },
   response: {
     200: {
       type: "object",
       description: SwaggerContract.ActionResponseSchema.description,
-      required: ["alert", "message", "task"],
+      required: ["message", "task"],
       properties: {
-        alert: SwaggerContract.ActionResponseSchema.properties.alert,
         message: {
           type: "string",
           description:

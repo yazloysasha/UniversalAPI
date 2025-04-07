@@ -11,8 +11,8 @@ export const getTaskHandler: AppFastifyHandler<GetTaskType> = async (
   const taskService = di.container.resolve<TaskService>(TaskService.key);
 
   const task = await taskService.getTask({
-    userId: req.session!.userId,
     taskId: req.params.taskId,
+    authorId: req.session!.userId,
   });
 
   reply.code(200).send(primitive(task));

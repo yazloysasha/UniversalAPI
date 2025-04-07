@@ -21,9 +21,8 @@ export const editUserSchema = {
     200: {
       type: "object",
       description: SwaggerContract.ActionResponseSchema.description,
-      required: ["alert", "message", "user"],
+      required: ["message", "user"],
       properties: {
-        alert: SwaggerContract.ActionResponseSchema.properties.alert,
         message: {
           type: "string",
           description:

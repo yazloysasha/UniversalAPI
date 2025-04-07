@@ -12,7 +12,6 @@ export const logoutHandler: AppFastifyHandler<LogoutType> = async (
   await authService.destroySession({ sessionId: req.session!.id });
 
   reply.code(200).send({
-    alert: true,
     message: req.i18n.t("swagger.messages.LOGGED_OUT"),
   });
 };

@@ -56,7 +56,7 @@ export class User {
   /**
    * Задачи пользователя
    */
-  @OneToMany(() => Task, (task) => task.user)
+  @OneToMany(() => Task, (task) => task.author)
   tasks!: Task[];
 
   /**
