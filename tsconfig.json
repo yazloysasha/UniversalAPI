@@ -25,5 +25,5 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": false
   },
-  "exclude": ["node_modules", "build", "dist", "scripts"]
+  "exclude": ["node_modules", "build", "dist", "scripts", "eslint.config.mjs"]
 }
