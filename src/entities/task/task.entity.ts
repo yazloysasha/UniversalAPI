@@ -66,14 +66,14 @@ export class Task {
    */
   @VirtualColumn({
     query: (alias) => `
-      CASE WHEN ${alias}.doneAt IS NULL THEN (
-        CASE WHEN ${alias}.deadline IS NULL OR ${alias}.deadline >= NOW() THEN (
+      CASE WHEN ${alias}."doneAt" IS NULL THEN (
+        CASE WHEN ${alias}."deadline" IS NULL OR ${alias}."deadline" >= NOW() THEN (
           '${TaskStatus.ACTIVE}'
         ) ELSE (
           '${TaskStatus.OVERDUE}'
         ) END
       ) ELSE (
-        CASE WHEN ${alias}.deadline IS NULL OR ${alias}.deadline >= ${alias}.doneAt THEN (
+        CASE WHEN ${alias}."deadline" IS NULL OR ${alias}."deadline" >= ${alias}."doneAt" THEN (
           '${TaskStatus.COMPLETED}'
         ) ELSE (
           '${TaskStatus.LATE}'
