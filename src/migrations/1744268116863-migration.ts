@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class Migration1744021292424 implements MigrationInterface {
-  name = "Migration1744021292424";
+export class Migration1744268116863 implements MigrationInterface {
+  name = "Migration1744268116863";
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
@@ -18,11 +18,9 @@ export class Migration1744021292424 implements MigrationInterface {
       `ALTER TABLE "task" ADD "priority" "public"."TaskPriority" NOT NULL`
     );
     await queryRunner.query(`ALTER TABLE "task" ADD "doneAt" TIMESTAMP`);
+    await queryRunner.query(`ALTER TABLE "task" DROP COLUMN "content"`);
     await queryRunner.query(`ALTER TABLE "task" DROP COLUMN "status"`);
     await queryRunner.query(`DROP TYPE "public"."TaskStatus"`);
-    await queryRunner.query(
-      `ALTER TABLE "task" ADD "status" character varying NOT NULL`
-    );
     await queryRunner.query(
       `ALTER TABLE "task" ADD CONSTRAINT "FK_30cb9d78297c1f2a2e07df1a616" FOREIGN KEY ("authorId") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE CASCADE`
     );
@@ -39,6 +37,7 @@ export class Migration1744021292424 implements MigrationInterface {
     await queryRunner.query(
       `ALTER TABLE "task" ADD "status" "public"."TaskStatus" NOT NULL`
     );
+    await queryRunner.query(`ALTER TABLE "task" ADD "content" text NOT NULL`);
     await queryRunner.query(`ALTER TABLE "task" DROP COLUMN "doneAt"`);
     await queryRunner.query(`ALTER TABLE "task" DROP COLUMN "priority"`);
     await queryRunner.query(`DROP TYPE "public"."TaskPriority"`);
