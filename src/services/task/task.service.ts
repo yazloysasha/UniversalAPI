@@ -23,6 +23,19 @@ export class TaskService {
   ];
 
   /**
+   * Получить статус задачи
+   */
+  private getStatus(task: Task): TaskStatus {
+    return task.doneAt === null
+      ? task.deadline === null || task.deadline >= new Date()
+        ? TaskStatus.ACTIVE
+        : TaskStatus.OVERDUE
+      : task.deadline === null || task.deadline >= task.doneAt
+      ? TaskStatus.COMPLETED
+      : TaskStatus.LATE;
+  }
+
+  /**
    * Получить приоритет по слову
    */
   private getPriorityByWord(word: string): TaskPriority | undefined {
@@ -95,7 +108,9 @@ export class TaskService {
 
       const newPriority = this.getPriorityByWord(word);
 
-      priority = newPriority;
+      if (newPriority) {
+        priority = newPriority;
+      }
 
       return !newPriority;
     });
@@ -240,12 +255,16 @@ export class TaskService {
         doneAt: done ? new Date() : null,
       })
       .where({ id: taskId, authorId })
-      .returning(this.regularAttributes)
+      .returning(this.regularAttributes.filter((key) => key !== "status"))
       .execute();
 
     if (!result.affected) throw new APIError(404);
 
-    return result.raw[0];
+    const task = result.raw[0];
+
+    task.status = this.getStatus(task);
+
+    return task;
   }
 
   /**
