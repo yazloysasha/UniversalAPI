@@ -1,6 +1,6 @@
 import { APIError } from "@utils";
 import { Repository } from "typeorm";
-import { Task, TaskPriority } from "@entities";
+import { Task, TaskPriority, TaskStatus } from "@entities";
 import { RegularTask, IPagination, ITaskFilter, TaskSort } from "@types";
 
 /**
@@ -49,9 +49,9 @@ export class TaskService {
     deadline: Date | undefined;
     priority: TaskPriority | undefined;
   } {
-    let words = name.match(/\b\w+\b/g) as string[] | null;
+    let words = name.split(/\s/g).filter((word) => word.length);
 
-    if (!words) {
+    if (!words.length) {
       throw new APIError(400, { msg: "services.task.EMPTY_NAME" });
     }
 
@@ -175,6 +175,14 @@ export class TaskService {
     });
 
     await this.taskRepository.insert(task);
+
+    if (!task.deadline) {
+      task.deadline = null;
+    }
+
+    if (!task.status) {
+      task.status = TaskStatus.ACTIVE;
+    }
 
     return task;
   }
