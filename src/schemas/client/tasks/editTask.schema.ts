@@ -15,7 +15,11 @@ export const editTaskSchema = {
       name: taskSample.name,
       description: taskSample.description,
       deadline: taskSample.deadline,
-      priority: { ...taskSample.priority, nullable: true },
+      priority: {
+        ...taskSample.priority,
+        enum: [null, ...taskSample.priority.enum],
+        nullable: true,
+      },
       done: {
         type: "boolean",
         description: "Отметка о выполнении задачи",
