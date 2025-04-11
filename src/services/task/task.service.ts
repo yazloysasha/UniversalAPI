@@ -1,7 +1,22 @@
 import { APIError } from "@utils";
-import { Repository } from "typeorm";
+import {
+  LessThan,
+  Or,
+  Repository,
+  SelectQueryBuilder,
+  IsNull,
+  MoreThanOrEqual,
+  And,
+  Not,
+} from "typeorm";
 import { Task, TaskPriority, TaskStatus } from "@entities";
-import { RegularTask, IPagination, ITaskFilter, TaskSort } from "@types";
+import {
+  RegularTask,
+  IPagination,
+  ITaskFilter,
+  TaskSort,
+  ArgumentsType,
+} from "@types";
 
 /**
  * Сервис для управления задачами
@@ -22,6 +37,17 @@ export class TaskService {
     "updatedAt",
   ];
 
+  private nativeRegularAttributes: (keyof Task)[] = [
+    "id",
+    "name",
+    "description",
+    "deadline",
+    "priority",
+    "doneAt",
+    "createdAt",
+    "updatedAt",
+  ];
+
   /**
    * Получить статус задачи
    */
@@ -33,6 +59,25 @@ export class TaskService {
       : task.deadline === null || task.deadline >= task.doneAt
       ? TaskStatus.COMPLETED
       : TaskStatus.LATE;
+  }
+
+  /**
+   * Получить условия по статусу
+   */
+  private getConditionsByStatus(status: TaskStatus): string {
+    switch (status) {
+      case TaskStatus.ACTIVE:
+        return 't."doneAt" IS NULL AND (t."deadline" IS NULL OR t."deadline" >= NOW())';
+
+      case TaskStatus.OVERDUE:
+        return 't."doneAt" IS NULL AND t."deadline" IS NOT NULL AND t."deadline" < NOW()';
+
+      case TaskStatus.COMPLETED:
+        return 't."doneAt" IS NOT NULL AND (t."deadline" IS NULL OR t."deadline" >= t."doneAt")';
+
+      case TaskStatus.LATE:
+        return 't."doneAt" IS NOT NULL AND t."deadline" IS NOT NULL AND t."deadline" < t."doneAt"';
+    }
   }
 
   /**
@@ -139,22 +184,37 @@ export class TaskService {
     totalSize: number;
     tasks: RegularTask[];
   }> {
-    const [tasks, totalSize] = await this.taskRepository.findAndCount({
-      where: {
-        authorId,
-        status: filter.status,
-        priority: filter.priority,
-      },
-      select: this.regularAttributes,
-      skip: pagination.skip,
-      take: pagination.limit,
-      order: {
-        name: sort.name,
-        description: sort.description,
-        deadline: sort.deadline,
-        createdAt: sort.createdAt,
-        updatedAt: sort.updatedAt,
-      },
+    const query = this.taskRepository
+      .createQueryBuilder("t")
+      .where({ authorId });
+
+    if (filter.priority) {
+      query.andWhere({ priority: filter.priority });
+    }
+    if (filter.status) {
+      query.andWhere(this.getConditionsByStatus(filter.status));
+    }
+
+    const getTasksQuery = query
+      .select([...this.nativeRegularAttributes.map((key) => `t.${key}`)])
+      .skip(pagination.skip)
+      .take(pagination.limit);
+
+    for (const key in sort) {
+      const order = sort[key as keyof TaskSort];
+
+      if (order === "ASC" || order === "DESC") {
+        getTasksQuery.addOrderBy(`t."${key}"`, order);
+      }
+    }
+
+    const [tasks, totalSize] = await Promise.all([
+      getTasksQuery.getMany(),
+      query.getCount(),
+    ]);
+
+    tasks.forEach((task) => {
+      task.status = this.getStatus(task);
     });
 
     return {
@@ -255,7 +315,7 @@ export class TaskService {
         doneAt: done ? new Date() : null,
       })
       .where({ id: taskId, authorId })
-      .returning(this.regularAttributes.filter((key) => key !== "status"))
+      .returning(this.nativeRegularAttributes)
       .execute();
 
     if (!result.affected) throw new APIError(404);
