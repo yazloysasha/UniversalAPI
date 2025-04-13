@@ -1,5 +1,6 @@
 import "dotenv/config";
-import { FastifyRoutes, IAppConfig, Module, TaskType } from "@types";
+import { TaskType } from "@/types/cron";
+import { FastifyRoutes, IAppConfig, Module } from "@/types/shared";
 
 const {
   ENV,

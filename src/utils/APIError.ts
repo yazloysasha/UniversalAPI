@@ -1,5 +1,5 @@
-import { SwaggerContract } from "@contracts";
-import { I18n, I18nArgs, StatusCodes } from "@types";
+import { SwaggerContract } from "@/contracts/swagger";
+import { I18n, I18nArgs, StatusCodes } from "@/types/shared";
 
 /**
  * Ошибка API

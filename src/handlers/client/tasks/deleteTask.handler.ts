@@ -1,7 +1,7 @@
-import { di } from "@config";
-import { TaskService } from "@services";
-import { AppFastifyHandler } from "@types";
-import { DeleteTaskType } from "@schemas/client";
+import { di } from "@/config/DIContainer";
+import { TaskService } from "@/services/task";
+import { DeleteTaskType } from "@/schemas/client";
+import { AppFastifyHandler } from "@/types/shared";
 
 export const deleteTaskHandler: AppFastifyHandler<DeleteTaskType> = async (
   req,

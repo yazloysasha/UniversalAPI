@@ -1,7 +1,7 @@
-import { AppFastifyRoute } from "@types";
-import { authPreHandler } from "@middleware";
-import { getUserHandler } from "@handlers/client";
-import { GetUserType, getUserSchema } from "@schemas/client";
+import { AppFastifyRoute } from "@/types/shared";
+import { authPreHandler } from "@/middleware/auth";
+import { getUserHandler } from "@/handlers/client";
+import { GetUserType, getUserSchema } from "@/schemas/client";
 
 /**
  * Получить данные пользователя

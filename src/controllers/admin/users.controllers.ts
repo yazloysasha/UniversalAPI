@@ -5,15 +5,15 @@ import {
   getUserSchema,
   editUserSchema,
   getUsersSchema,
-} from "@schemas/admin";
+} from "@/schemas/admin";
 import {
   getUserHandler,
   editUserHandler,
   getUsersHandler,
-} from "@handlers/admin";
-import { UserRole } from "@entities";
-import { AppFastifyRoute } from "@types";
-import { verifyPreHandler } from "@middleware";
+} from "@/handlers/admin";
+import { UserRole } from "@/entities/user";
+import { AppFastifyRoute } from "@/types/shared";
+import { verifyPreHandler } from "@/middleware/verify";
 
 /**
  * Получить всех пользователей

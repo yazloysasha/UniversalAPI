@@ -1,9 +1,9 @@
 import chalk from "chalk";
 import { di } from "./DIContainer";
-import { CronService } from "@services";
-import { CronContract } from "@contracts";
 import { appLogger } from "./winstonLogger";
-import appConfig from "@constants/appConfig";
+import { CronService } from "@/services/cron";
+import appConfig from "@/constants/appConfig";
+import { CronContract } from "@/contracts/cron";
 
 /**
  * Запуск очереди задач

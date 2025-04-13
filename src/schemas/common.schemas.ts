@@ -1,5 +1,5 @@
-import { SwaggerContract } from "@contracts";
-import { AppJSONSchema, CustomFormat } from "@types";
+import { SwaggerContract } from "@/contracts/swagger";
+import { AppJSONSchema, CustomFormat } from "@/types/shared";
 
 export const timestampsSample = {
   createdAt: {

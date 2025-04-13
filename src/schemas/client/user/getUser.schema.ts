@@ -1,5 +1,5 @@
-import { AppFastifySchema } from "@types";
-import { SwaggerContract } from "@contracts";
+import { AppFastifySchema } from "@/types/shared";
+import { SwaggerContract } from "@/contracts/swagger";
 import { extendedUserSchema } from "./common.schemas";
 
 export const getUserSchema = {

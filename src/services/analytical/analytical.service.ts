@@ -1,7 +1,7 @@
-import { appLogger } from "@config";
-import appConfig from "@constants/appConfig";
-import { ErrorLog, RequestLog } from "@models";
-import { IErrorLog, IRequestLog } from "@types";
+import appConfig from "@/constants/appConfig";
+import { appLogger } from "@/config/winstonLogger";
+import { ErrorLog, RequestLog } from "@/models/common";
+import { IErrorLog, IRequestLog } from "@/types/analytical";
 
 /**
  * Сервис для сбора аналитики

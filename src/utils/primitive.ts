@@ -1,4 +1,4 @@
-import { Primitive } from "@types";
+import { Primitive } from "@/types/shared";
 
 /**
  * Приведение типов (Date, Mongoose ID) перед отправкой

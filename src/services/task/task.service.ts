@@ -1,22 +1,8 @@
-import { APIError } from "@utils";
-import {
-  LessThan,
-  Or,
-  Repository,
-  SelectQueryBuilder,
-  IsNull,
-  MoreThanOrEqual,
-  And,
-  Not,
-} from "typeorm";
-import { Task, TaskPriority, TaskStatus } from "@entities";
-import {
-  RegularTask,
-  IPagination,
-  ITaskFilter,
-  TaskSort,
-  ArgumentsType,
-} from "@types";
+import { Repository } from "typeorm";
+import { APIError } from "@/utils/APIError";
+import { IPagination } from "@/types/shared";
+import { Task, TaskPriority, TaskStatus } from "@/entities/task";
+import { RegularTask, ITaskFilter, TaskSort } from "@/types/task";
 
 /**
  * Сервис для управления задачами

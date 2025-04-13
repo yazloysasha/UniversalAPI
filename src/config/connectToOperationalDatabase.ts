@@ -1,7 +1,7 @@
-import { APIError } from "@utils";
-import { appLogger } from "@config";
-import appConfig from "@constants/appConfig";
-import appDataSource from "@constants/appDataSource";
+import { APIError } from "@/utils/APIError";
+import { appLogger } from "./winstonLogger";
+import appConfig from "@/constants/appConfig";
+import appDataSource from "@/constants/appDataSource";
 
 /**
  * Подключение к операционной базе данных

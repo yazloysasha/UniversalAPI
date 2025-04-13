@@ -1,5 +1,5 @@
-import { AppJSONSchema } from "@types";
-import { userIdSchema } from "@schemas/client";
+import { AppJSONSchema } from "@/types/shared";
+import { userIdSchema } from "@/schemas/client";
 
 export const paramsWithUserId = {
   type: "object",

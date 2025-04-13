@@ -1,5 +1,5 @@
 import { hashSync } from "bcrypt";
-import appConfig from "@constants/appConfig";
+import appConfig from "@/constants/appConfig";
 
 /**
  * Зашифровать значение

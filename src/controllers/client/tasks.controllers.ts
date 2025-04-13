@@ -9,16 +9,16 @@ import {
   DeleteTaskType,
   createTaskSchema,
   deleteTaskSchema,
-} from "@schemas/client";
+} from "@/schemas/client";
 import {
   getTaskHandler,
   getTasksHandler,
   editTaskHandler,
   createTaskHandler,
   deleteTaskHandler,
-} from "@handlers/client";
-import { AppFastifyRoute } from "@types";
-import { authPreHandler } from "@middleware";
+} from "@/handlers/client";
+import { AppFastifyRoute } from "@/types/shared";
+import { authPreHandler } from "@/middleware/auth";
 
 /**
  * Получить все задачи

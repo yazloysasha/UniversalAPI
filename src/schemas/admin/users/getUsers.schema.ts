@@ -1,6 +1,6 @@
-import { AppFastifySchema } from "@types";
-import { SwaggerContract } from "@contracts";
-import { userSchema } from "@schemas/client";
+import { userSchema } from "@/schemas/client";
+import { AppFastifySchema } from "@/types/shared";
+import { SwaggerContract } from "@/contracts/swagger";
 
 export const getUsersSchema = {
   tags: [SwaggerContract.AdminTag.USERS],

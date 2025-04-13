@@ -1,5 +1,5 @@
-import { ITask } from "@types";
-import { clearingUnusualSessionsTask, updateUsersTopTask } from "@tasks";
+import { ITask } from "@/types/cron";
+import { clearingUnusualSessionsTask, updateUsersTopTask } from "@/tasks";
 
 export namespace CronContract {
   /**

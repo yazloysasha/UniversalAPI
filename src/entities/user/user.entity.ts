@@ -6,7 +6,7 @@ import {
   UpdateDateColumn,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Task } from "@entities/task";
+import { Task } from "../task";
 import { Session } from "./session.entity";
 
 export enum UserRole {

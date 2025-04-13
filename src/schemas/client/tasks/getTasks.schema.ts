@@ -1,7 +1,7 @@
-import { AppFastifySchema } from "@types";
-import { SwaggerContract } from "@contracts";
 import { taskSchema } from "./common.schemas";
-import { TaskPriority, TaskStatus } from "@entities";
+import { AppFastifySchema } from "@/types/shared";
+import { SwaggerContract } from "@/contracts/swagger";
+import { TaskPriority, TaskStatus } from "@/entities/task";
 
 export const getTasksSchema = {
   tags: [SwaggerContract.ClientTag.TASKS],

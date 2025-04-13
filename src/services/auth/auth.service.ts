@@ -1,9 +1,10 @@
+import { hash } from "@/utils/hash";
 import { Repository } from "typeorm";
 import { compareSync } from "bcrypt";
-import { APIError, hash } from "@utils";
-import { AppContract } from "@contracts";
-import { Session, User } from "@entities";
-import appConfig from "@constants/appConfig";
+import { APIError } from "@/utils/APIError";
+import { AppContract } from "@/contracts/app";
+import appConfig from "@/constants/appConfig";
+import { Session, User } from "@/entities/user";
 import { JwtPayload, sign, verify } from "jsonwebtoken";
 
 /**

@@ -1,7 +1,7 @@
 import Redis from "ioredis";
 import { isAsyncFunction } from "util/types";
-import { BasicType, CacheItem } from "@types";
 import { RedisService } from "./redis.service";
+import { BasicType, CacheItem } from "@/types/cache";
 
 /**
  * Сервис для работы с кэшем

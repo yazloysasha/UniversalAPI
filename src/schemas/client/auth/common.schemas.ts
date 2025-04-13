@@ -1,4 +1,4 @@
-import { AppJSONSchema } from "@types";
+import { AppJSONSchema } from "@/types/shared";
 
 export const authSample = {
   name: {

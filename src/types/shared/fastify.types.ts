@@ -8,9 +8,9 @@ import {
   RouteGenericInterface,
   preHandlerHookHandler,
 } from "fastify";
-import { StatusCodes } from "@types";
-import { Session, User } from "@entities";
-import { SwaggerContract } from "@contracts";
+import { StatusCodes } from "@/types/shared";
+import { Session, User } from "@/entities/user";
+import { SwaggerContract } from "@/contracts/swagger";
 import { IncomingMessage, ServerResponse } from "http";
 import { FromSchemaDefaultOptions, JSONSchema } from "json-schema-to-ts";
 import { JsonSchemaToTsProvider } from "@fastify/type-provider-json-schema-to-ts";

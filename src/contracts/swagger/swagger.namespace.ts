@@ -8,7 +8,7 @@ import {
   ClientErrorCode,
   ServerErrorCode,
   InformationalCode,
-} from "@types";
+} from "@/types/shared";
 import i18next from "i18next";
 import { FastifySwaggerUiOptions } from "@fastify/swagger-ui";
 import { FastifyDynamicSwaggerOptions } from "@fastify/swagger";

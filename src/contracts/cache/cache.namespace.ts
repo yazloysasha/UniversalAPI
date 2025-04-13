@@ -1,4 +1,4 @@
-import { CacheItem } from "@types";
+import { CacheItem } from "@/types/cache";
 
 export namespace CacheContract {
   /**

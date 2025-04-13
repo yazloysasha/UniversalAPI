@@ -1,5 +1,5 @@
 import Redis from "ioredis";
-import { BasicType, CacheItem } from "@types";
+import { BasicType, CacheItem } from "@/types/cache";
 
 /**
  * Базовый сервис для работы с Redis

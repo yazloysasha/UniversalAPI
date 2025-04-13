@@ -1,7 +1,8 @@
-import { di } from "@config";
-import { TaskHandler } from "@types";
-import { CacheContract } from "@contracts";
-import { CacheService, UserService } from "@services";
+import { di } from "@/config/DIContainer";
+import { TaskHandler } from "@/types/cron";
+import { UserService } from "@/services/user";
+import { CacheService } from "@/services/cache";
+import { CacheContract } from "@/contracts/cache";
 
 export const updateUsersTopTask: TaskHandler = async (ctx) => {
   const userService = di.container.resolve<UserService>(UserService.key);

@@ -1,7 +1,7 @@
-import { SwaggerContract } from "@contracts";
-import { TaskPriority, TaskStatus } from "@entities";
-import { AppJSONSchema, CustomFormat } from "@types";
-import { timestampsSample } from "@schemas/common.schemas";
+import { SwaggerContract } from "@/contracts/swagger";
+import { TaskPriority, TaskStatus } from "@/entities/task";
+import { timestampsSample } from "@/schemas/common.schemas";
+import { AppJSONSchema, CustomFormat } from "@/types/shared";
 
 const taskIdSchema = {
   type: "string",

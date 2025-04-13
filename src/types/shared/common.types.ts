@@ -1,5 +1,5 @@
 import { Types } from "mongoose";
-import { TaskType } from "@types";
+import { TaskType } from "../cron";
 import { FastifyRoutes } from "./fastify.types";
 
 export type ArgumentsType<F extends () => any> = F extends (

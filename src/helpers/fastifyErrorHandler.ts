@@ -1,9 +1,9 @@
-import { di } from "@config";
 import i18next from "i18next";
-import { APIError } from "@utils";
 import { TypeORMError } from "typeorm";
 import { MongooseError } from "mongoose";
-import { AnalyticalService } from "@services";
+import { di } from "@/config/DIContainer";
+import { APIError } from "@/utils/APIError";
+import { AnalyticalService } from "@/services/analytical";
 import { FastifyError, FastifyReply, FastifyRequest } from "fastify";
 
 /**

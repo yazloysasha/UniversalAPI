@@ -1,6 +1,6 @@
-import { di } from "@config";
-import { AppFastifyInstance } from "@types";
-import { AnalyticalService } from "@services";
+import { di } from "@/config/DIContainer";
+import { AppFastifyInstance } from "@/types/shared";
+import { AnalyticalService } from "@/services/analytical";
 
 /**
  * Установка хуков Fastify

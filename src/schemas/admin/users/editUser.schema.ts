@@ -1,8 +1,8 @@
 import i18next from "i18next";
-import { AppFastifySchema } from "@types";
-import { SwaggerContract } from "@contracts";
+import { AppFastifySchema } from "@/types/shared";
 import { paramsWithUserId } from "./common.schemas";
-import { userSample, userSchema } from "@schemas/client";
+import { SwaggerContract } from "@/contracts/swagger";
+import { userSample, userSchema } from "@/schemas/client";
 
 export const editUserSchema = {
   tags: [SwaggerContract.AdminTag.USERS],

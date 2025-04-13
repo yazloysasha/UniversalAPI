@@ -2,7 +2,7 @@ import {
   AppFastifyRoute,
   AppFastifyInstance,
   AppFastifyPreHandler,
-} from "@types";
+} from "@/types/shared";
 
 /**
  * Регистрация группы маршрутов

@@ -2,13 +2,17 @@ import {
   LoginType,
   LogoutType,
   loginSchema,
-  RegisterType,
   logoutSchema,
+  RegisterType,
   registerSchema,
-} from "@schemas/client";
-import { AppFastifyRoute } from "@types";
-import { authPreHandler } from "@middleware";
-import { loginHandler, logoutHandler, registerHandler } from "@handlers/client";
+} from "@/schemas/client";
+import {
+  loginHandler,
+  logoutHandler,
+  registerHandler,
+} from "@/handlers/client";
+import { AppFastifyRoute } from "@/types/shared";
+import { authPreHandler } from "@/middleware/auth";
 
 /**
  * Войти в аккаунт

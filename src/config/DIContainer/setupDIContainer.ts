@@ -1,15 +1,16 @@
-import {
-  AuthService,
-  CronService,
-  TaskService,
-  UserService,
-  CacheService,
-  AnalyticalService,
-} from "@services";
+import { di } from "./awilixManager";
+import { Task } from "@/entities/task";
 import { asClass, asValue } from "awilix";
-import { Session, Task, User } from "@entities";
-import appDataSource from "@constants/appDataSource";
-import { di, appLogger, RedisClient } from "@config";
+import { appLogger } from "../winstonLogger";
+import { AuthService } from "@/services/auth";
+import { CronService } from "@/services/cron";
+import { UserService } from "@/services/user";
+import { TaskService } from "@/services/task";
+import { RedisClient } from "../cacheDatabase";
+import { Session, User } from "@/entities/user";
+import { CacheService } from "@/services/cache";
+import appDataSource from "@/constants/appDataSource";
+import { AnalyticalService } from "@/services/analytical";
 
 /**
  * Внедрить зависимости в DI-контейнер

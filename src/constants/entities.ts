@@ -1,4 +1,5 @@
-import { Session, Task, User } from "@entities";
+import { Task } from "@/entities/task";
+import { Session, User } from "@/entities/user";
 
 /**
  * Сущности операционной базы данных

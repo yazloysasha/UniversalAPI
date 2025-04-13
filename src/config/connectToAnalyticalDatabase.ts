@@ -1,7 +1,7 @@
-import { APIError } from "@utils";
 import { connect } from "mongoose";
-import { appLogger } from "@config";
-import appConfig from "@constants/appConfig";
+import { APIError } from "@/utils/APIError";
+import { appLogger } from "./winstonLogger";
+import appConfig from "@/constants/appConfig";
 
 /**
  * Подключение к аналитической базе данных

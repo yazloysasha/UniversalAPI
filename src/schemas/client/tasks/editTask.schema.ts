@@ -1,6 +1,6 @@
 import i18next from "i18next";
-import { AppFastifySchema } from "@types";
-import { SwaggerContract } from "@contracts";
+import { AppFastifySchema } from "@/types/shared";
+import { SwaggerContract } from "@/contracts/swagger";
 import { paramsWithTaskId, taskSample, taskSchema } from "./common.schemas";
 
 export const editTaskSchema = {

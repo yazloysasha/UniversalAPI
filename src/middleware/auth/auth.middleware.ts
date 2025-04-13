@@ -1,7 +1,7 @@
-import { di } from "@config";
-import { APIError } from "@utils";
-import { AuthService } from "@services";
 import { FastifyRequest } from "fastify";
+import { di } from "@/config/DIContainer";
+import { APIError } from "@/utils/APIError";
+import { AuthService } from "@/services/auth";
 
 /**
  * Авторизация

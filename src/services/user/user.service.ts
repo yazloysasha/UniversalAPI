@@ -1,7 +1,8 @@
-import { APIError } from "@utils";
 import { Repository } from "typeorm";
-import { User, UserRole } from "@entities";
-import { ExtendedUser, IPagination, RegularUser } from "@types";
+import { APIError } from "@/utils/APIError";
+import { IPagination } from "@/types/shared";
+import { User, UserRole } from "@/entities/user";
+import { ExtendedUser, RegularUser } from "@/types/user";
 
 /**
  * Сервис для управления пользователями

@@ -1,7 +1,7 @@
 import i18next from "i18next";
-import { AppFastifySchema } from "@types";
-import { SwaggerContract } from "@contracts";
+import { AppFastifySchema } from "@/types/shared";
 import { paramsWithTaskId } from "./common.schemas";
+import { SwaggerContract } from "@/contracts/swagger";
 
 export const deleteTaskSchema = {
   tags: [SwaggerContract.ClientTag.TASKS],

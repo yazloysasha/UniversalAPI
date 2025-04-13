@@ -1,8 +1,8 @@
-import { di } from "@config";
-import { primitive } from "@utils";
-import { TaskService } from "@services";
-import { AppFastifyHandler } from "@types";
-import { GetTasksType } from "@schemas/client";
+import { di } from "@/config/DIContainer";
+import { primitive } from "@/utils/primitive";
+import { TaskService } from "@/services/task";
+import { GetTasksType } from "@/schemas/client";
+import { AppFastifyHandler } from "@/types/shared";
 
 export const getTasksHandler: AppFastifyHandler<GetTasksType> = async (
   req,

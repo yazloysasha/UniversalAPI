@@ -1,8 +1,8 @@
-import { authPreHandler } from "@middleware";
-import { registerControllers } from "@helpers";
-import * as adminControllers from "@controllers/admin";
-import * as clientControllers from "@controllers/client";
-import { AppFastifyInstance, FastifyRoutes } from "@types";
+import { authPreHandler } from "@/middleware/auth";
+import * as adminControllers from "@/controllers/admin";
+import * as clientControllers from "@/controllers/client";
+import { AppFastifyInstance, FastifyRoutes } from "@/types/shared";
+import { registerControllers } from "@/helpers/registerControllers";
 
 /**
  * Регистрация маршрутов Fastify

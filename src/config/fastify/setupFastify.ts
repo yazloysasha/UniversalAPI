@@ -1,22 +1,23 @@
 import {
-  appLogger,
   setupAjvValidator,
   setupFastifyHooks,
   setupFastifyRoutes,
-} from "@config";
+} from "@/config/fastify";
 import Fastify from "fastify";
 import i18next from "i18next";
-import { APIError } from "@utils";
 import fastifyCors from "@fastify/cors";
 import fastifyCookie from "@fastify/cookie";
-import { SwaggerContract } from "@contracts";
-import appConfig from "@constants/appConfig";
+import { APIError } from "@/utils/APIError";
+import appConfig from "@/constants/appConfig";
 import fastifySwagger from "@fastify/swagger";
 import fastifyFormbody from "@fastify/formbody";
 import { plugin } from "i18next-http-middleware";
+import { appLogger } from "@/config/winstonLogger";
 import fastifySwaggerUi from "@fastify/swagger-ui";
-import { AppFastifyInstance, FastifyRoutes } from "@types";
-import { fastifyErrorHandler, getFastifyRoutes } from "@helpers";
+import { SwaggerContract } from "@/contracts/swagger";
+import { getFastifyRoutes } from "@/helpers/getFastifyRoutes";
+import { AppFastifyInstance, FastifyRoutes } from "@/types/shared";
+import { fastifyErrorHandler } from "@/helpers/fastifyErrorHandler";
 import { JsonSchemaToTsProvider } from "@fastify/type-provider-json-schema-to-ts";
 
 /**

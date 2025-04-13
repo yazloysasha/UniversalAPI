@@ -2,7 +2,7 @@ import Ajv from "ajv";
 import ajvErrors from "ajv-errors";
 import { isValidObjectId } from "mongoose";
 import { validate as isValidUUID } from "uuid";
-import { AppFastifyInstance, CustomFormat } from "@types";
+import { AppFastifyInstance, CustomFormat } from "@/types/shared";
 
 /**
  * Валидатор данных для Fastify

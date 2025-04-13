@@ -1,8 +1,8 @@
-import { UserRole } from "@entities";
-import { SwaggerContract } from "@contracts";
-import { taskSchema } from "@schemas/client";
-import { AppJSONSchema, CustomFormat } from "@types";
-import { timestampsSample } from "@schemas/common.schemas";
+import { UserRole } from "@/entities/user";
+import { taskSchema } from "@/schemas/client";
+import { SwaggerContract } from "@/contracts/swagger";
+import { timestampsSample } from "@/schemas/common.schemas";
+import { AppJSONSchema, CustomFormat } from "@/types/shared";
 
 export const userIdSchema = {
   type: "string",

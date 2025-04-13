@@ -1,7 +1,7 @@
-import { di } from "@config";
-import { AuthService } from "@services";
-import { AppFastifyHandler } from "@types";
-import { LogoutType } from "@schemas/client";
+import { di } from "@/config/DIContainer";
+import { AuthService } from "@/services/auth";
+import { LogoutType } from "@/schemas/client";
+import { AppFastifyHandler } from "@/types/shared";
 
 export const logoutHandler: AppFastifyHandler<LogoutType> = async (
   req,
