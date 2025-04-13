@@ -1,4 +1,4 @@
-import { di } from "@/config/DIContainer";
+import { di } from "../DIContainer";
 import { AppFastifyInstance } from "@/types/shared";
 import { AnalyticalService } from "@/services/analytical";
 

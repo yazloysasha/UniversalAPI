@@ -1,7 +1,7 @@
 import Redis from "ioredis";
 import { APIError } from "@/utils/APIError";
+import { appLogger } from "./winstonLogger";
 import appConfig from "@/constants/appConfig";
-import { appLogger } from "@/config/winstonLogger";
 
 /**
  * Клиент для работы с Redis

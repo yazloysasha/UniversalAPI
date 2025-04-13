@@ -1,20 +1,18 @@
-import {
-  setupAjvValidator,
-  setupFastifyHooks,
-  setupFastifyRoutes,
-} from "@/config/fastify";
 import Fastify from "fastify";
 import i18next from "i18next";
 import fastifyCors from "@fastify/cors";
 import fastifyCookie from "@fastify/cookie";
 import { APIError } from "@/utils/APIError";
+import { appLogger } from "../winstonLogger";
 import appConfig from "@/constants/appConfig";
 import fastifySwagger from "@fastify/swagger";
 import fastifyFormbody from "@fastify/formbody";
 import { plugin } from "i18next-http-middleware";
-import { appLogger } from "@/config/winstonLogger";
 import fastifySwaggerUi from "@fastify/swagger-ui";
 import { SwaggerContract } from "@/contracts/swagger";
+import { setupAjvValidator } from "./setupAjvValidator";
+import { setupFastifyHooks } from "./setupFastifyHooks";
+import { setupFastifyRoutes } from "./setupFastifyRoutes";
 import { getFastifyRoutes } from "@/helpers/getFastifyRoutes";
 import { AppFastifyInstance, FastifyRoutes } from "@/types/shared";
 import { fastifyErrorHandler } from "@/helpers/fastifyErrorHandler";
