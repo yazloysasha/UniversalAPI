@@ -17,17 +17,6 @@ export class TaskService {
     "name",
     "description",
     "deadline",
-    "status",
-    "priority",
-    "createdAt",
-    "updatedAt",
-  ];
-
-  private nativeRegularAttributes: (keyof Task)[] = [
-    "id",
-    "name",
-    "description",
-    "deadline",
     "priority",
     "doneAt",
     "createdAt",
@@ -182,7 +171,7 @@ export class TaskService {
     }
 
     const getTasksQuery = query
-      .select([...this.nativeRegularAttributes.map((key) => `t.${key}`)])
+      .select([...this.regularAttributes.map((key) => `t.${key}`)])
       .skip(pagination.skip)
       .take(pagination.limit);
 
@@ -265,6 +254,8 @@ export class TaskService {
 
     if (!task) throw new APIError(404);
 
+    task.status = this.getStatus(task);
+
     return task;
   }
 
@@ -301,7 +292,7 @@ export class TaskService {
         doneAt: done ? new Date() : null,
       })
       .where({ id: taskId, authorId })
-      .returning(this.nativeRegularAttributes)
+      .returning(this.regularAttributes)
       .execute();
 
     if (!result.affected) throw new APIError(404);
